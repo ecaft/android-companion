@@ -7,6 +7,10 @@
     <string name="checklist_fragment_text">Where to visit checklist</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_open">Open</string>
+    <string name="test">Test Text</string>
+    <string name="company_majors_text">Looking for these majors</string>
+    <string name="company_majors">Example major</string>
+    <string name="company_name">Company Name</string>
 
     <string-array name="menu_options">
         <item>Home</item>

@@ -3,6 +3,7 @@ package edu.cornell.ecaft;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,27 +21,88 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import com.parse.ParseObject;
+
 public class MainActivity extends AppCompatActivity {
 
-    private HomePageAdapter pageAdapter;
-    private ViewPager viewPager;
+    private static final String TAG = "ECaFT";
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private String[] mMenuOptions;
     private DrawerLayout mDrawerLayout;
     private FrameLayout mFrameLayout;
     private ListView mDrawerList;
+    private Fragment frag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
+
         setContentView(R.layout.app_bar_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.main_activity_view_pager);
-        pageAdapter = new HomePageAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pageAdapter);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout.Tab homeTab = mTabLayout.newTab();
+        homeTab.setIcon(R.drawable.home_icon);
+
+        TabLayout.Tab mapTab = mTabLayout.newTab();
+        mapTab.setIcon(R.mipmap.ic_map_white_36dp);
+
+        TabLayout.Tab infoTab = mTabLayout.newTab();
+        infoTab.setIcon(R.mipmap.ic_info_white_36dp);
+
+        TabLayout.Tab checklistTab = mTabLayout.newTab();
+        checklistTab.setIcon(R.mipmap.ic_list_white_36dp);
+
+        mTabLayout.addTab(homeTab, 0);
+        mTabLayout.addTab(mapTab, 1);
+        mTabLayout.addTab(infoTab, 2);
+        mTabLayout.addTab(checklistTab, 3);
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                int position = tab.getPosition();
+                Log.d(TAG, "Current tab position is " + position);
+                switch(position) {
+                    case 0:
+                        frag = new HomeFragment();
+                        Log.d(TAG, "Home fragment made upon clicking position " + position);
+                        break;
+                    case 1:
+                        frag = new MapFragment();
+                        Log.d(TAG, "Map fragment made upon clicking position " + position);
+                        break;
+                    case 2:
+                        frag = new InfoFragment();
+                        Log.d(TAG, "Info fragment made upon clicking position " + position);
+                        break;
+                    case 3:
+                        frag = new ChecklistFragment();
+                        Log.d(TAG, "Checklist fragment made upon clicking position " + position);
+                        break;
+
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag).commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         mMenuOptions = getResources().getStringArray(R.array.menu_options);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -112,46 +175,7 @@ public class MainActivity extends AppCompatActivity {
     /*
     private classes
      */
-    private class HomePageAdapter extends FragmentPagerAdapter {
-        public HomePageAdapter(FragmentManager fm) {
-            super(fm);
-        }
 
-        @Override
-        public Fragment getItem(int i) {
-            Fragment fragment = null;
-         //   Bundle args = new Bundle();
-         //   args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
-         //   fragment.setArguments(args);
-            switch(i) {
-                case 0: //Home page
-                    fragment = new HomeFragment();
-                    break;
-                case 1: //Map page
-                    fragment = new MapFragment();
-                    break;
-                case 2: //Info page
-                    fragment = new InfoFragment();
-                    break;
-                case 3: //Checklist page
-                    fragment = new ChecklistFragment();
-                    break;
-                default:
-                    break;
-            }
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return 4;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "OBJECT " + (position + 1);
-        }
-    }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override

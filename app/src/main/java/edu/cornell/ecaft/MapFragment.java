@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -12,7 +13,7 @@ import android.widget.TextView;
  */
 public class MapFragment extends Fragment {
 
-    private TextView textView;
+    private ImageView imageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -22,7 +23,7 @@ public class MapFragment extends Fragment {
         View v = inflater.inflate(
                 R.layout.map_fragment, container, false);
         Bundle args = getArguments();
-        textView = (TextView) v.findViewById(R.id.map_fragment_text_view);
+        imageView = (ImageView) v.findViewById(R.id.map_fragment_image_view);
         return v;
     }
 }

@@ -18,14 +18,15 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/black"
             app:popupTheme="@style/AppTheme.PopupOverlay">
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="140dp"
                 android:layout_marginRight="140dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginBottom="15dp"
                 android:background="@drawable/ecaft_logo_white"
                 />
         </android.support.v7.widget.Toolbar>

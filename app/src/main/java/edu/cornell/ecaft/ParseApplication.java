@@ -38,6 +38,8 @@ public class ParseApplication extends Application {
     public static final String COMPANY_LOGO = "Logo";
     public static final String COMPANY_MAJORS = "Majors";
 
+    private static ParseObject temp;
+
     public void onCreate() {
         super.onCreate();
         // Enable Local Datastore.
@@ -48,7 +50,7 @@ public class ParseApplication extends Application {
 
     }
 
-    public static void getCompanyPOS() {
+    public static List<ParseObject> getCompanyPOS() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(PARSE_COMPANY_CLASS);
         query.orderByAscending(COMPANY_NAME);
         try {
@@ -56,8 +58,33 @@ public class ParseApplication extends Application {
         } catch (ParseException e) {
             Log.d(TAG, "Something went wrong");
         }
+
+        return companyPOS;
     }
 
+    public static ParseFile getLogoByID(String id) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(PARSE_COMPANY_CLASS);
+        query.include(ParseApplication.COMPANY_OBJECT_ID);
+        try {
+            temp = query.get(id);
+        } catch (ParseException e) {
+            Log.d(TAG, "Something went wrong");
+        }
+        return temp.getParseFile(ParseApplication.COMPANY_LOGO);
+    }
+
+    public static ParseObject getPOByID(String id) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(PARSE_COMPANY_CLASS);
+        query.include(ParseApplication.COMPANY_OBJECT_ID);
+        try {
+            temp = query.get(id);
+        } catch (ParseException e) {
+            Log.d(TAG, "Something went wrong");
+        }
+        return temp;
+    }
+
+/**
     public static List<String> getCompanyNames() {
         List<String> companyNames = new ArrayList<>();
 
@@ -82,9 +109,9 @@ public class ParseApplication extends Application {
         List<ParseFile> companyLogos = new ArrayList<>();
 
         for(ParseObject po: companyPOS) {
-            ParseFile test = po.getParseFile(COMPANY_LOGO);
             companyLogos.add(po.getParseFile(COMPANY_LOGO));
         }
         return companyLogos;
     }
+ */
 }

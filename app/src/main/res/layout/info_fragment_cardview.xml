@@ -1,36 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_marginBottom="1dp">
 
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/info_cardview"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/white">
+        android:background="@color/divider">
 
-    <edu.cornell.ecaft.ParseImageView
-        android:id="@+id/company_logo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        />
+        <edu.cornell.ecaft.ParseImageView
+            android:id="@+id/company_logo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:adjustViewBounds="true"
+            android:background="@color/white"
+            android:scaleType="fitCenter" />
 
-    <TextView
-        android:id="@+id/company_name"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:text="@string/company_name"
-        android:layout_centerVertical="true"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/company_logo"/>
+        <ImageView
+            android:id="@+id/padding_fill"
+            android:layout_width="16dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/company_logo"
+            android:background="@color/white"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="79dp"
+            android:layout_toRightOf="@id/padding_fill"
+            android:background="@color/white"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/company_name"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:text="@string/company_name"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <CheckBox android:id="@+id/save_company"
+                style="?android:attr/starStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignBaseline="@id/company_name"
+                android:backgroundTint="@color/material_blue_grey_950"
+                android:allowUndo="true" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
-</RelativeLayout>

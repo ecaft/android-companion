@@ -1,5 +1,8 @@
 package edu.cornell.ecaft;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,10 +26,11 @@ import android.widget.ListView;
 
 import com.parse.ParseObject;
 
+import edu.cornell.ecaft.DatabaseSchema.CompanyTable;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "ECaFT";
-    private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private String[] mMenuOptions;
@@ -35,22 +39,29 @@ public class MainActivity extends AppCompatActivity {
     private ListView mDrawerList;
     private Fragment frag;
 
+    /**
+     * Database variables
+     */
+    private Context mContext;
+    public static SQLiteDatabase mDatabase;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        mContext = getApplicationContext();
+        mDatabase = new DatabaseHelper(mContext).getWritableDatabase();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
 
         setContentView(R.layout.app_bar_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         TabLayout.Tab homeTab = mTabLayout.newTab();
-        homeTab.setIcon(R.drawable.home_icon);
+        homeTab.setIcon(R.mipmap.ic_home_white_36dp);
 
         TabLayout.Tab mapTab = mTabLayout.newTab();
         mapTab.setIcon(R.mipmap.ic_map_white_36dp);
@@ -71,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
                 int position = tab.getPosition();
                 Log.d(TAG, "Current tab position is " + position);
-                switch(position) {
+                switch (position) {
                     case 0:
                         frag = new HomeFragment();
                         Log.d(TAG, "Home fragment made upon clicking position " + position);
@@ -90,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                 }
+                FragmentManager manager = getSupportFragmentManager();
+                if (manager.getBackStackEntryCount() > 0) {
+                    FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+                    manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, frag).commit();
             }
 
@@ -100,44 +116,51 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                //TODO: replace the fragment with a newly started one upon clicking the same tab
             }
         });
 
+        //TODO: make it so that pressing android back changes the selected tab accordingly
+
         mMenuOptions = getResources().getStringArray(R.array.menu_options);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mFrameLayout = (FrameLayout) findViewById(R.id.content_frame);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        /** mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+         mFrameLayout = (FrameLayout) findViewById(R.id.content_frame);
+         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mMenuOptions));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+         R.layout.drawer_list_item, mMenuOptions));
+         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu();
-            }
+         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+         R.string.drawer_open, R.string.drawer_close) {
+        @Override public void onDrawerOpened(View drawerView) {
+        super.onDrawerOpened(drawerView);
+        invalidateOptionsMenu();
+        }
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
+        @Override public void onDrawerClosed(View drawerView) {
+        super.onDrawerClosed(drawerView);
 
-            }
+        }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+         mDrawerLayout.setDrawerListener(mDrawerToggle);
+         */
 
-   /*     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+        /**     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+         fab.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        .setAction("Action", null).show();
 
-            }
+        }
         }); */
+    }
+
+    public static void deleteRow(String id) {
+        mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.UUID + " = ?", new String[] {id});
+    }
+
+    public static void setVisited(String id) {
     }
 
     @Override
@@ -152,12 +175,17 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (mDrawerToggle.onOptionsItemSelected(item)) return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //     if (mDrawerToggle.onOptionsItemSelected(item))
+                //         return true;
+                //     else
+                onBackPressed();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                //noinspection SimplifiableIfStatement
+           // case R.id.action_settings:
+             //   return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -166,10 +194,15 @@ public class MainActivity extends AppCompatActivity {
     private void selectItem(int position) {
 
     }
+
+    public static SQLiteDatabase getDb() {
+        return mDatabase;
+    }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+ //       mDrawerToggle.syncState();
     }
 
     /*
@@ -184,4 +217,6 @@ public class MainActivity extends AppCompatActivity {
             selectItem(position);
         }
     }
+
+
 }

@@ -7,5 +7,6 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="tint">#80607D8B</color>
     <color name="red">#9C0000</color>
+    <color name="divider">#BDBDBD</color>
     <color name="black">#000000</color>
 </resources>

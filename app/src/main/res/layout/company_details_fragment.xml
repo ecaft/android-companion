@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="60dp"
+    android:background="@color/white"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
+
+        <edu.cornell.ecaft.ParseImageView
+            android:id="@+id/company_details_logo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/company_details_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_details_logo"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/home_fragment_text"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+        <TextView
+            android:id="@+id/company_details_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_details_name"
+            android:layout_marginTop="10dp"
+            android:text="Requirements"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:layout_marginBottom="1dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_below="@id/company_details_text"/>
+        <TextView
+            android:paddingLeft="20dp"
+            android:id="@+id/company_details_majors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_details_text"
+            android:layout_marginTop="10dp"
+            android:text="@string/ECaFT"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+</ScrollView>

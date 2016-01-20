@@ -1,5 +1,6 @@
 package edu.cornell.ecaft;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,6 +26,9 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.parse.ParseObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.cornell.ecaft.DatabaseSchema.CompanyTable;
 
@@ -156,11 +160,125 @@ public class MainActivity extends AppCompatActivity {
         }); */
     }
 
+    /**
+     * Database Methods
+     */
+
     public static void deleteRow(String id) {
-        mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.UUID + " = ?", new String[] {id});
+        mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.UUID + " = ?", new String[]{id});
     }
 
-    public static void setVisited(String id) {
+
+    public static boolean isInDatabase(String name) {
+        Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
+        boolean inside = false;
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                if (name.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.COMPANY_NAME)))) {
+                    inside = true;
+                    break;
+                }
+                c.moveToNext();
+            }
+
+        } finally {
+            c.close();
+        }
+        return inside;
+    }
+
+    public static void addRow(Company currentCompany) {
+        ContentValues values = new ContentValues();
+        values.put(CompanyTable.Cols.UUID, currentCompany.objectID);
+        values.put(CompanyTable.Cols.COMPANY_NAME, currentCompany.name);
+        values.put(CompanyTable.Cols.VISITED, 0);
+        mDatabase.insert(CompanyTable.NAME, null, values);
+    }
+
+    public static boolean isSaved(Company currentCompany) {
+
+        Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                if (currentCompany.objectID.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.UUID)))) {
+                    return true;
+                }
+                c.moveToNext();
+            }
+
+        } finally {
+            c.close();
+        }
+
+        return false;
+    }
+
+    public static int isVisited(Company currentCompany) {
+        Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                if (currentCompany.objectID.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.UUID)))) {
+                    if (c.getInt(c.getColumnIndex(CompanyTable.Cols.VISITED)) == 1) {
+                        return 1;
+                    }
+                }
+                c.moveToNext();
+            }
+
+        } finally {
+            c.close();
+        }
+
+        return 0;
+    }
+
+    public static List<Company> makeSavedList() {
+        List<Company> compiledList = new ArrayList<>();
+
+        Cursor c = mDatabase.query(CompanyTable.NAME,
+                null, null, null, null, null, null);
+
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+
+                ParseObject po = ParseApplication.getPOByID(c.getString(c.getColumnIndex(CompanyTable.Cols.UUID)));
+
+                Company com = new Company(po.getObjectId(),
+                        po.getString(ParseApplication.COMPANY_NAME),
+                        (ArrayList<String>) po.get(ParseApplication.COMPANY_MAJORS),
+                        po.getParseFile(ParseApplication.COMPANY_LOGO)
+                );
+                compiledList.add(com);
+                c.moveToNext();
+            }
+
+        } finally {
+            c.close();
+        }
+
+        return compiledList;
+    }
+
+    private static ContentValues getContentValues(Company c, int visited) {
+        ContentValues values = new ContentValues();
+        values.put(CompanyTable.Cols.UUID, c.objectID);
+        values.put(CompanyTable.Cols.COMPANY_NAME, c.name);
+        values.put(CompanyTable.Cols.VISITED, visited);
+
+        return values;
+    }
+
+    public static void setVisitStatus(Company c, int visited) {
+        ContentValues values = getContentValues(c, visited);
+        mDatabase.update(CompanyTable.NAME, values, CompanyTable.Cols.UUID + " = ?", new String[]{c.objectID});
     }
 
     @Override
@@ -183,8 +301,8 @@ public class MainActivity extends AppCompatActivity {
                 onBackPressed();
 
                 //noinspection SimplifiableIfStatement
-           // case R.id.action_settings:
-             //   return true;
+                // case R.id.action_settings:
+                //   return true;
 
         }
 
@@ -202,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
- //       mDrawerToggle.syncState();
+        //       mDrawerToggle.syncState();
     }
 
     /*

@@ -1,7 +1,5 @@
 package edu.cornell.ecaft;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,18 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import edu.cornell.ecaft.DatabaseSchema.CompanyTable;
 
 /**
  * Created by Ashley on 11/8/2015.
@@ -60,41 +51,12 @@ public class ChecklistFragment extends Fragment {
 
     private void updateUI() {
 
-        List<Company> companies = makeSavedList();
+        List<Company> companies = MainActivity.makeSavedList();
         companyAdapter = new CompanyAdapter(companies);
         companyRecylerView.setAdapter(companyAdapter);
     }
 
 
-    private List<Company> makeSavedList() {
-        List<Company> compiledList = new ArrayList<>();
-
-        Cursor c = database.query(CompanyTable.NAME,
-                null, null, null, null, null, null);
-
-        try {
-            c.moveToFirst();
-
-            while (!c.isAfterLast()) {
-
-                ParseObject po = ParseApplication.getPOByID(c.getString(c.getColumnIndex(CompanyTable.Cols.UUID)));
-
-                Company com = new Company(po.getObjectId(),
-                        po.getString(ParseApplication.COMPANY_NAME),
-                        (ArrayList<String>) po.get(ParseApplication.COMPANY_MAJORS),
-                        po.getParseFile(ParseApplication.COMPANY_LOGO)
-                );
-                compiledList.add(com);
-                c.moveToNext();
-            }
-
-        } finally {
-            c.close();
-        }
-
-
-        return compiledList;
-    }
 
     /**
      * Private classes
@@ -103,7 +65,7 @@ public class ChecklistFragment extends Fragment {
         public RelativeLayout mCompanyRL;
         public TextView mCompanyName;
         public ParseImageView mCompanyLogo;
-        public CheckBox mCompanySave;
+        public CheckBox mCompanyVisited;
         public Company currentCompany;
 
         public CompanyHolder(View itemView) {
@@ -130,12 +92,16 @@ public class ChecklistFragment extends Fragment {
 
             mCompanyLogo = (ParseImageView) itemView.findViewById(R.id.company_checklist_logo);
 
-            mCompanySave = (CheckBox) itemView.findViewById(R.id.check_company);
-            mCompanySave.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            mCompanyVisited = (CheckBox) itemView.findViewById(R.id.check_company);
+            mCompanyVisited.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onClick(View v) {
+                    if (mCompanyVisited.isChecked()) {
                         Toast.makeText(getContext(), R.string.visited, Toast.LENGTH_SHORT).show();
-
+                        MainActivity.setVisitStatus(currentCompany, 1);
+                    } else {
+                        MainActivity.setVisitStatus(currentCompany, 0);
+                    }
                 }
             });
         }
@@ -162,6 +128,10 @@ public class ChecklistFragment extends Fragment {
             holder.mCompanyName.setText(currentCompany.name);
             holder.mCompanyLogo.setParseFile(currentCompany.logo);
             holder.mCompanyLogo.loadInBackground();
+
+            int visitStatus = MainActivity.isVisited(currentCompany);
+            holder.mCompanyVisited.setChecked(visitStatus == 1);
+
             Log.d(TAG, "Recycler made for position " + position);
         }
 
@@ -170,20 +140,4 @@ public class ChecklistFragment extends Fragment {
             return companies.size();
         }
     }
-
-    private class Company {
-        public String objectID;
-        public String name;
-        public ArrayList<String> majors;
-        public ParseFile logo;
-
-        public Company(String objectID, String name, ArrayList<String> majors, ParseFile logo) {
-            this.objectID = objectID;
-            this.name = name;
-            this.majors = majors;
-            this.logo = logo;
-        }
-    }
-
-
 }

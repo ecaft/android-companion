@@ -12,8 +12,8 @@
     <string name="company_majors_text">Looking for these majors</string>
     <string name="company_majors">Example major</string>
     <string name="company_name">Company Name</string>
-    <string name="star">Company Saved!</string>
-    <string name="unstar">Company Removed!</string>
+    <string name="star">Company Added To Your Checklist!</string>
+    <string name="unstar">Company Removed From Your Checklist!</string>
     <string name="visited">Company Visited!</string>
 
 

@@ -41,15 +41,9 @@ public class InfoFragment extends Fragment {
     private RecyclerView companyRecylerView;
     private CompanyAdapter companyAdapter;
 
-    private SQLiteDatabase database;
-
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        database = MainActivity.getDb();
-
-
         // The last two arguments ensure LayoutParams are inflated
         // properly.
         View v = inflater.inflate(R.layout.info_fragment, container, false);
@@ -57,34 +51,17 @@ public class InfoFragment extends Fragment {
         companyRecylerView = (RecyclerView) v.findViewById(R.id.info_recycler_view);
         companyRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
         updateUI();
 
         return v;
     }
 
     private void updateUI() {
-
-        // List<String> companyNames = ParseApplication.getCompanyNames();
-        //List<ArrayList<String>> companyMajors = ParseApplication.getCompanyMajors();
-        //List<ParseFile> companyLogos = ParseApplication.getCompanyLogos();
-
-        // List<Company> companies = makeCompanyList(companyNames, companyMajors, companyLogos);
         List<Company> companies = makeCompanyList(ParseApplication.getCompanyPOS());
         companyAdapter = new CompanyAdapter(companies);
         companyRecylerView.setAdapter(companyAdapter);
     }
 
-    /**
-     * private List<Company> makeCompanyList(List<String> cNames, List<ArrayList<String>> cMajors, List<ParseFile> cLogos) {
-     * List<Company> compiledList = new ArrayList<>();
-     * for(int x = 0; x < cNames.size(); x++) {
-     * Company c = new Company(cNames.get(x), cMajors.get(x), cLogos.get(x));
-     * compiledList.add(c);
-     * }
-     * return compiledList;
-     * }
-     */
     private List<Company> makeCompanyList(List<ParseObject> companies) {
         List<Company> compiledList = new ArrayList<>();
         for (ParseObject po : companies) {
@@ -136,13 +113,9 @@ public class InfoFragment extends Fragment {
             mCompanySave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mCompanySave.isChecked() && !isInDatabase(currentCompany)) {
+                    if (mCompanySave.isChecked() && !MainActivity.isInDatabase(currentCompany.name)) {
                         Toast.makeText(getContext(), R.string.star, Toast.LENGTH_SHORT).show();
-                        ContentValues values = new ContentValues();
-                        values.put(CompanyTable.Cols.UUID, currentCompany.objectID);
-                        values.put(CompanyTable.Cols.COMPANY_NAME, currentCompany.name);
-                        values.put(CompanyTable.Cols.VISITED, 0);
-                        database.insert(CompanyTable.NAME, null, values);
+                        MainActivity.addRow(currentCompany);
                     } else {
                         Toast.makeText(getContext(), R.string.unstar, Toast.LENGTH_SHORT).show();
                         MainActivity.deleteRow(currentCompany.objectID);
@@ -152,46 +125,6 @@ public class InfoFragment extends Fragment {
 
         }
 
-        public String objectID(Company com) {
-            Cursor c = database.query(CompanyTable.NAME, null, null, null, null, null, null);
-
-            String id = "";
-            try {
-
-                c.moveToFirst();
-                while (!c.isAfterLast()) {
-                    if (com.name.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.COMPANY_NAME)))) {
-                        id = c.getString(c.getColumnIndex(CompanyTable.Cols.KEY_ID));
-                        break;
-                    }
-                    c.moveToNext();
-                }
-
-            } finally {
-                c.close();
-            }
-            return id;
-        }
-
-        public boolean isInDatabase(Company com) {
-            Cursor c = database.query(CompanyTable.NAME, null, null, null, null, null, null);
-            boolean inside = false;
-            try {
-                c.moveToFirst();
-
-                while (!c.isAfterLast()) {
-                    if (com.name.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.COMPANY_NAME)))) {
-                        inside = true;
-                        break;
-                    }
-                    c.moveToNext();
-                }
-
-            } finally {
-                c.close();
-            }
-            return inside;
-        }
     }
 
     private class CompanyAdapter extends RecyclerView.Adapter<CompanyHolder> {
@@ -216,44 +149,15 @@ public class InfoFragment extends Fragment {
             holder.mCompanyLogo.setParseFile(currentCompany.logo);
             holder.mCompanyLogo.loadInBackground();
 
-            boolean setChecked = false;
-
-            Cursor c = database.query(CompanyTable.NAME, null, null, null, null, null, null);
-            try {
-                c.moveToFirst();
-
-                while (!c.isAfterLast()) {
-                    if (currentCompany.objectID.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.UUID)))) {
-                        setChecked = true;
-                        break;
-                    }
-                    c.moveToNext();
-                }
-
-            } finally {
-                c.close();
-            }
+            boolean setChecked = MainActivity.isSaved(currentCompany);
             holder.mCompanySave.setChecked(setChecked);
+
             Log.d(TAG, "Recycler made for position " + position);
         }
 
         @Override
         public int getItemCount() {
             return companies.size();
-        }
-    }
-
-    private class Company {
-        public String objectID;
-        public String name;
-        public ArrayList<String> majors;
-        public ParseFile logo;
-
-        public Company(String objectID, String name, ArrayList<String> majors, ParseFile logo) {
-            this.objectID = objectID;
-            this.name = name;
-            this.majors = majors;
-            this.logo = logo;
         }
     }
 }

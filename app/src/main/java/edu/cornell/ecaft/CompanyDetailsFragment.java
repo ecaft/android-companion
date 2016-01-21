@@ -45,13 +45,38 @@ public class CompanyDetailsFragment extends Fragment {
         companyName.setText(name);
 
         companyMajors = (TextView) v.findViewById(R.id.company_details_majors);
-        String majorText = "";
 
-        for (String s : majors) {
-            majorText = majorText + s + "\n";
+        getActivity().setTitle("Company Details");
+
+        String majorText = "";
+        Object[] majorList = majors.toArray();
+
+        majorList = alphabetize(majorList);
+
+        for (Object s : majorList) {
+            majorText = majorText + s.toString() + "\n";
         }
         companyMajors.setText(majorText);
 
         return v;
+    }
+
+    public Object[] alphabetize(Object[] array) {
+        for (int x = 0; x < array.length - 1; x++) {
+            int smallest = findSmallest(array, x);
+            Object temp = array[x];
+            array[x] = array[smallest];
+            array[smallest] = temp;
+        }
+        return array;
+    }
+
+    public int findSmallest(Object[] array, int i) {
+        int temp = i;
+        for (int x = i; x < array.length - 1; x++) {
+            if (array[temp].toString().compareTo(array[x + 1].toString()) > 0)
+                temp = x + 1;
+        }
+        return temp;
     }
 }

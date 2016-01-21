@@ -1,6 +1,7 @@
 package edu.cornell.ecaft;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -14,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +56,15 @@ public class InfoFragment extends Fragment {
 
         updateUI();
 
+        getActivity().setTitle("List Of Companies");
+
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 
     private void updateUI() {
@@ -82,7 +93,7 @@ public class InfoFragment extends Fragment {
         public RelativeLayout mCompanyRL;
         public TextView mCompanyName;
         public ParseImageView mCompanyLogo;
-        public CheckBox mCompanySave;
+        public ImageButton mCompanySave;
         public Company currentCompany;
 
         public CompanyHolder(View itemView) {
@@ -92,16 +103,21 @@ public class InfoFragment extends Fragment {
             mCompanyRL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Bundle myBundle = new Bundle();
                     myBundle.putString(ParseApplication.COMPANY_OBJECT_ID, currentCompany.objectID);
                     myBundle.putString(ParseApplication.COMPANY_NAME, currentCompany.name);
                     myBundle.putStringArrayList(ParseApplication.COMPANY_MAJORS, currentCompany.majors);
 
-                    Fragment fragment = new CompanyDetailsFragment();
+                    Intent i = new Intent(getActivity(), CompanyDetailsActivity.class);
+                    i.putExtras(myBundle);
+                    startActivity(i);
+
+             /**       Fragment fragment = new CompanyDetailsFragment();
                     fragment.setArguments(myBundle);
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
-                            .addToBackStack(null).commit();
+                            .addToBackStack(null).commit(); */
                 }
             });
 
@@ -109,15 +125,17 @@ public class InfoFragment extends Fragment {
 
             mCompanyLogo = (ParseImageView) itemView.findViewById(R.id.company_logo);
 
-            mCompanySave = (CheckBox) itemView.findViewById(R.id.save_company);
+            mCompanySave = (ImageButton) itemView.findViewById(R.id.save_company);
             mCompanySave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mCompanySave.isChecked() && !MainActivity.isInDatabase(currentCompany.name)) {
+                    if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
                         Toast.makeText(getContext(), R.string.star, Toast.LENGTH_SHORT).show();
-                        MainActivity.addRow(currentCompany);
+                        mCompanySave.setImageResource(R.mipmap.ic_remove_circle_outline_black_24dp);
+                        MainActivity.addRow(currentCompany.objectID, currentCompany.name);
                     } else {
                         Toast.makeText(getContext(), R.string.unstar, Toast.LENGTH_SHORT).show();
+                        mCompanySave.setImageResource(R.mipmap.ic_add_circle_outline_black_24dp);
                         MainActivity.deleteRow(currentCompany.objectID);
                     }
                 }
@@ -149,8 +167,11 @@ public class InfoFragment extends Fragment {
             holder.mCompanyLogo.setParseFile(currentCompany.logo);
             holder.mCompanyLogo.loadInBackground();
 
-            boolean setChecked = MainActivity.isSaved(currentCompany);
-            holder.mCompanySave.setChecked(setChecked);
+            if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
+                holder.mCompanySave.setImageResource(R.mipmap.ic_add_circle_outline_black_24dp);
+            } else {
+                holder.mCompanySave.setImageResource(R.mipmap.ic_remove_circle_outline_black_24dp);
+            }
 
             Log.d(TAG, "Recycler made for position " + position);
         }

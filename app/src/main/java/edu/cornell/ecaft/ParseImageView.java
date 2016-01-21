@@ -35,6 +35,9 @@ import bolts.Continuation;
 import bolts.Task;
 
 /**
+ *
+ * ALL CODE HERE BELONGS TO PARSE
+ *
  * A specialized {@code ImageView} that downloads and displays remote images stored on Parse's
  * servers.
  * <p>

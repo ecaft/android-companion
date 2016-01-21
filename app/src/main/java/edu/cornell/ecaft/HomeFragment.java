@@ -24,6 +24,10 @@ public class HomeFragment extends Fragment {
                 R.layout.home_fragment, container, false);
         Bundle args = getArguments();
         textView = (TextView) v.findViewById(R.id.home_fragment_text_view);
+
+
+        getActivity().setTitle("Home");
+
         return v;
     }
 }

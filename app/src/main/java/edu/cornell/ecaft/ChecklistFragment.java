@@ -1,5 +1,6 @@
 package edu.cornell.ecaft;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,9 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.daimajia.swipe.SwipeLayout;
 
 import java.util.List;
 
@@ -36,6 +40,8 @@ public class ChecklistFragment extends Fragment {
 
         database = MainActivity.mDatabase;
 
+
+
         // The last two arguments ensure LayoutParams are inflated
         // properly.
         View v = inflater.inflate(R.layout.checklist_fragment, container, false);
@@ -46,7 +52,17 @@ public class ChecklistFragment extends Fragment {
 
         updateUI();
 
+        getActivity().setTitle("Your Checklist");
+        if (getActivity().getActionBar() != null)
+            getActivity().getActionBar().setLogo(R.drawable.black);
+
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 
     private void updateUI() {
@@ -55,7 +71,6 @@ public class ChecklistFragment extends Fragment {
         companyAdapter = new CompanyAdapter(companies);
         companyRecylerView.setAdapter(companyAdapter);
     }
-
 
 
     /**
@@ -67,9 +82,49 @@ public class ChecklistFragment extends Fragment {
         public ParseImageView mCompanyLogo;
         public CheckBox mCompanyVisited;
         public Company currentCompany;
+        public SwipeLayout swipeLayout;
 
         public CompanyHolder(View itemView) {
             super(itemView);
+
+            swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe);
+
+            swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+
+//add drag edge.(If the BottomView has 'layout_gravity' attribute, this line is unnecessary)
+
+
+            swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+                @Override
+                public void onStartOpen(SwipeLayout swipeLayout) {
+
+                }
+
+                @Override
+                public void onOpen(SwipeLayout swipeLayout) {
+
+                }
+
+                @Override
+                public void onStartClose(SwipeLayout swipeLayout) {
+
+                }
+
+                @Override
+                public void onClose(SwipeLayout swipeLayout) {
+
+                }
+
+                @Override
+                public void onUpdate(SwipeLayout swipeLayout, int i, int i1) {
+
+                }
+
+                @Override
+                public void onHandRelease(SwipeLayout swipeLayout, float v, float v1) {
+
+                }
+            });
 
             mCompanyRL = (RelativeLayout) itemView.findViewById(R.id.checklist_cardview);
             mCompanyRL.setOnClickListener(new View.OnClickListener() {
@@ -80,11 +135,9 @@ public class ChecklistFragment extends Fragment {
                     myBundle.putString(ParseApplication.COMPANY_NAME, currentCompany.name);
                     myBundle.putStringArrayList(ParseApplication.COMPANY_MAJORS, currentCompany.majors);
 
-                    Fragment fragment = new CompanyDetailsFragment();
-                    fragment.setArguments(myBundle);
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
-                            .addToBackStack(null).commit();
+                    Intent i = new Intent(getActivity(), CompanyDetailsActivity.class);
+                    i.putExtras(myBundle);
+                    startActivity(i);
                 }
             });
 

@@ -3,7 +3,7 @@
 package edu.cornell.ecaft;
 
 /**
- * Created by Ashley on 1/13/2016.
+ * All code in this class belongs to https://github.com/matabii/scale-imageview-android
  */
 import android.content.Context;
 import android.graphics.Bitmap;

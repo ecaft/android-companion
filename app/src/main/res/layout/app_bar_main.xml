@@ -1,78 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
 
-
-    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/black"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:logo="@drawable/ecaft_logo_white">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="140dp"
-                android:layout_marginRight="140dp"
-                android:background="@drawable/ecaft_logo_white"
-                />
+            <!--   <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="horizontal">
+
+                   <TextView
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1" />
+
+                   <ImageView
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_marginBottom="10dp"
+                       android:layout_marginTop="10dp"
+                       android:layout_weight="2"
+                       android:background="@drawable/ecaft_logo_white" />
+
+                   <TextView
+                       android:layout_width="0dp"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1" />
+               </LinearLayout>-->
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <!--  <android.support.v4.widget.DrawerLayout
+          android:id="@+id/drawer_layout"
 
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"> -->
+
+    <FrameLayout
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
-        <FrameLayout
-            android:id="@+id/content_frame"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize">
-            <include layout="@layout/content_main" />
+            android:scaleType="fitXY"
+            android:src="@drawable/campus_photo_compressed" />
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_gravity="bottom"
-                android:background="@color/black"
-                app:tabIndicatorColor="@color/red"
-                app:tabBackground="@drawable/tab_selector"
-                app:tabMode="fixed"
-                app:tabGravity="fill"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:background="@color/black"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/red"
+            app:tabMode="fixed"
+            app:tabIndicatorHeight="5dp"
+            />
 
-        </FrameLayout>
 
-        <ListView
-            android:layout_marginTop="?attr/actionBarSize"
-            android:id="@+id/left_drawer"
-            android:layout_width="240dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="?android:attr/activatedBackgroundIndicator"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:fontFamily="ans-serif-thin"/>
+    </FrameLayout>
 
-    </android.support.v4.widget.DrawerLayout>
+    <!--      <ListView
+              android:id="@+id/left_drawer"
+              android:layout_width="240dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="start"
+              android:layout_marginTop="?attr/actionBarSize"
+              android:background="?android:attr/activatedBackgroundIndicator"
+              android:choiceMode="singleChoice"
+              android:divider="@android:color/transparent"
+              android:dividerHeight="0dp"
+              android:fontFamily="ans-serif-thin" />
+
+      </android.support.v4.widget.DrawerLayout> -->
 
 
 </android.support.design.widget.CoordinatorLayout>

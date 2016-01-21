@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         mContext = getApplicationContext();
         mDatabase = new DatabaseHelper(mContext).getWritableDatabase();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
 
         setContentView(R.layout.app_bar_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -122,11 +121,16 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
                 //TODO: replace the fragment with a newly started one upon clicking the same tab
             }
+
+
         });
 
         //TODO: make it so that pressing android back changes the selected tab accordingly
 
         mMenuOptions = getResources().getStringArray(R.array.menu_options);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
+
         /** mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
          mFrameLayout = (FrameLayout) findViewById(R.id.content_frame);
          mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -163,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Database Methods
      */
-
     public static void deleteRow(String id) {
         mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.UUID + " = ?", new String[]{id});
     }
@@ -189,10 +192,10 @@ public class MainActivity extends AppCompatActivity {
         return inside;
     }
 
-    public static void addRow(Company currentCompany) {
+    public static void addRow(String currentCompanyUUID, String currentCompanyName) {
         ContentValues values = new ContentValues();
-        values.put(CompanyTable.Cols.UUID, currentCompany.objectID);
-        values.put(CompanyTable.Cols.COMPANY_NAME, currentCompany.name);
+        values.put(CompanyTable.Cols.UUID, currentCompanyUUID);
+        values.put(CompanyTable.Cols.COMPANY_NAME, currentCompanyName);
         values.put(CompanyTable.Cols.VISITED, 0);
         mDatabase.insert(CompanyTable.NAME, null, values);
     }
@@ -242,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
         List<Company> compiledList = new ArrayList<>();
 
         Cursor c = mDatabase.query(CompanyTable.NAME,
-                null, null, null, null, null, null);
+                null, null, null, null, null, CompanyTable.Cols.COMPANY_NAME + " ASC");
 
         try {
             c.moveToFirst();

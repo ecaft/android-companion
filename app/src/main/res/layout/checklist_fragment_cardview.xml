@@ -1,83 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.daimajia.swipe.SwipeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe"
+    android:id="@+id/checklist_cardview"
     android:layout_width="match_parent"
-    android:layout_height="72dp">
-    <LinearLayout
-        android:id="@+id/trash"
-        android:layout_width="60dp"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@color/red"
-        android:layout_gravity="center"
-        android:tag="Bottom3"
-        >
+    android:layout_height="56dp"
+    android:layout_marginBottom="1dp">
 
-        <ImageView
-            android:id="@+id/trash_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/ic_home_white_36dp"
-            />
-
-
-    </LinearLayout>
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/checklist_cardview"
+    <com.daimajia.swipe.SwipeLayout
+        android:id="@+id/swipe"
+        xmlns:swipe="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="@drawable/list_item_selector"
-        android:orientation="horizontal">
-
-        <edu.cornell.ecaft.ParseImageView
-            android:id="@+id/company_checklist_logo"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:adjustViewBounds="true"
-            android:padding="10dp"
-            android:scaleType="fitCenter" />
+        android:layout_height="match_parent"
+        swipe:leftEdgeSwipeOffset="0dp"
+        swipe:rightEdgeSwipeOffset="0dp">
 
 
         <LinearLayout
-            android:id="@+id/info_icons"
-            android:layout_width="wrap_content"
+            android:id="@+id/trash"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:padding="16dp">
+            android:gravity="center"
+            android:background="@drawable/trash_selector"
+            android:orientation="horizontal"
+            android:tag="Bottom3">
+
+            <ImageView
+                android:id="@+id/trash_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_delete_white_24dp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/list_item_selector"
+            android:orientation="horizontal">
+
 
             <CheckBox
                 android:id="@+id/check_company"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginRight="8dp" />
 
-            <ImageView
+        <!--    <edu.cornell.ecaft.ParseImageView
+                android:id="@+id/company_checklist_logo"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:adjustViewBounds="true"
+                android:layout_toRightOf="@id/check_company"
+                android:padding="10dp"
+                android:scaleType="fitCenter" /> -->
+
+
+            <LinearLayout
+                android:id="@+id/info_icons"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:padding="16dp">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_keyboard_arrow_right_black_24dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/company_checklist_name"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_keyboard_arrow_right_black_24dp" />
-        </LinearLayout>
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_toLeftOf="@id/info_icons"
+                android:layout_toRightOf="@id/check_company"
+                android:text="@string/company_name"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/company_checklist_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/info_icons"
-            android:layout_toRightOf="@id/company_checklist_logo"
-            android:text="@string/company_name"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/company_checklist_logo"
-            android:background="@color/divider" />
-
-    </RelativeLayout>
-</com.daimajia.swipe.SwipeLayout>
+        </RelativeLayout>
+    </com.daimajia.swipe.SwipeLayout>
+</LinearLayout>

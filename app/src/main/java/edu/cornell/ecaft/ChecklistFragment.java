@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -83,50 +84,43 @@ public class ChecklistFragment extends Fragment {
         public CheckBox mCompanyVisited;
         public Company currentCompany;
         public SwipeLayout swipeLayout;
+        public LinearLayout delete;
 
         public CompanyHolder(View itemView) {
             super(itemView);
 
             swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe);
 
-            swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-
+           swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
 //add drag edge.(If the BottomView has 'layout_gravity' attribute, this line is unnecessary)
+            swipeLayout.addDrag(SwipeLayout.DragEdge.Left, swipeLayout.findViewById(R.id.trash));
 
-
-            swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+            swipeLayout.getSurfaceView().setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onStartOpen(SwipeLayout swipeLayout) {
+                public void onClick(View v) {
+                    Bundle myBundle = new Bundle();
+                    myBundle.putString(ParseApplication.COMPANY_OBJECT_ID, currentCompany.objectID);
+                    myBundle.putString(ParseApplication.COMPANY_NAME, currentCompany.name);
+                    myBundle.putStringArrayList(ParseApplication.COMPANY_MAJORS, currentCompany.majors);
 
-                }
-
-                @Override
-                public void onOpen(SwipeLayout swipeLayout) {
-
-                }
-
-                @Override
-                public void onStartClose(SwipeLayout swipeLayout) {
-
-                }
-
-                @Override
-                public void onClose(SwipeLayout swipeLayout) {
-
-                }
-
-                @Override
-                public void onUpdate(SwipeLayout swipeLayout, int i, int i1) {
-
-                }
-
-                @Override
-                public void onHandRelease(SwipeLayout swipeLayout, float v, float v1) {
-
+                    Intent i = new Intent(getActivity(), CompanyDetailsActivity.class);
+                    i.putExtras(myBundle);
+                    startActivity(i);
                 }
             });
 
-            mCompanyRL = (RelativeLayout) itemView.findViewById(R.id.checklist_cardview);
+            delete = (LinearLayout) itemView.findViewById(R.id.trash);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), R.string.unstar, Toast.LENGTH_SHORT).show();
+                    MainActivity.deleteRow(currentCompany.objectID);
+                    updateUI();
+                }
+            });
+
+
+        /**    mCompanyRL = (RelativeLayout) itemView.findViewById(R.id.checklist_cardview);
             mCompanyRL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -141,9 +135,11 @@ public class ChecklistFragment extends Fragment {
                 }
             });
 
+         */
+
             mCompanyName = (TextView) itemView.findViewById(R.id.company_checklist_name);
 
-            mCompanyLogo = (ParseImageView) itemView.findViewById(R.id.company_checklist_logo);
+        //    mCompanyLogo = (ParseImageView) itemView.findViewById(R.id.company_checklist_logo);
 
             mCompanyVisited = (CheckBox) itemView.findViewById(R.id.check_company);
             mCompanyVisited.setOnClickListener(new View.OnClickListener() {
@@ -179,8 +175,8 @@ public class ChecklistFragment extends Fragment {
             Company currentCompany = companies.get(position);
             holder.currentCompany = currentCompany;
             holder.mCompanyName.setText(currentCompany.name);
-            holder.mCompanyLogo.setParseFile(currentCompany.logo);
-            holder.mCompanyLogo.loadInBackground();
+        //    holder.mCompanyLogo.setParseFile(currentCompany.logo);
+        //    holder.mCompanyLogo.loadInBackground();
 
             int visitStatus = MainActivity.isVisited(currentCompany);
             holder.mCompanyVisited.setChecked(visitStatus == 1);

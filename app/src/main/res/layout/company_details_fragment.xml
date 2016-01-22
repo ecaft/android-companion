@@ -19,15 +19,26 @@
             android:scaleType="fitCenter" />
 
         <TextView
+            android:id="@+id/company_details_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/company_details_logo"
+            android:layout_marginLeft="8dp"
+            android:text="Company"
+            style="?android:listSeparatorTextViewStyle"
+            android:textColor="@color/tint" />
+
+        <TextView
             android:id="@+id/company_details_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@id/company_details_logo"
+            android:layout_below="@id/company_details_text2"
             android:paddingTop="8dp"
             android:text="Google"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
 
         <TextView
@@ -36,7 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/company_details_logo"
             android:layout_marginTop="10dp"
-            android:textSize="20sp"
             android:text="Requirements"
             style="?android:listSeparatorTextViewStyle"
             android:textColor="@color/tint" />
@@ -51,7 +61,7 @@
             android:paddingLeft="20dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 </ScrollView>

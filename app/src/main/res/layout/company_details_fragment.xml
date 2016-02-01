@@ -35,19 +35,38 @@
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@id/company_details_logo"
             android:layout_below="@id/company_details_text2"
-            android:paddingTop="8dp"
             android:text="Google"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
+
+        <TextView
+            android:id="@+id/company_location_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_details_logo"
+            android:text="@string/company_details_fragment_header_location"
+            style="?android:listSeparatorTextViewStyle"
+            android:textColor="@color/tint" />
+
+
+        <TextView
+            android:id="@+id/company_details_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_location_text"
+            android:paddingLeft="20dp"
+            android:text="@string/ECaFT"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/company_details_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_logo"
+            android:layout_below="@id/company_details_location"
             android:layout_marginTop="10dp"
-            android:text="Requirements"
+            android:text="@string/company_details_fragment_header_reqs"
             style="?android:listSeparatorTextViewStyle"
             android:textColor="@color/tint" />
 
@@ -57,7 +76,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/company_details_text"
-            android:layout_marginTop="10dp"
             android:paddingLeft="20dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"

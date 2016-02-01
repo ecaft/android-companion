@@ -78,12 +78,12 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 if (MainActivity.isInDatabase(currentCompanyName)) { //Then you want to remove on click
                     Toast.makeText(this, R.string.unstar, Toast.LENGTH_SHORT).show();
                     item.setIcon(R.mipmap.ic_add_circle_outline_white_24dp);
-
                     MainActivity.deleteRow(currentCompanyUUID);
                 } else { //Not in database yet so add it to db
                     Toast.makeText(this, R.string.star, Toast.LENGTH_SHORT).show();
                     item.setIcon(R.mipmap.ic_remove_circle_outline_white_24dp);
-                    MainActivity.addRow(currentCompanyUUID, currentCompanyName);
+                    MainActivity.addRow(currentCompanyUUID,
+                            currentCompanyName);
                 }
         }
         return super.onOptionsItemSelected(item);

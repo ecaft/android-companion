@@ -19,7 +19,8 @@ public class CompanyDetailsFragment extends Fragment {
     private ParseImageView companyLogo;
     private TextView companyName;
     private TextView companyMajors;
-
+    private TextView companyLocation;
+    private String companyTable;
     private String objectID;
     private String name;
     private ArrayList<String> majors;
@@ -34,6 +35,7 @@ public class CompanyDetailsFragment extends Fragment {
         Bundle args = getArguments();
         objectID = args.getString(ParseApplication.COMPANY_OBJECT_ID);
         name = args.getString(ParseApplication.COMPANY_NAME);
+        companyTable = args.getString(ParseApplication.COMPANY_TABLE);
         majors = args.getStringArrayList(ParseApplication.COMPANY_MAJORS);
         logo = ParseApplication.getLogoByID(objectID);
 
@@ -45,6 +47,10 @@ public class CompanyDetailsFragment extends Fragment {
         companyName.setText(name);
 
         companyMajors = (TextView) v.findViewById(R.id.company_details_majors);
+
+        companyLocation = (TextView) v.findViewById(R.id
+                .company_details_location);
+        companyLocation.setText(companyTable);
 
         getActivity().setTitle("Company Details");
 

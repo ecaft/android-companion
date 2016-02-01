@@ -23,10 +23,11 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(
                 R.layout.home_fragment, container, false);
         Bundle args = getArguments();
-        textView = (TextView) v.findViewById(R.id.home_fragment_text_view);
+        textView = (TextView) v.findViewById(R.id.home_fragment_text_view1);
 
 
         getActivity().setTitle("Home");
+
 
         return v;
     }

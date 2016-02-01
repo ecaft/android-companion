@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+
 /**
  * Created by Ashley on 11/8/2015.
  */
@@ -24,12 +27,14 @@ public class MapFragment extends Fragment {
                 R.layout.map_fragment, container, false);
         Bundle args = getArguments();
 
+        SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)
+                v.findViewById(R.id.imageView);
+        imageView.setImage(ImageSource.resource(R.drawable.career_fair_map_c1));
 
-        imageView = (ImageView) v.findViewById(R.id.map_fragment_image_view);
+   //     imageView = (ImageView) v.findViewById(R.id.map_fragment_image_view);
 
         getActivity().setTitle("Map");
-        if (getActivity().getActionBar() != null)
-            getActivity().getActionBar().setLogo(R.drawable.black);
+
         return v;
     }
 }

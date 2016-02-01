@@ -6,6 +6,7 @@ import android.util.Log;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -37,6 +38,7 @@ public class ParseApplication extends Application {
     public static final String COMPANY_OBJECT_ID = "objectId";
     public static final String COMPANY_LOGO = "Logo";
     public static final String COMPANY_MAJORS = "Majors";
+    public static final String COMPANY_TABLE = "Location";
 
     private static ParseObject temp;
 
@@ -46,6 +48,8 @@ public class ParseApplication extends Application {
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         Log.d(TAG, "initialized");
 
     }
@@ -76,6 +80,18 @@ public class ParseApplication extends Application {
     public static ParseObject getPOByID(String id) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(PARSE_COMPANY_CLASS);
         query.include(ParseApplication.COMPANY_OBJECT_ID);
+        try {
+            temp = query.get(id);
+        } catch (ParseException e) {
+            Log.d(TAG, "Something went wrong");
+        }
+        return temp;
+    }
+
+
+    public static ParseObject getPOByName(String id) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(PARSE_COMPANY_CLASS);
+        query.include(ParseApplication.COMPANY_NAME);
         try {
             temp = query.get(id);
         } catch (ParseException e) {

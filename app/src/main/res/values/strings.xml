@@ -1,11 +1,23 @@
 <resources>
     <string name="app_name">ECaFT</string>
     <string name="action_settings">Settings</string>
-    <string name="home_fragment_text">The official Cornell</string>
+    <string name="home_fragment_text1">Cornell\'s Official</string>
+    <string name="home_fragment_text2">Engineering Career Fair Team App</string>
+    <string name="home_fragment_text3">Use this app to improve your
+        experience at the career fair. Features include a map of the career
+        fair as well as a list of all the companies present with extra information and the option
+        to add companies to a checklist!</string>
+    <string name="copyright_text1">© Copyright 2016 </string>
+    <string name="copyright_text2"> 2016</string>
+    <string name="copyright_text3">Cornell Engineering Career Fair Team
+    </string>
     <string name="ECaFT">Engineering Career Fair Team App</string>
     <string name="map_fragment_text">This is the map</string>
     <string name="info_fragment_text">Info about the fair</string>
     <string name="checklist_fragment_text">Where to visit checklist</string>
+    <string name="company_details_fragment_header_location">Table</string>
+    <string name="company_details_fragment_header_reqs">Requirements</string>
+    <string name="company_details_fragment_header_name">Company</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_open">Open</string>
     <string name="test">Test Text</string>
@@ -16,13 +28,14 @@
     <string name="unstar">Company Removed From Your Checklist!</string>
     <string name="visited">Company Visited!</string>
     <string name="details_ac">Company Details</string>
-
+    <string name="map_text">Map coming soon!</string>
+    <string name="remove">REMOVE</string>
 
 
     <string-array name="menu_options">
         <item>Home</item>
-        <item>View Profile</item>
-        <item>Settings</item>
-        <item>Logout</item>
+        <item>Map</item>
+        <item>Companies</item>
+        <item>Checklist</item>
     </string-array>
 </resources>

@@ -10,12 +10,15 @@ import java.util.ArrayList;
 public class Company {
     public String objectID;
     public String name;
+    public String location;
     public ArrayList<String> majors;
     public ParseFile logo;
 
-    public Company(String objectID, String name, ArrayList<String> majors, ParseFile logo) {
+    public Company(String objectID, String name, String location,
+                   ArrayList<String> majors, ParseFile logo) {
         this.objectID = objectID;
         this.name = name;
+        this.location = location;
         this.majors = majors;
         this.logo = logo;
     }

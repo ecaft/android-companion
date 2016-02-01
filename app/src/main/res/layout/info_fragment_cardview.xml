@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/info_cardview"
-    android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:background="@drawable/list_item_selector"
-    android:orientation="horizontal">
+<RelativeLayout android:id="@+id/info_cardview"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="@drawable/list_item_selector"
+                android:orientation="horizontal">
 
     <edu.cornell.ecaft.ParseImageView
         android:id="@+id/company_logo"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="71dp"
+        android:layout_height="71dp"
         android:adjustViewBounds="true"
-        android:padding="10dp"
-        android:scaleType="fitCenter" />
+        android:padding="16dp"
+        android:scaleType="fitCenter"/>
 
 
     <LinearLayout
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:padding="16dp">
+        android:paddingRight="8dp">
 
         <ImageButton
             android:id="@+id/save_company"
@@ -29,32 +29,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_add_circle_outline_black_24dp" />
+            android:src="@mipmap/ic_add_circle_outline_black_36dp"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_keyboard_arrow_right_black_24dp" />
+            android:src="@mipmap/ic_keyboard_arrow_right_black_36dp"/>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/company_name"
+    <LinearLayout
+        android:id="@+id/company_name_holder"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/info_icons"
-        android:layout_toRightOf="@id/company_logo"
-        android:text="@string/company_name"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
+        android:layout_toRightOf="@id/company_logo">
+
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="@string/company_name"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/company_table"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/company_name"
+            android:textColor="?android:textColorSecondary"
+            android:textSize="14sp"/>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/company_logo"
-        android:background="@color/divider" />
+        android:background="@color/divider"/>
 </RelativeLayout>
 

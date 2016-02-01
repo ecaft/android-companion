@@ -1,90 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/checklist_cardview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:layout_marginBottom="1dp">
 
-    <com.daimajia.swipe.SwipeLayout
-        android:id="@+id/swipe"
-        xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    <!-- <com.daimajia.swipe.SwipeLayout
+         android:id="@+id/swipe"
+         xmlns:swipe="http://schemas.android.com/apk/res-auto"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         swipe:leftEdgeSwipeOffset="0dp"
+         swipe:rightEdgeSwipeOffset="0dp">
+
+
+         <LinearLayout
+             android:id="@+id/trash"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:gravity="center"
+             android:background="@drawable/trash_selector"
+             android:paddingLeft="16dp"
+             android:paddingRight="16dp"
+             android:orientation="horizontal"
+             android:tag="Bottom3">
+
+             <TextView
+                 android:id="@+id/trash_button"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textColor="@color/white"
+                 android:text="@string/remove" />
+
+         </LinearLayout>
+ -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        swipe:leftEdgeSwipeOffset="0dp"
-        swipe:rightEdgeSwipeOffset="0dp">
+        android:background="@drawable/list_item_selector"
+        android:orientation="horizontal">
+
+
+        <CheckBox
+            android:id="@+id/check_company"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="16dp"
+            android:layout_marginRight="8dp"/>
 
 
         <LinearLayout
-            android:id="@+id/trash"
-            android:layout_width="60dp"
+            android:id="@+id/info_icons"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@drawable/trash_selector"
-            android:orientation="horizontal"
-            android:tag="Bottom3">
+            android:layout_alignParentRight="true"
+            android:padding="16dp">
+
 
             <ImageView
-                android:id="@+id/trash_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_delete_white_24dp" />
-
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_keyboard_arrow_right_black_24dp"/>
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/list_item_selector"
-            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/company_checklist_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/info_icons"
+            android:layout_toRightOf="@id/check_company"
+            android:text="@string/company_name"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
 
 
-            <CheckBox
-                android:id="@+id/check_company"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="8dp" />
-
-        <!--    <edu.cornell.ecaft.ParseImageView
-                android:id="@+id/company_checklist_logo"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:adjustViewBounds="true"
-                android:layout_toRightOf="@id/check_company"
-                android:padding="10dp"
-                android:scaleType="fitCenter" /> -->
-
-
-            <LinearLayout
-                android:id="@+id/info_icons"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:padding="16dp">
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_keyboard_arrow_right_black_24dp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/company_checklist_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_toLeftOf="@id/info_icons"
-                android:layout_toRightOf="@id/check_company"
-                android:text="@string/company_name"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-
-        </RelativeLayout>
-    </com.daimajia.swipe.SwipeLayout>
+    </RelativeLayout>
+    <!--  </com.daimajia.swipe.SwipeLayout> -->
 </LinearLayout>

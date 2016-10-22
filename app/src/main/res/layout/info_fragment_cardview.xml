@@ -7,7 +7,7 @@
                 android:background="@drawable/list_item_selector"
                 android:orientation="horizontal">
 
-    <edu.cornell.ecaft.ParseImageView
+    <edu.cornellu.ecaft.ParseImageView
         android:id="@+id/company_logo"
         android:layout_width="71dp"
         android:layout_height="71dp"

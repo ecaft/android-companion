@@ -11,7 +11,7 @@
         android:paddingRight="20dp"
         android:paddingTop="20dp">
 
-        <edu.cornell.ecaft.ParseImageView
+        <edu.cornellu.ecaft.ParseImageView
             android:id="@+id/company_details_logo"
             android:layout_width="100dp"
             android:layout_height="100dp"

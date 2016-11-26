@@ -28,6 +28,7 @@
             style="?android:listSeparatorTextViewStyle"
             android:textColor="@color/tint" />
 
+
         <TextView
             android:id="@+id/company_details_name"
             android:layout_width="fill_parent"
@@ -42,23 +43,28 @@
 
         <TextView
             android:id="@+id/company_location_text"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_logo"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/company_details_logo"
+            android:layout_below="@id/company_details_name"
             android:text="@string/company_details_fragment_header_location"
+            android:backgroundTintColor="@color/black"
             style="?android:listSeparatorTextViewStyle"
-            android:textColor="@color/tint" />
 
 
         <TextView
             android:id="@+id/company_details_location"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_below="@id/company_location_text"
-            android:paddingLeft="20dp"
-            android:text="@string/ECaFT"
+            android:layout_toRightOf="@id/company_details_logo"
+            android:text="Engineering Career Fair Team App"
             android:textColor="@color/black"
             android:textSize="16sp" />
+
+
 
         <TextView
             android:id="@+id/company_position_text"
@@ -66,28 +72,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/company_details_location"
             android:layout_marginTop="10dp"
-            android:text="@string/company_details_fragment_header_positions"
+            android:text="Company Information"
             style="?android:listSeparatorTextViewStyle"
-            android:textColor="@color/tint" />
-
-        <TextView
-            android:id="@+id/company_details_positions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_below="@id/company_position_text"
-            android:text="Google"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/company_details_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_positions"
-            android:layout_marginTop="10dp"
-            android:text="@string/company_details_fragment_header_reqs"
-            style="?android:listSeparatorTextViewStyle"
+            android:background="@android:color/darker_gray"
             android:textColor="@color/tint" />
 
 
@@ -95,25 +82,22 @@
             android:id="@+id/company_details_majors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_text"
+            android:layout_below="@id/company_position_text"
             android:paddingLeft="20dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/edit_message"
-            android:layout_width="200dip"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_majors"
-            android:hint="@string/edit_message" />
+
         <Button
+            android:id="@+id/save_company"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add Notes"
+            android:layout_alignParentRight="true"
             android:layout_below="@id/company_details_majors"
-            android:layout_toRightOf="@id/edit_message"
-            android:text="@string/button_send"
-            android:onClick="sendMessage" />
+            android:textColor="@color/black"/>
 
     </RelativeLayout>
 

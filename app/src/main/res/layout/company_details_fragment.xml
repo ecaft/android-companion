@@ -61,10 +61,30 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/company_details_text"
+            android:id="@+id/company_position_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/company_details_location"
+            android:layout_marginTop="10dp"
+            android:text="@string/company_details_fragment_header_positions"
+            style="?android:listSeparatorTextViewStyle"
+            android:textColor="@color/tint" />
+
+        <TextView
+            android:id="@+id/company_details_positions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@id/company_position_text"
+            android:text="Google"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/company_details_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_details_positions"
             android:layout_marginTop="10dp"
             android:text="@string/company_details_fragment_header_reqs"
             style="?android:listSeparatorTextViewStyle"
@@ -81,5 +101,20 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
+        <EditText
+            android:id="@+id/edit_message"
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_details_majors"
+            android:hint="@string/edit_message" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/company_details_majors"
+            android:layout_toRightOf="@id/edit_message"
+            android:text="@string/button_send"
+            android:onClick="sendMessage" />
+
     </RelativeLayout>
+
 </ScrollView>

@@ -49,8 +49,7 @@
             android:layout_toRightOf="@id/company_details_logo"
             android:layout_below="@id/company_details_name"
             android:text="@string/company_details_fragment_header_location"
-            android:backgroundTintColor="@color/black"
-            style="?android:listSeparatorTextViewStyle"
+            style="?android:listSeparatorTextViewStyle" />
 
 
         <TextView

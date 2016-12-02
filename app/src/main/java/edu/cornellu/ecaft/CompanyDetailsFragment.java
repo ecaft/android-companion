@@ -50,7 +50,6 @@ public class CompanyDetailsFragment extends Fragment {
 
         companyMajors = (TextView) v.findViewById(R.id.company_details_majors);
 
-        companyPositions=(TextView)v.findViewById(R.id.company_details_positions);
         companyLocation = (TextView) v.findViewById(R.id
                 .company_details_location);
         companyLocation.setText(companyTable);

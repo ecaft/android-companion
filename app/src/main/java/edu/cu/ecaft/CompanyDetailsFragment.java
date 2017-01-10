@@ -2,6 +2,8 @@ package edu.cu.ecaft;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyName;
     private TextView companyMajors;
     private TextView companyLocation;
+    private TextView companyPositions;
     private String companyTable;
     private String objectID;
     private String name;
@@ -29,7 +32,6 @@ public class CompanyDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
 
         View v = inflater.inflate(R.layout.company_details_fragment, container, false);
         Bundle args = getArguments();
@@ -53,7 +55,7 @@ public class CompanyDetailsFragment extends Fragment {
                 .company_details_location);
         companyLocation.setText(companyTable);
 
-        getActivity().setTitle("Company Details");
+        getActivity().setTitle(name);
 
 //        String majorText = "";
 //        Object[] majorList = majors.toArray();

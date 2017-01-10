@@ -1,13 +1,23 @@
 package edu.cu.ecaft;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -34,9 +44,10 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar bar = getActionBar();
+        toolbar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#800000")));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             // getSupportActionBar().setLogo(R.drawable.divider);
@@ -63,9 +74,9 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_company_details, menu);
         if (MainActivity.isInDatabase(currentCompanyName))
-            menu.getItem(0).setIcon(R.mipmap.ic_remove_circle_outline_white_24dp);
+            menu.getItem(0).setIcon(R.drawable.ic_unfavorite);
         else
-            menu.getItem(0).setIcon(R.mipmap.ic_add_circle_outline_white_24dp);
+            menu.getItem(0).setIcon(R.drawable.ic_favorite);
         return true;
     }
 
@@ -78,11 +89,11 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             case R.id.save_company:
                 if (MainActivity.isInDatabase(currentCompanyName)) { //Then you want to remove on click
                     Toast.makeText(this, R.string.unstar, Toast.LENGTH_SHORT).show();
-                    item.setIcon(R.mipmap.ic_add_circle_outline_white_24dp);
+                    item.setIcon(R.drawable.ic_favorite);
                     MainActivity.deleteRow(currentCompanyUUID);
                 } else { //Not in database yet so add it to db
                     Toast.makeText(this, R.string.star, Toast.LENGTH_SHORT).show();
-                    item.setIcon(R.mipmap.ic_remove_circle_outline_white_24dp);
+                    item.setIcon(R.drawable.ic_unfavorite);
                     MainActivity.addRow(currentCompanyUUID,
                             currentCompanyName);
                 }

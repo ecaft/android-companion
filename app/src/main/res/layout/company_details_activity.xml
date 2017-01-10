@@ -18,7 +18,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/black"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             android:logo="@drawable/ecaft_logo_white">
 

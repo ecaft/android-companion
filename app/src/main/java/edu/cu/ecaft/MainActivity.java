@@ -1,7 +1,9 @@
 package edu.cu.ecaft;
 
+import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -21,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.support.v4.view.MenuItemCompat;
 
 import com.parse.ParseObject;
 
@@ -29,7 +33,7 @@ import java.util.List;
 
 import edu.cu.ecaft.DatabaseSchema.CompanyTable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements SearchView.OnQueryTextListener  {
 
     private static final String TAG = "ECaFT";
     private TabLayout mTabLayout;
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mFrameLayout;
     private ListView mDrawerList;
     private RelativeLayout mDrawerListLayout;
+    private boolean searching;
     /**
      * Database variables
      */
@@ -120,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 2:
                 fragment = infoFragment;
+                searching= true;
                 break;
             case 3:
                 fragment = checklistFragment;
@@ -147,7 +153,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (searching) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+            getMenuInflater().inflate(R.menu.menu_filter, menu);
+
+            MenuItem searchItem = menu.findItem(R.id.search);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView.setOnQueryTextListener(this);
+        }
+        searching=false;
         return true;
     }
 
@@ -157,10 +172,19 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         if (mDrawerToggle.onOptionsItemSelected(item)) return true;
-
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.search:
+                onSearchRequested();
+                return true;
+            case android.R.id.home:
+                Intent intent = new Intent(this, SearchActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default:
+                return false;
+        }
     }
-
     /**
      * Database Methods
      */
@@ -331,5 +355,16 @@ public class MainActivity extends AppCompatActivity {
         ContentValues values = getContentValues(com, visited);
         mDatabase.update(CompanyTable.NAME, values, CompanyTable.Cols.UUID +
                 " = ?", new String[]{po.getObjectId()});
+    }
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        // User pressed the search button
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // User changed the text
+        return false;
     }
 }

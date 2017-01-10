@@ -29,13 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_add_circle_outline_black_36dp"/>
+            android:src="@drawable/ic_favorite"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@mipmap/ic_keyboard_arrow_right_black_36dp"/>
 
     </LinearLayout>
 
@@ -48,11 +43,16 @@
         android:layout_toLeftOf="@id/info_icons"
         android:layout_toRightOf="@id/company_logo">
 
+
+
         <TextView
             android:id="@+id/company_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textStyle="bold"
             android:text="@string/company_name"
             android:textColor="@color/black"
             android:textSize="16sp"/>

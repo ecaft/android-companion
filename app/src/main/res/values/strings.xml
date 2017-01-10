@@ -16,8 +16,8 @@
     <string name="info_fragment_text">Info about the fair</string>
     <string name="checklist_fragment_text">Where to visit checklist</string>
     <string name="company_details_fragment_header_location">Table</string>
-    <string name="company_details_fragment_header_reqs">Requirements</string>
-    <string name="company_details_fragment_header_name">Company</string>
+    <string name="company_details_fragment_header_reqs">Majors of Interest</string>
+    <string name="company_details_fragment_header_positions">Open Positions</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_open">Open</string>
     <string name="test">Test Text</string>
@@ -30,6 +30,10 @@
     <string name="details_ac">Company Details</string>
     <string name="map_text">Map coming soon!</string>
     <string name="remove">REMOVE</string>
+
+
+    <string name="edit_message">Enter notes</string>
+    <string name="button_send">Save</string>
 
 
     <string-array name="menu_options">

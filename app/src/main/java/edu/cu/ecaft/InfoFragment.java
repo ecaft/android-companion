@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -30,10 +34,11 @@ import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by Ashley on 11/8/2015.
  */
-public class InfoFragment extends Fragment {
+public class InfoFragment extends Fragment{
 
     private static final String TAG = "ECaFT";
     private static final String SAVED_LAYOUT_MANAGER = "Layout Manager";
@@ -60,6 +65,7 @@ public class InfoFragment extends Fragment {
         companyAdapter = new CompanyAdapter(companies);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -77,13 +83,10 @@ public class InfoFragment extends Fragment {
 
         //    updateUI();
 
-
         getActivity().setTitle("List Of Companies");
-
-
+        setHasOptionsMenu(true);
         return v;
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -149,9 +152,9 @@ public class InfoFragment extends Fragment {
         public ImageButton mCompanySave;
         public FirebaseCompany currentCompany;
 
+
         public CompanyHolder(View itemView) {
             super(itemView);
-
             mCompanyRL = (RelativeLayout) itemView.findViewById(R.id.info_cardview);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -193,14 +196,12 @@ public class InfoFragment extends Fragment {
                 public void onClick(View v) {
                     if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
                         Toast.makeText(getContext(), R.string.star, Toast.LENGTH_SHORT).show();
-                        mCompanySave.setImageResource(R.mipmap
-                                .ic_remove_circle_outline_black_36dp);
+                        mCompanySave.setImageResource(R.drawable.ic_unfavorite);
                         MainActivity.addRow(currentCompany.id,
                                 currentCompany.name);
                     } else {
                         Toast.makeText(getContext(), R.string.unstar, Toast.LENGTH_SHORT).show();
-                        mCompanySave.setImageResource(R.mipmap
-                                .ic_add_circle_outline_black_36dp);
+                        mCompanySave.setImageResource(R.drawable.ic_favorite);
                         MainActivity.deleteRow(currentCompany.id);
                     }
                 }
@@ -246,11 +247,9 @@ public class InfoFragment extends Fragment {
                     .into(holder.mCompanyLogo);
 
             if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
-                holder.mCompanySave.setImageResource(R.mipmap
-                        .ic_add_circle_outline_black_36dp);
+                holder.mCompanySave.setImageResource(R.drawable.ic_favorite);
             } else {
-                holder.mCompanySave.setImageResource(R.mipmap
-                        .ic_remove_circle_outline_black_36dp);
+                holder.mCompanySave.setImageResource(R.drawable.ic_unfavorite);
             }
 
             Log.d(TAG, "Recycler made for position " + position);

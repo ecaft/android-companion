@@ -47,7 +47,6 @@ public class InfoFragment extends Fragment{
     private RecyclerView companyRecylerView;
     private CompanyAdapter companyAdapter;
     private View v;
- //   private List<Company> companies;
     private List<FirebaseCompany> companies;
 
     public InfoFragment() {
@@ -61,7 +60,6 @@ public class InfoFragment extends Fragment{
 //                    resultCode, 1).show();
 //        }
         companies = FirebaseApplication.getCompanies();
-//        companies = makeCompanyList(FirebaseApplication.getCompanyPOS());
         companyAdapter = new CompanyAdapter(companies);
     }
 
@@ -113,32 +111,14 @@ public class InfoFragment extends Fragment{
     }
 
     private void updateUI() {
-// To dismiss the dialog
-        //   List<Company> companies = makeCompanyList(FirebaseApplication
-        //           .getCompanyPOS());
+        // To dismiss the dialog
 
         if (companyAdapter == null) {
-            // companies = makeCompanyList(FirebaseApplication.getCompanyPOS());
             companies = FirebaseApplication.getCompanies();
             companyAdapter = new CompanyAdapter(companies);
             companyRecylerView.setAdapter(companyAdapter);
         } else
             companyAdapter.notifyDataSetChanged();
-    }
-
-    private List<Company> makeCompanyList(List<ParseObject> companies) {
-        List<Company> compiledList = new ArrayList<>();
-        for (ParseObject po : companies) {
-            Company c = new Company(po.getObjectId(),
-                    po.getString(FirebaseApplication.COMPANY_NAME),
-                    po.getString(FirebaseApplication.COMPANY_TABLE),
-                    (ArrayList<String>) po.get(FirebaseApplication
-                            .COMPANY_MAJORS),
-                    po.getParseFile(FirebaseApplication.COMPANY_LOGO)
-            );
-            compiledList.add(c);
-        }
-        return compiledList;
     }
 
     /**
@@ -173,12 +153,6 @@ public class InfoFragment extends Fragment{
                     Intent i = new Intent(getActivity(), CompanyDetailsActivity.class);
                     i.putExtras(myBundle);
                     startActivity(i);
-
-                    /**       Fragment fragment = new CompanyDetailsFragment();
-                     fragment.setArguments(myBundle);
-                     FragmentManager fragmentManager = getFragmentManager();
-                     fragmentManager.beginTransaction().replace(R.id.content_frame, fragment)
-                     .addToBackStack(null).commit(); */
                 }
             });
 
@@ -187,7 +161,6 @@ public class InfoFragment extends Fragment{
             mCompanyLocation = (TextView) itemView.findViewById(R.id
                     .company_table);
 
-//            mCompanyLogo = (ImageView) itemView.findViewById(R.id.company_logo);
             mCompanyLogo = (ImageView) itemView.findViewById(R.id.company_logo);
 
             mCompanySave = (ImageButton) itemView.findViewById(R.id.save_company);
@@ -233,8 +206,7 @@ public class InfoFragment extends Fragment{
             holder.mCompanyName.setText(currentCompany.name);
             holder.mCompanyLocation.setText("Table " + currentCompany
                     .location);
-            // holder.mCompanyLogo.setParseFile(currentCompany.logo);
-            // holder.mCompanyLogo.loadInBackground();
+
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReferenceFromUrl
                     ("gs://ecaft-4a6e7.appspot.com");

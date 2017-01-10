@@ -41,10 +41,6 @@ public class CompanyDetailsFragment extends Fragment {
         majors = args.getString(FirebaseApplication.COMPANY_MAJORS);
         // logo = FirebaseApplication.getLogoByID(objectID);
 
-//        companyLogo = (ParseImageView) v.findViewById(R.id.company_details_logo);
-//        companyLogo.setParseFile(logo);
-//        companyLogo.loadInBackground();
-
         companyName = (TextView) v.findViewById(R.id.company_details_name);
         companyName.setText(name);
 

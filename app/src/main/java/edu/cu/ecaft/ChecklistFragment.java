@@ -128,10 +128,8 @@ public class ChecklistFragment extends Fragment {
     private class CompanyHolder extends RecyclerView.ViewHolder {
         public RelativeLayout mCompanyRL;
         public TextView mCompanyName;
-        public ParseImageView mCompanyLogo;
         public int currentPosition;
         public CheckBox mCompanyVisited;
-        public Company currentCompany;
         public ParseObject currentPOCompany;
         //    public SwipeLayout swipeLayout;
         public LinearLayout delete;
@@ -241,17 +239,13 @@ public class ChecklistFragment extends Fragment {
             //  holder.currentCompany = currentCompany;
 
 
-            ParseObject po = FirebaseApplication.getPOByID(companies.get
-                    (position));
-            holder.currentPOCompany = po;
-            holder.currentPosition = position;
-            holder.currentCompanyName = po.getString(FirebaseApplication
-                    .COMPANY_NAME);
-            holder.mCompanyName.setText(po.getString(FirebaseApplication
-                    .COMPANY_NAME));
-            //    holder.mCompanyLogo.setParseFile(currentCompany.logo);
-            //    holder.mCompanyLogo.loadInBackground();
-            holder.mCompanyVisited.setChecked(isVisitedList.get(position) == 1);
+//            holder.currentPOCompany = po;
+//            holder.currentPosition = position;
+//            holder.currentCompanyName = po.getString(FirebaseApplication
+//                    .COMPANY_NAME);
+//            holder.mCompanyName.setText(po.getString(FirebaseApplication
+//                    .COMPANY_NAME));
+//            holder.mCompanyVisited.setChecked(isVisitedList.get(position) == 1);
             //       holder.swipeLayout.close();
 
             Log.d(TAG, "Recycler made for position " + position);

@@ -1,4 +1,4 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

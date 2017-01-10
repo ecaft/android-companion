@@ -1,4 +1,4 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

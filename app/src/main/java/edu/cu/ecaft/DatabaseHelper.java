@@ -1,10 +1,10 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import edu.cornellu.ecaft.DatabaseSchema.CompanyTable;
+import edu.cu.ecaft.DatabaseSchema.CompanyTable;
 
 /**
  * Created by Ashley on 1/16/2016.

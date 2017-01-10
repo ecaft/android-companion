@@ -1,4 +1,4 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import org.junit.Test;
 

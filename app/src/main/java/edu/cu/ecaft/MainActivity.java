@@ -1,4 +1,4 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -27,7 +27,7 @@ import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.cornellu.ecaft.DatabaseSchema.CompanyTable;
+import edu.cu.ecaft.DatabaseSchema.CompanyTable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -289,13 +289,14 @@ public class MainActivity extends AppCompatActivity {
 
             while (!c.isAfterLast()) {
 
-              /*  ParseObject po = ParseApplication.getPOByID(c.getString(c
+              /*  ParseObject po = FirebaseApplication.getPOByID(c.getString(c
                         .getColumnIndex(CompanyTable.Cols.UUID)));
 
                 Company com = new Company(po.getObjectId(),
-                        po.getString(ParseApplication.COMPANY_NAME),
-                        (ArrayList<String>) po.get(ParseApplication.COMPANY_MAJORS),
-                        po.getParseFile(ParseApplication.COMPANY_LOGO)
+                        po.getString(FirebaseApplication.COMPANY_NAME),
+                        (ArrayList<String>) po.get(FirebaseApplication
+                        .COMPANY_MAJORS),
+                        po.getParseFile(FirebaseApplication.COMPANY_LOGO)
                 ); */
                 String com = c.getString(c.getColumnIndex(CompanyTable.Cols
                         .UUID));
@@ -320,12 +321,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void setVisitStatus(ParseObject po, int visited) {
-       // ParseObject po = ParseApplication.getPOByID(s);
+       // ParseObject po = FirebaseApplication.getPOByID(s);
         Company com = new Company(po.getObjectId(),
-                po.getString(ParseApplication.COMPANY_NAME),
-                po.getString(ParseApplication.COMPANY_TABLE),
-                (ArrayList<String>) po.get(ParseApplication.COMPANY_MAJORS),
-                po.getParseFile(ParseApplication.COMPANY_LOGO)
+                po.getString(FirebaseApplication.COMPANY_NAME),
+                po.getString(FirebaseApplication.COMPANY_TABLE),
+                (ArrayList<String>) po.get(FirebaseApplication.COMPANY_MAJORS),
+                po.getParseFile(FirebaseApplication.COMPANY_LOGO)
         );
         ContentValues values = getContentValues(com, visited);
         mDatabase.update(CompanyTable.NAME, values, CompanyTable.Cols.UUID +

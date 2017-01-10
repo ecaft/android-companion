@@ -1,4 +1,4 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -155,16 +155,19 @@ public class ChecklistFragment extends Fragment {
 
 
                     Bundle myBundle = new Bundle();
-                    myBundle.putString(ParseApplication.COMPANY_OBJECT_ID,
+                    myBundle.putString(FirebaseApplication.COMPANY_OBJECT_ID,
                             currentPOCompany.getObjectId());
-                    myBundle.putString(ParseApplication.COMPANY_NAME,
-                            currentPOCompany.getString(ParseApplication
+                    myBundle.putString(FirebaseApplication.COMPANY_NAME,
+                            currentPOCompany.getString(FirebaseApplication
                                     .COMPANY_NAME));
-                    myBundle.putStringArrayList(ParseApplication.COMPANY_MAJORS,
-                            (ArrayList<String>) currentPOCompany.get(ParseApplication
+                    myBundle.putStringArrayList(FirebaseApplication
+                                    .COMPANY_MAJORS,
+                            (ArrayList<String>) currentPOCompany.get
+                                    (FirebaseApplication
                                     .COMPANY_MAJORS));
-                    myBundle.putString(ParseApplication.COMPANY_TABLE,
-                            currentPOCompany.getString(ParseApplication.COMPANY_TABLE));
+                    myBundle.putString(FirebaseApplication.COMPANY_TABLE,
+                            currentPOCompany.getString(FirebaseApplication
+                                    .COMPANY_TABLE));
 
                     Intent i = new Intent(getActivity(),
                             CompanyDetailsActivity.class);
@@ -183,7 +186,7 @@ public class ChecklistFragment extends Fragment {
                     Toast.makeText(getContext(), R.string.unstar,
                             Toast.LENGTH_SHORT).show();
                     MainActivity.deleteRow(currentPOCompany.getString
-                            (ParseApplication.COMPANY_OBJECT_ID));
+                            (FirebaseApplication.COMPANY_OBJECT_ID));
                     companyAdapter.delete(currentPosition);
                     updateSavedLists();
                     updateVisitedList();
@@ -238,13 +241,13 @@ public class ChecklistFragment extends Fragment {
             //  holder.currentCompany = currentCompany;
 
 
-            ParseObject po = ParseApplication.getPOByID(companies.get
+            ParseObject po = FirebaseApplication.getPOByID(companies.get
                     (position));
             holder.currentPOCompany = po;
             holder.currentPosition = position;
-            holder.currentCompanyName = po.getString(ParseApplication
+            holder.currentCompanyName = po.getString(FirebaseApplication
                     .COMPANY_NAME);
-            holder.mCompanyName.setText(po.getString(ParseApplication
+            holder.mCompanyName.setText(po.getString(FirebaseApplication
                     .COMPANY_NAME));
             //    holder.mCompanyLogo.setParseFile(currentCompany.logo);
             //    holder.mCompanyLogo.loadInBackground();

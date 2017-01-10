@@ -19,7 +19,7 @@
  *
  */
 
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import android.content.Context;
 import android.graphics.Bitmap;

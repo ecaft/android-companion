@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.cornellu.ecaft" >
+    package="edu.cu.ecaft" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -20,7 +20,7 @@
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
     <permission android:protectionLevel="signature"
-                android:name="edu.cornellu.ecaft.permission.C2D_MESSAGE" />
+                android:name="edu.cu.ecaft.permission.C2D_MESSAGE" />
     <uses-permission
         android:name="edu.cornell.ecaft.permission.C2D_MESSAGE" />
     <application
@@ -29,10 +29,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="edu.cornellu.ecaft.ParseApplication"
+        android:name="edu.cu.ecaft.FirebaseApplication"
         >
         <activity
-            android:name="edu.cornellu.ecaft.MainActivity"
+            android:name="edu.cu.ecaft.MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -43,7 +43,7 @@
         </activity>
 
         <activity
-            android:name="edu.cornellu.ecaft.CompanyDetailsActivity"
+            android:name="edu.cu.ecaft.CompanyDetailsActivity"
             android:label="@string/details_ac"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

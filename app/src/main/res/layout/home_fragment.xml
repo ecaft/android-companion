@@ -38,4 +38,12 @@
 
         android:textSize="18sp" />
 
+    <ImageView
+        android:id="@+id/logos"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/home_fragment_text_view3"
+        />
+
 </RelativeLayout>

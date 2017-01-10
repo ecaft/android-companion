@@ -1,5 +1,6 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,10 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -33,10 +42,21 @@ public class InfoFragment extends Fragment {
     private RecyclerView companyRecylerView;
     private CompanyAdapter companyAdapter;
     private View v;
-    private List<Company> companies;
+ //   private List<Company> companies;
+    private List<FirebaseCompany> companies;
 
     public InfoFragment() {
-        companies = makeCompanyList(ParseApplication.getCompanyPOS());
+//        int resultCode = GoogleApiAvailability.getInstance()
+//                .isGooglePlayServicesAvailable(getActivity());
+//
+//        if (resultCode == ConnectionResult.SUCCESS){
+//            Log.d("ecaft", "isGooglePlayServicesAvailable SUCCESS");
+//        } else {
+//            GoogleApiAvailability.getInstance().getErrorDialog(getActivity(),
+//                    resultCode, 1).show();
+//        }
+        companies = FirebaseApplication.getCompanies();
+//        companies = makeCompanyList(FirebaseApplication.getCompanyPOS());
         companyAdapter = new CompanyAdapter(companies);
     }
 
@@ -91,11 +111,12 @@ public class InfoFragment extends Fragment {
 
     private void updateUI() {
 // To dismiss the dialog
-        //   List<Company> companies = makeCompanyList(ParseApplication
+        //   List<Company> companies = makeCompanyList(FirebaseApplication
         //           .getCompanyPOS());
 
         if (companyAdapter == null) {
-            companies = makeCompanyList(ParseApplication.getCompanyPOS());
+            // companies = makeCompanyList(FirebaseApplication.getCompanyPOS());
+            companies = FirebaseApplication.getCompanies();
             companyAdapter = new CompanyAdapter(companies);
             companyRecylerView.setAdapter(companyAdapter);
         } else
@@ -106,10 +127,11 @@ public class InfoFragment extends Fragment {
         List<Company> compiledList = new ArrayList<>();
         for (ParseObject po : companies) {
             Company c = new Company(po.getObjectId(),
-                    po.getString(ParseApplication.COMPANY_NAME),
-                    po.getString(ParseApplication.COMPANY_TABLE),
-                    (ArrayList<String>) po.get(ParseApplication.COMPANY_MAJORS),
-                    po.getParseFile(ParseApplication.COMPANY_LOGO)
+                    po.getString(FirebaseApplication.COMPANY_NAME),
+                    po.getString(FirebaseApplication.COMPANY_TABLE),
+                    (ArrayList<String>) po.get(FirebaseApplication
+                            .COMPANY_MAJORS),
+                    po.getParseFile(FirebaseApplication.COMPANY_LOGO)
             );
             compiledList.add(c);
         }
@@ -123,9 +145,9 @@ public class InfoFragment extends Fragment {
         public RelativeLayout mCompanyRL;
         public TextView mCompanyName;
         public TextView mCompanyLocation;
-        public ParseImageView mCompanyLogo;
+        public ImageView mCompanyLogo;
         public ImageButton mCompanySave;
-        public Company currentCompany;
+        public FirebaseCompany currentCompany;
 
         public CompanyHolder(View itemView) {
             super(itemView);
@@ -136,10 +158,13 @@ public class InfoFragment extends Fragment {
                 public void onClick(View v) {
 
                     Bundle myBundle = new Bundle();
-                    myBundle.putString(ParseApplication.COMPANY_OBJECT_ID, currentCompany.objectID);
-                    myBundle.putString(ParseApplication.COMPANY_NAME, currentCompany.name);
-                    myBundle.putStringArrayList(ParseApplication.COMPANY_MAJORS, currentCompany.majors);
-                    myBundle.putString(ParseApplication.COMPANY_TABLE,
+                    myBundle.putString(FirebaseApplication.COMPANY_OBJECT_ID,
+                            currentCompany.id);
+                    myBundle.putString(FirebaseApplication.COMPANY_NAME,
+                            currentCompany.name);
+                    myBundle.putString(FirebaseApplication.COMPANY_MAJORS,
+                            currentCompany.majors);
+                    myBundle.putString(FirebaseApplication.COMPANY_TABLE,
                             currentCompany.location);
 
                     Intent i = new Intent(getActivity(), CompanyDetailsActivity.class);
@@ -159,7 +184,8 @@ public class InfoFragment extends Fragment {
             mCompanyLocation = (TextView) itemView.findViewById(R.id
                     .company_table);
 
-            mCompanyLogo = (ParseImageView) itemView.findViewById(R.id.company_logo);
+//            mCompanyLogo = (ImageView) itemView.findViewById(R.id.company_logo);
+            mCompanyLogo = (ImageView) itemView.findViewById(R.id.company_logo);
 
             mCompanySave = (ImageButton) itemView.findViewById(R.id.save_company);
             mCompanySave.setOnClickListener(new View.OnClickListener() {
@@ -169,13 +195,13 @@ public class InfoFragment extends Fragment {
                         Toast.makeText(getContext(), R.string.star, Toast.LENGTH_SHORT).show();
                         mCompanySave.setImageResource(R.mipmap
                                 .ic_remove_circle_outline_black_36dp);
-                        MainActivity.addRow(currentCompany.objectID,
+                        MainActivity.addRow(currentCompany.id,
                                 currentCompany.name);
                     } else {
                         Toast.makeText(getContext(), R.string.unstar, Toast.LENGTH_SHORT).show();
                         mCompanySave.setImageResource(R.mipmap
                                 .ic_add_circle_outline_black_36dp);
-                        MainActivity.deleteRow(currentCompany.objectID);
+                        MainActivity.deleteRow(currentCompany.id);
                     }
                 }
             });
@@ -185,9 +211,9 @@ public class InfoFragment extends Fragment {
     }
 
     private class CompanyAdapter extends RecyclerView.Adapter<CompanyHolder> {
-        public List<Company> companies;
+        public List<FirebaseCompany> companies;
 
-        public CompanyAdapter(List<Company> companies) {
+        public CompanyAdapter(List<FirebaseCompany> companies) {
             this.companies = companies;
         }
 
@@ -201,13 +227,23 @@ public class InfoFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(CompanyHolder holder, int position) {
-            Company currentCompany = companies.get(position);
+            FirebaseCompany currentCompany = companies.get(position);
             holder.currentCompany = currentCompany;
             holder.mCompanyName.setText(currentCompany.name);
             holder.mCompanyLocation.setText("Table " + currentCompany
                     .location);
-            holder.mCompanyLogo.setParseFile(currentCompany.logo);
-            holder.mCompanyLogo.loadInBackground();
+            // holder.mCompanyLogo.setParseFile(currentCompany.logo);
+            // holder.mCompanyLogo.loadInBackground();
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReferenceFromUrl
+                    ("gs://ecaft-4a6e7.appspot.com");
+            StorageReference path = storageRef.child("logos/" +
+                    currentCompany.getId() + ".png");
+
+            Glide.with(getContext())
+                    .using(new FirebaseImageLoader())
+                    .load(path)
+                    .into(holder.mCompanyLogo);
 
             if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
                 holder.mCompanySave.setImageResource(R.mipmap
@@ -231,14 +267,14 @@ public class InfoFragment extends Fragment {
 
      protected List<Company> doInBackground(String... strings) {
      List<Company> companies = new ArrayList<>();
-     List<ParseObject> list = ParseApplication.getCompanyPOS();
+     List<ParseObject> list = FirebaseApplication.getCompanyPOS();
 
 
      for (ParseObject po : list) {
      Company c = new Company(po.getObjectId(),
-     po.getString(ParseApplication.COMPANY_NAME),
-     (ArrayList<String>) po.get(ParseApplication.COMPANY_MAJORS),
-     po.getParseFile(ParseApplication.COMPANY_LOGO)
+     po.getString(FirebaseApplication.COMPANY_NAME),
+     (ArrayList<String>) po.get(FirebaseApplication.COMPANY_MAJORS),
+     po.getParseFile(FirebaseApplication.COMPANY_LOGO)
      );
      companies.add(c);
      }

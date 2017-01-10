@@ -1,6 +1,6 @@
 
 
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 /**
  * All code in this class belongs to https://github.com/matabii/scale-imageview-android

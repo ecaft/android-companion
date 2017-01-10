@@ -1,4 +1,4 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,8 +48,9 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             Intent i = getIntent();
             Bundle x = i.getExtras();
 
-            currentCompanyName = x.getString(ParseApplication.COMPANY_NAME);
-            currentCompanyUUID = x.getString(ParseApplication.COMPANY_OBJECT_ID);
+            currentCompanyName = x.getString(FirebaseApplication.COMPANY_NAME);
+            currentCompanyUUID = x.getString(FirebaseApplication
+                    .COMPANY_OBJECT_ID);
 
 
             fragment.setArguments(i.getExtras());

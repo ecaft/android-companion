@@ -1,4 +1,4 @@
-package edu.cornellu.ecaft;
+package edu.cu.ecaft;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +23,7 @@ public class CompanyDetailsFragment extends Fragment {
     private String companyTable;
     private String objectID;
     private String name;
-    private ArrayList<String> majors;
+    private String majors;
     private ParseFile logo;
 
     @Override
@@ -33,20 +33,21 @@ public class CompanyDetailsFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.company_details_fragment, container, false);
         Bundle args = getArguments();
-        objectID = args.getString(ParseApplication.COMPANY_OBJECT_ID);
-        name = args.getString(ParseApplication.COMPANY_NAME);
-        companyTable = args.getString(ParseApplication.COMPANY_TABLE);
-        majors = args.getStringArrayList(ParseApplication.COMPANY_MAJORS);
-        logo = ParseApplication.getLogoByID(objectID);
+        objectID = args.getString(FirebaseApplication.COMPANY_OBJECT_ID);
+        name = args.getString(FirebaseApplication.COMPANY_NAME);
+        companyTable = args.getString(FirebaseApplication.COMPANY_TABLE);
+        majors = args.getString(FirebaseApplication.COMPANY_MAJORS);
+        // logo = FirebaseApplication.getLogoByID(objectID);
 
-        companyLogo = (ParseImageView) v.findViewById(R.id.company_details_logo);
-        companyLogo.setParseFile(logo);
-        companyLogo.loadInBackground();
+//        companyLogo = (ParseImageView) v.findViewById(R.id.company_details_logo);
+//        companyLogo.setParseFile(logo);
+//        companyLogo.loadInBackground();
 
         companyName = (TextView) v.findViewById(R.id.company_details_name);
         companyName.setText(name);
 
         companyMajors = (TextView) v.findViewById(R.id.company_details_majors);
+        companyMajors.setText(majors);
 
         companyLocation = (TextView) v.findViewById(R.id
                 .company_details_location);
@@ -54,15 +55,15 @@ public class CompanyDetailsFragment extends Fragment {
 
         getActivity().setTitle("Company Details");
 
-        String majorText = "";
-        Object[] majorList = majors.toArray();
-
-        majorList = alphabetize(majorList);
-
-        for (Object s : majorList) {
-            majorText = majorText + s.toString() + "\n";
-        }
-        companyMajors.setText(majorText);
+//        String majorText = "";
+//        Object[] majorList = majors.toArray();
+//
+//        majorList = alphabetize(majorList);
+//
+//        for (Object s : majorList) {
+//            majorText = majorText + s.toString() + "\n";
+//        }
+//        companyMajors.setText(majorText);
 
         return v;
     }

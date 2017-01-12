@@ -18,7 +18,6 @@ import java.util.ArrayList;
  */
 public class CompanyDetailsFragment extends Fragment {
 
-    private ParseImageView companyLogo;
     private TextView companyName;
     private TextView companyMajors;
     private TextView companyLocation;

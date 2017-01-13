@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -331,7 +332,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
         } finally {
             c.close();
         }
-
+       // Log.d("App", "HELLLLLLLLLLLLLLLO "+ compiledList.toString());
         return compiledList;
     }
 
@@ -342,6 +343,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
         values.put(CompanyTable.Cols.VISITED, visited);
 
         return values;
+    }
+
+    public static void setVisitStatus(FirebaseCompany po, int visited){
+
     }
 
     public static void setVisitStatus(ParseObject po, int visited) {

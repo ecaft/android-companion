@@ -78,6 +78,6 @@
             android:textSize="15sp"/>
 
 
-    </RelativeLayout>
-    <!--  </com.daimajia.swipe.SwipeLayout> -->
+</RelativeLayout>
+<!--  </com.daimajia.swipe.SwipeLayout> -->
 </LinearLayout>

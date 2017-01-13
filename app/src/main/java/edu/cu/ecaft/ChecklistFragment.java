@@ -17,6 +17,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.parse.Parse;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -47,7 +56,6 @@ public class ChecklistFragment extends Fragment {
         isVisitedList = MainActivity.makeIsVisited();
         companies = MainActivity.makeSavedList();
         companyAdapter = new CompanyAdapter(companies);
-
 
     }
 
@@ -130,7 +138,7 @@ public class ChecklistFragment extends Fragment {
         public TextView mCompanyName;
         public int currentPosition;
         public CheckBox mCompanyVisited;
-        public ParseObject currentPOCompany;
+        public FirebaseCompany currentPOCompany;
         //    public SwipeLayout swipeLayout;
         public LinearLayout delete;
         public String currentCompanyName;
@@ -153,7 +161,17 @@ public class ChecklistFragment extends Fragment {
 
 
                     Bundle myBundle = new Bundle();
+
                     myBundle.putString(FirebaseApplication.COMPANY_OBJECT_ID,
+                            currentPOCompany.id);
+                    myBundle.putString(FirebaseApplication.COMPANY_NAME,
+                            currentPOCompany.name);
+                    myBundle.putString(FirebaseApplication.COMPANY_MAJORS,
+                            currentPOCompany.majors);
+                    myBundle.putString(FirebaseApplication.COMPANY_TABLE,
+                            currentPOCompany.location);
+
+               /*     myBundle.putString(FirebaseApplication.COMPANY_OBJECT_ID,
                             currentPOCompany.getObjectId());
                     myBundle.putString(FirebaseApplication.COMPANY_NAME,
                             currentPOCompany.getString(FirebaseApplication
@@ -165,7 +183,7 @@ public class ChecklistFragment extends Fragment {
                                     .COMPANY_MAJORS));
                     myBundle.putString(FirebaseApplication.COMPANY_TABLE,
                             currentPOCompany.getString(FirebaseApplication
-                                    .COMPANY_TABLE));
+                                    .COMPANY_TABLE)); */
 
                     Intent i = new Intent(getActivity(),
                             CompanyDetailsActivity.class);
@@ -220,10 +238,12 @@ public class ChecklistFragment extends Fragment {
 
     private class CompanyAdapter extends RecyclerView.Adapter<CompanyHolder> {
         public List<String> companies;
-
+        public FirebaseCompany fc;
         public CompanyAdapter(List<String> companies) {
             this.companies = companies;
         }
+
+
 
         @Override
         public CompanyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -234,19 +254,43 @@ public class ChecklistFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(CompanyHolder holder, int position) {
-            //  Company currentCompany = companies.get(position);
-            //  holder.currentCompany = currentCompany;
+        public void onBindViewHolder(final CompanyHolder holder, int position) {
+
+            String id = companies.get(position);
+
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                    .child("companies").child(id);
+
+            databaseReference.orderByKey().addValueEventListener(new ValueEventListener
+                    () {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
 
+                    fc = dataSnapshot.getValue(FirebaseCompany
+                            .class);
+                    holder.currentPOCompany = fc;
+
+                    holder.currentCompanyName = fc.name;
+                    holder.mCompanyName.setText(fc.name);
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("test", "oncancel");
+                }
+            });
+
+            holder.currentPosition = position;
+ //           holder.currentCompanyName = currentCompany;
+   //         holder.mCompanyName.setText(currentCompany);
 //            holder.currentPOCompany = po;
 //            holder.currentPosition = position;
 //            holder.currentCompanyName = po.getString(FirebaseApplication
 //                    .COMPANY_NAME);
 //            holder.mCompanyName.setText(po.getString(FirebaseApplication
 //                    .COMPANY_NAME));
-//            holder.mCompanyVisited.setChecked(isVisitedList.get(position) == 1);
-            //       holder.swipeLayout.close();
+            holder.mCompanyVisited.setChecked(isVisitedList.get(position) == 1);
+           // holder.swipeLayout.close();
 
             Log.d(TAG, "Recycler made for position " + position);
         }

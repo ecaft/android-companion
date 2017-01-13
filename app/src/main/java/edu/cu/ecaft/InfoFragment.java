@@ -42,6 +42,8 @@ public class InfoFragment extends Fragment{
 
     private static final String TAG = "ECaFT";
     private static final String SAVED_LAYOUT_MANAGER = "Layout Manager";
+    private StorageReference storageRef = FirebaseApplication
+            .getStorageRef();
 
     private RecyclerView.LayoutManager layoutManagerSavedState;
     private RecyclerView companyRecylerView;
@@ -207,11 +209,11 @@ public class InfoFragment extends Fragment{
             holder.mCompanyLocation.setText("Table " + currentCompany
                     .location);
 
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReferenceFromUrl
-                    ("gs://ecaft-4a6e7.appspot.com");
             StorageReference path = storageRef.child("logos/" +
                     currentCompany.getId() + ".png");
+
+            // Log.d("Firebase", path.toString() + ": " +  path.hashCode() +
+            // "");
 
             Glide.with(getContext())
                     .using(new FirebaseImageLoader())

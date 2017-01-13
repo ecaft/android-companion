@@ -65,6 +65,10 @@ public class FirebaseApplication extends Application {
                 Log.d("test", "oncancel");
             }
         });
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReferenceFromUrl
+                ("gs://ecaft-4a6e7.appspot.com");
     }
 
     public static List<FirebaseCompany> getCompanies() {
@@ -75,8 +79,7 @@ public class FirebaseApplication extends Application {
         return databaseReference;
     }
 
-    public static StorageReference getStorageRef(String child) {
-        StorageReference path = storageRef.child("logos/" + child + ".jpg");
-        return path;
+    public static StorageReference getStorageRef() {
+        return storageRef;
     }
 }

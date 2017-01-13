@@ -12,7 +12,7 @@
         android:layout_width="71dp"
         android:layout_height="71dp"
         android:adjustViewBounds="true"
-        android:padding="16dp"
+        android:padding="12dp"
         android:scaleType="fitCenter"/>
 
 

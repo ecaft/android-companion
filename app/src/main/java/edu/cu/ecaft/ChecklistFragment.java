@@ -17,18 +17,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.parse.Parse;
-import com.parse.ParseObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -162,7 +156,7 @@ public class ChecklistFragment extends Fragment {
 
                     Bundle myBundle = new Bundle();
 
-                    myBundle.putString(FirebaseApplication.COMPANY_OBJECT_ID,
+                    myBundle.putString(FirebaseApplication.COMPANY_ID,
                             currentPOCompany.id);
                     myBundle.putString(FirebaseApplication.COMPANY_NAME,
                             currentPOCompany.name);
@@ -171,7 +165,7 @@ public class ChecklistFragment extends Fragment {
                     myBundle.putString(FirebaseApplication.COMPANY_TABLE,
                             currentPOCompany.location);
 
-               /*     myBundle.putString(FirebaseApplication.COMPANY_OBJECT_ID,
+               /*     myBundle.putString(FirebaseApplication.COMPANY_ID,
                             currentPOCompany.getObjectId());
                     myBundle.putString(FirebaseApplication.COMPANY_NAME,
                             currentPOCompany.getString(FirebaseApplication
@@ -202,7 +196,7 @@ public class ChecklistFragment extends Fragment {
                     Toast.makeText(getContext(), R.string.unstar,
                             Toast.LENGTH_SHORT).show();
                     MainActivity.deleteRow(currentPOCompany.getString
-                            (FirebaseApplication.COMPANY_OBJECT_ID));
+                            (FirebaseApplication.COMPANY_ID));
                     companyAdapter.delete(currentPosition);
                     updateSavedLists();
                     updateVisitedList();

@@ -1,17 +1,18 @@
 package edu.cu.ecaft;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.StorageReference;
 import com.parse.ParseFile;
-
-import java.util.ArrayList;
 
 /**
  * Created by Ashley on 1/16/2016.
@@ -22,19 +23,21 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyMajors;
     private TextView companyLocation;
     private TextView companyPositions;
+    private ImageView companyLogo;
+
     private String companyTable;
     private String objectID;
     private String name;
     private String majors;
-    private ParseFile logo;
-
+    private StorageReference storageRef = FirebaseApplication
+            .getStorageRef();
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.company_details_fragment, container, false);
         Bundle args = getArguments();
-        objectID = args.getString(FirebaseApplication.COMPANY_OBJECT_ID);
+        objectID = args.getString(FirebaseApplication.COMPANY_ID);
         name = args.getString(FirebaseApplication.COMPANY_NAME);
         companyTable = args.getString(FirebaseApplication.COMPANY_TABLE);
         majors = args.getString(FirebaseApplication.COMPANY_MAJORS);
@@ -49,6 +52,16 @@ public class CompanyDetailsFragment extends Fragment {
         companyLocation = (TextView) v.findViewById(R.id
                 .company_details_location);
         companyLocation.setText(companyTable);
+
+        companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
+
+        StorageReference path = storageRef.child("logos/" +
+                objectID + ".png");
+
+        Glide.with(getContext())
+                .using(new FirebaseImageLoader())
+                .load(path)
+                .into(companyLogo);
 
         getActivity().setTitle(name);
 

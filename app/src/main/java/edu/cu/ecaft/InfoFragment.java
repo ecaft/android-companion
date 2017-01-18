@@ -1,19 +1,14 @@
 package edu.cu.ecaft;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -24,14 +19,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.parse.ParseObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -143,7 +132,7 @@ public class InfoFragment extends Fragment{
                 public void onClick(View v) {
 
                     Bundle myBundle = new Bundle();
-                    myBundle.putString(FirebaseApplication.COMPANY_OBJECT_ID,
+                    myBundle.putString(FirebaseApplication.COMPANY_ID,
                             currentCompany.id);
                     myBundle.putString(FirebaseApplication.COMPANY_NAME,
                             currentCompany.name);
@@ -170,7 +159,9 @@ public class InfoFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
+                        // TODO: Snackbar instead of toast?
                         Toast.makeText(getContext(), R.string.star, Toast.LENGTH_SHORT).show();
+                        // TODO: lol ic unfav and fav are swapped names
                         mCompanySave.setImageResource(R.drawable.ic_unfavorite);
                         MainActivity.addRow(currentCompany.id,
                                 currentCompany.name);

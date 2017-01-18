@@ -28,7 +28,7 @@ public class FirebaseApplication extends Application {
      * Firebase Fields
      */
     public static final String COMPANY_NAME = "name";
-    public static final String COMPANY_OBJECT_ID = "id";
+    public static final String COMPANY_ID = "id";
     public static final String COMPANY_LOGO = "Logo";
     public static final String COMPANY_MAJORS = "majors";
     public static final String COMPANY_TABLE = "location";

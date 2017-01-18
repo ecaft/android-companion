@@ -18,16 +18,6 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter" />
 
-        <TextView
-            android:id="@+id/company_details_text2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/company_details_logo"
-            android:layout_marginLeft="8dp"
-            android:text="Company"
-            style="?android:listSeparatorTextViewStyle"
-            android:textColor="@color/tint" />
-
 
         <TextView
             android:id="@+id/company_details_name"
@@ -35,21 +25,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@id/company_details_logo"
-            android:layout_below="@id/company_details_text2"
             android:text="Google"
             android:textColor="@color/black"
             android:textSize="16sp" />
-
-
-        <TextView
-            android:id="@+id/company_location_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/company_details_logo"
-            android:layout_below="@id/company_details_name"
-            android:text="@string/company_details_fragment_header_location"
-            style="?android:listSeparatorTextViewStyle" />
 
 
         <TextView
@@ -57,11 +35,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_below="@id/company_location_text"
+            android:layout_below="@id/company_details_name"
             android:layout_toRightOf="@id/company_details_logo"
             android:text="Engineering Career Fair Team App"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textColor="@color/dark_gray"
+            android:textSize="14sp" />
 
 
 
@@ -123,7 +101,7 @@
             android:id="@+id/company_majors_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/save_company"
+            android:layout_below="@id/company_details_positions"
             android:layout_marginTop="10dp"
             android:text="Majors of Interest"
             style="?android:listSeparatorTextViewStyle"
@@ -145,6 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:paddingTop="10dp"
             android:text="Make Note"
             android:layout_alignParentRight="true"
             android:layout_below="@id/company_details_majors"
@@ -157,6 +136,7 @@
             android:layout_toLeftOf="@id/save_notes"
             android:layout_below="@id/company_details_majors"
             android:paddingLeft="20dp"
+            android:paddingTop="10dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
             android:textSize="16sp" />

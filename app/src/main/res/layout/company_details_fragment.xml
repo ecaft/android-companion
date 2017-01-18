@@ -98,16 +98,6 @@
             android:layout_below="@id/company_details"
             android:textColor="@color/black"/>
 
-        <Button
-            android:id="@+id/company_notes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Add Notes"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/company_details"
-            android:textColor="@color/black"/>
-
         <TextView
             android:id="@+id/company_positions_text"
             android:layout_width="match_parent"
@@ -145,6 +135,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/company_majors_text"
+            android:paddingLeft="20dp"
+            android:text="@string/ECaFT"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/save_notes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Make Note"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/company_details_majors"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/company_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/save_notes"
+            android:layout_below="@id/company_details_majors"
             android:paddingLeft="20dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"

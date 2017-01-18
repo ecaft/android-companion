@@ -50,7 +50,6 @@ public class ChecklistFragment extends Fragment {
         isVisitedList = MainActivity.makeIsVisited();
         companies = MainActivity.makeSavedList();
         companyAdapter = new CompanyAdapter(companies);
-
     }
 
     @Override
@@ -252,10 +251,14 @@ public class ChecklistFragment extends Fragment {
 
             String id = companies.get(position);
 
+            Log.d("checklist", id);
+
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                     .child("companies").child(id);
 
-            databaseReference.orderByKey().addValueEventListener(new ValueEventListener
+            Log.d("checklsit", databaseReference.toString());
+
+            databaseReference.addValueEventListener(new ValueEventListener
                     () {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

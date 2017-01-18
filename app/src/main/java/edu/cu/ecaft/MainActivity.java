@@ -1,6 +1,5 @@
 package edu.cu.ecaft;
 
-import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -190,7 +188,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
      * Database Methods
      */
     public static void deleteRow(String id) {
-        mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.UUID + " = ?", new String[]{id});
+        mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.ID + " = ?", new String[]{id});
     }
 
 
@@ -241,7 +239,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
     public static void addRow(String currentCompanyUUID, String
             currentCompanyName) {
         ContentValues values = new ContentValues();
-        values.put(CompanyTable.Cols.UUID, currentCompanyUUID);
+        values.put(CompanyTable.Cols.ID, currentCompanyUUID);
         values.put(CompanyTable.Cols.COMPANY_NAME, currentCompanyName);
         values.put(CompanyTable.Cols.VISITED, 0);
         mDatabase.insert(CompanyTable.NAME, null, values);
@@ -257,7 +255,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
             c.moveToFirst();
 
             while (!c.isAfterLast()) {
-                if (currentCompany.objectID.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.UUID)))) {
+                if (currentCompany.objectID.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.ID)))) {
                     return true;
                 }
                 c.moveToNext();
@@ -272,7 +270,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
 
     public static boolean isVisited(String name) {
         Cursor c = mDatabase.query(CompanyTable.NAME, null, CompanyTable.Cols
-                .UUID+ " = ?", new String[]{name}, null, null, null);
+                .ID + " = ?", new String[]{name}, null, null, null);
         try {
             c.moveToFirst();
             return c.getInt(c.getColumnIndex(CompanyTable.Cols.VISITED)) == 1;
@@ -307,7 +305,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
         List<String> compiledList = new ArrayList<>();
 
         Cursor c = mDatabase.query(CompanyTable.NAME,
-                null, null, null, null, null, CompanyTable.Cols.COMPANY_NAME + " ASC");
+                null, null, null, null, null, CompanyTable.Cols.ID + " ASC");
 
         try {
             c.moveToFirst();
@@ -315,7 +313,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
             while (!c.isAfterLast()) {
 
               /*  ParseObject po = FirebaseApplication.getPOByID(c.getString(c
-                        .getColumnIndex(CompanyTable.Cols.UUID)));
+                        .getColumnIndex(CompanyTable.Cols.ID)));
 
                 Company com = new Company(po.getObjectId(),
                         po.getString(FirebaseApplication.COMPANY_NAME),
@@ -324,7 +322,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
                         po.getParseFile(FirebaseApplication.COMPANY_LOGO)
                 ); */
                 String com = c.getString(c.getColumnIndex(CompanyTable.Cols
-                        .UUID));
+                        .ID));
                 compiledList.add(com);
                 c.moveToNext();
             }
@@ -338,7 +336,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
 
     private static ContentValues getContentValues(Company c, int visited) {
         ContentValues values = new ContentValues();
-        values.put(CompanyTable.Cols.UUID, c.objectID);
+        values.put(CompanyTable.Cols.ID, c.objectID);
         values.put(CompanyTable.Cols.COMPANY_NAME, c.name);
         values.put(CompanyTable.Cols.VISITED, visited);
 
@@ -358,7 +356,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
                 po.getParseFile(FirebaseApplication.COMPANY_LOGO)
         );
         ContentValues values = getContentValues(com, visited);
-        mDatabase.update(CompanyTable.NAME, values, CompanyTable.Cols.UUID +
+        mDatabase.update(CompanyTable.NAME, values, CompanyTable.Cols.ID +
                 " = ?", new String[]{po.getObjectId()});
     }
     @Override

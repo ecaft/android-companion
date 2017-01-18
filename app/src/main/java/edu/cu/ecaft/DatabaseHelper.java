@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + CompanyTable.NAME + "(" +
-                        CompanyTable.Cols.UUID + ", " +
+                        CompanyTable.Cols.ID + ", " +
                         CompanyTable.Cols.COMPANY_NAME + ", " +
                         CompanyTable.Cols.VISITED + ")"
         );

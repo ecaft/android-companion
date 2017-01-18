@@ -159,7 +159,9 @@ public class InfoFragment extends Fragment{
                 @Override
                 public void onClick(View v) {
                     if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
+                        // TODO: Snackbar instead of toast?
                         Toast.makeText(getContext(), R.string.star, Toast.LENGTH_SHORT).show();
+                        // TODO: lol ic unfav and fav are swapped names
                         mCompanySave.setImageResource(R.drawable.ic_unfavorite);
                         MainActivity.addRow(currentCompany.id,
                                 currentCompany.name);

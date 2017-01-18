@@ -344,7 +344,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
     }
 
     public static void setVisitStatus(FirebaseCompany po, int visited){
-
+        String str = "update " + CompanyTable.NAME + " set " + CompanyTable
+                .Cols.VISITED + " = " + visited + " where " + CompanyTable
+                .Cols.ID + " = \"" + po.getId() + "\"";
+        mDatabase.execSQL(str);
     }
 
     public static void setVisitStatus(ParseObject po, int visited) {

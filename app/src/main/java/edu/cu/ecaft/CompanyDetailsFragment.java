@@ -14,6 +14,8 @@ import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
 import com.parse.ParseFile;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Ashley on 1/16/2016.
  */
@@ -22,13 +24,16 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyName;
     private TextView companyMajors;
     private TextView companyLocation;
-    private TextView companyPositions;
+    private TextView companyOpenings;
     private ImageView companyLogo;
+    private TextView companyInfo;
 
     private String companyTable;
     private String objectID;
     private String name;
     private String majors;
+    private String openings;
+    private String info;
     private StorageReference storageRef = FirebaseApplication
             .getStorageRef();
     @Override
@@ -41,6 +46,8 @@ public class CompanyDetailsFragment extends Fragment {
         name = args.getString(FirebaseApplication.COMPANY_NAME);
         companyTable = args.getString(FirebaseApplication.COMPANY_TABLE);
         majors = args.getString(FirebaseApplication.COMPANY_MAJORS);
+        openings = args.getString(FirebaseApplication.COMPANY_OPENINGS);
+        info = args.getString(FirebaseApplication.COMPANY_INFO);
         // logo = FirebaseApplication.getLogoByID(objectID);
 
         companyName = (TextView) v.findViewById(R.id.company_details_name);
@@ -52,6 +59,12 @@ public class CompanyDetailsFragment extends Fragment {
         companyLocation = (TextView) v.findViewById(R.id
                 .company_details_location);
         companyLocation.setText(companyTable);
+
+        companyOpenings = (TextView) v.findViewById(R.id.company_details_positions);
+        companyOpenings.setText(openings);
+
+        companyInfo = (TextView) v.findViewById(R.id.company_details_information);
+        companyInfo.setText(info);
 
         companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
 

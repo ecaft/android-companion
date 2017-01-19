@@ -1,8 +1,8 @@
 package edu.cu.ecaft;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
-import com.parse.ParseFile;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by Ashley on 1/16/2016.
@@ -32,8 +29,12 @@ public class CompanyDetailsFragment extends Fragment {
     private String objectID;
     private String name;
     private String majors;
-    private String openings;
     private String info;
+    private String jobtitles;
+    private String jobtypes;
+    private String website;
+    private boolean optcpt;
+    private boolean sponsor;
     private StorageReference storageRef = FirebaseApplication
             .getStorageRef();
     @Override
@@ -46,8 +47,14 @@ public class CompanyDetailsFragment extends Fragment {
         name = args.getString(FirebaseApplication.COMPANY_NAME);
         companyTable = args.getString(FirebaseApplication.COMPANY_TABLE);
         majors = args.getString(FirebaseApplication.COMPANY_MAJORS);
-        openings = args.getString(FirebaseApplication.COMPANY_OPENINGS);
+        jobtitles = args.getString(FirebaseApplication.COMPANY_JOBTITLES);
         info = args.getString(FirebaseApplication.COMPANY_INFO);
+        jobtypes = args.getString(FirebaseApplication.COMPANY_JOBTYPES);
+        website = args.getString(FirebaseApplication.COMPANY_WEBSITE);
+        optcpt = args.getBoolean(FirebaseApplication.COMPANY_OPTCPT);
+        sponsor = args.getBoolean(FirebaseApplication.COMPANY_SPONSOR);
+
+        Log.d("details", info);
         // logo = FirebaseApplication.getLogoByID(objectID);
 
         companyName = (TextView) v.findViewById(R.id.company_details_name);
@@ -58,10 +65,10 @@ public class CompanyDetailsFragment extends Fragment {
 
         companyLocation = (TextView) v.findViewById(R.id
                 .company_details_location);
-        companyLocation.setText(companyTable);
+        companyLocation.setText("Table " + companyTable);
 
         companyOpenings = (TextView) v.findViewById(R.id.company_details_positions);
-        companyOpenings.setText(openings);
+        companyOpenings.setText(jobtitles);
 
         companyInfo = (TextView) v.findViewById(R.id.company_details_information);
         companyInfo.setText(info);

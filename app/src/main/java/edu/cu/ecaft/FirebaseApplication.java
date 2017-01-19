@@ -32,9 +32,12 @@ public class FirebaseApplication extends Application {
     public static final String COMPANY_LOGO = "Logo";
     public static final String COMPANY_MAJORS = "majors";
     public static final String COMPANY_TABLE = "location";
-    public static final String COMPANY_OPENINGS = "openings";
+    public static final String COMPANY_JOBTITLES = "jobtitles";
+    public static final String COMPANY_JOBTYPES = "jobtypes";
     public static final String COMPANY_INFO = "information";
     public static final String COMPANY_WEBSITE = "website";
+    public static final String COMPANY_OPTCPT = "optcpt";
+    public static final String COMPANY_SPONSOR = "sponsor";
 
     private static DatabaseReference databaseReference;
     private static FirebaseStorage storage;

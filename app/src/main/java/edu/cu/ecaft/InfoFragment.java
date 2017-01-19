@@ -140,6 +140,18 @@ public class InfoFragment extends Fragment{
                             currentCompany.majors);
                     myBundle.putString(FirebaseApplication.COMPANY_TABLE,
                             currentCompany.location);
+                    myBundle.putString(FirebaseApplication.COMPANY_JOBTITLES,
+                            currentCompany.jobtitles);
+                    myBundle.putString(FirebaseApplication.COMPANY_JOBTYPES,
+                            currentCompany.jobtypes);
+                    myBundle.putString(FirebaseApplication.COMPANY_INFO,
+                            currentCompany.information);
+                    myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
+                            currentCompany.website);
+                    myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
+                            currentCompany.optcpt);
+                    myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
+                            currentCompany.sponsor);
 
                     Intent i = new Intent(getActivity(), CompanyDetailsActivity.class);
                     i.putExtras(myBundle);

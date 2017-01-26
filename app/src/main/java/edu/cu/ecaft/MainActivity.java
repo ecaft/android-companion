@@ -199,31 +199,11 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        if (searching) {
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            getMenuInflater().inflate(R.menu.menu_search, menu);
-            getMenuInflater().inflate(R.menu.menu_filter, menu);
-
-            MenuItem searchItem = menu.findItem(R.id.search);
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-            searchView.setOnQueryTextListener(this);
-        }
-        searching=false;
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        if (mDrawerToggle.onOptionsItemSelected(item)) return true;
         switch (item.getItemId()) {
-            case R.id.search:
-                onSearchRequested();
-                return true;
             case android.R.id.home:
                 Intent intent = new Intent(this, SearchActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

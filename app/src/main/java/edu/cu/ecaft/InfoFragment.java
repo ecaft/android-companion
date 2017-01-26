@@ -5,29 +5,43 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.common.data.Freezable;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
  * Created by Ashley on 11/8/2015.
  */
-public class InfoFragment extends Fragment{
+public class InfoFragment extends Fragment implements SearchView.OnCloseListener {
 
     private static final String TAG = "ECaFT";
     private static final String SAVED_LAYOUT_MANAGER = "Layout Manager";
@@ -39,6 +53,8 @@ public class InfoFragment extends Fragment{
     private CompanyAdapter companyAdapter;
     private View v;
     private List<FirebaseCompany> companies;
+    private ListView lv;
+    //ArrayList<> data = new ArrayList<>();
 
     public InfoFragment() {
 //        int resultCode = GoogleApiAvailability.getInstance()
@@ -52,7 +68,9 @@ public class InfoFragment extends Fragment{
 //        }
         companies = FirebaseApplication.getCompanies();
         companyAdapter = new CompanyAdapter(companies);
+
     }
+
 
 
     @Override
@@ -75,6 +93,105 @@ public class InfoFragment extends Fragment{
         getActivity().setTitle("List Of Companies");
         setHasOptionsMenu(true);
         return v;
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+            inflater.inflate(R.menu.menu_main, menu);
+            inflater.inflate(R.menu.menu_search, menu);
+            inflater.inflate(R.menu.menu_filter, menu);
+
+            MenuItem filterItem= menu.findItem(R.id.filterButton);
+            final MenuItem searchItem = menu.findItem(R.id.search);
+            final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+            searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View view) {
+
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View view) {
+
+                }
+            });
+
+            searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener(){
+
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    if(!b){
+                        searchItem.collapseActionView();
+                        companyAdapter.filter("");
+                        searchView.setQuery("",false);
+                        Log.d("BYEEEEEEE", "CLOSING THIS NONSENSE");
+                    }
+                }
+            });
+
+            searchView.setIconifiedByDefault(true);
+            searchView.setOnCloseListener(this);
+
+            searchView.findViewById(R.id.search_close_btn).setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    Log.d("AHHHHHHHHHHHHHHHHH", "Hello this is me crying");
+                    searchView.setQuery("", false);
+                    companyAdapter.filter("");
+                    searchView.setIconifiedByDefault(true);
+                }
+            });
+             MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Do something when collapsed
+                searchView.setQuery("", false);
+                companyAdapter.filter("");
+                Log.d("BBBBBBBBBBBBBBBBBBBBbb", "android sucks");
+                return true;  // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Do something when expanded
+                return true;  // Return true to expand action view
+            }
+        });
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    companyAdapter.filter(query);
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    companyAdapter.filter(newText);
+                    return false;
+                }
+            });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.search:
+                //companyAdapter.doSearch();
+                return true;
+            case R.id.filterButton:
+                FragmentManager fm = getFragmentManager();
+                final OptionsFragment opt = new OptionsFragment();
+                return true;
+            default:
+                return false;
+        }
     }
     @Override
     public void onResume() {
@@ -110,6 +227,13 @@ public class InfoFragment extends Fragment{
             companyRecylerView.setAdapter(companyAdapter);
         } else
             companyAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onClose() {
+        companyAdapter.filter("");
+        Log.d("HELLLO", "CLOSING THIS NONSENSE");
+        return true;
     }
 
     /**
@@ -236,7 +360,33 @@ public class InfoFragment extends Fragment{
         public int getItemCount() {
             return companies.size();
         }
+
+        public void filter(String text){
+            List<FirebaseCompany> companyCopy = new ArrayList<FirebaseCompany>();
+            for (FirebaseCompany comp: companies){
+                companyCopy.add(comp);
+            }
+            companies.clear();
+            if (text.isEmpty()){
+                companies.addAll(companyCopy);
+                notifyDataSetChanged();
+            }
+            if (!text.isEmpty()){
+                text=text.toLowerCase();
+                for(FirebaseCompany comp:companyCopy){
+                    if(comp.name.toLowerCase().contains(text)){
+                        companies.add(comp);
+                        notifyDataSetChanged();
+                    }
+                }
+                notifyDataSetChanged();
+            }
+            notifyDataSetChanged();
+        }
+
+
     }
+
 
     /**  public class CollectTasks extends AsyncTask<String, Void,
      * List<Company>> {

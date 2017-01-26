@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
     private InfoFragment infoFragment;
     private ChecklistFragment checklistFragment;
 
+    ArrayAdapter<FirebaseCompany> adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +103,8 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
         //      mDrawerList.setSelection(0);
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
         mDrawerList.setItemChecked(0, true);
+
+
     }
 
     @Override
@@ -149,21 +153,26 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
         mDrawerToggle.syncState();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        if (searching) {
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            getMenuInflater().inflate(R.menu.menu_search, menu);
-            getMenuInflater().inflate(R.menu.menu_filter, menu);
-
-            MenuItem searchItem = menu.findItem(R.id.search);
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-            searchView.setOnQueryTextListener(this);
-        }
-        searching=false;
-        return true;
-    }
+//   @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+//
+//        if (searching) {
+//            getMenuInflater().inflate(R.menu.menu_main, menu);
+//            getMenuInflater().inflate(R.menu.menu_search, menu);
+//            getMenuInflater().inflate(R.menu.menu_filter, menu);
+//
+//            MenuItem filterItem= menu.findItem(R.id.filterButton);
+//            MenuItem searchItem = menu.findItem(R.id.search);
+//            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//
+//
+//            searchView.setOnQueryTextListener(this);
+//        }
+//        searching=false;
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -179,6 +188,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
                 Intent intent = new Intent(this, SearchActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                return true;
+            case R.id.filterButton:
+                FragmentManager fm = getSupportFragmentManager();
+                final OptionsFragment opt = new OptionsFragment();
                 return true;
             default:
                 return false;

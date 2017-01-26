@@ -80,6 +80,7 @@ public class InfoFragment extends Fragment{
     public void onResume() {
         super.onResume();
         updateUI();
+
     }
 
     @Override

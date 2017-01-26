@@ -34,6 +34,8 @@ public class HomeFragment extends Fragment {
 
         image = (ImageView) v.findViewById(R.id.logos);
 
+       // getActivity().navi
+
         getActivity().setTitle("Home");
 
         return v;

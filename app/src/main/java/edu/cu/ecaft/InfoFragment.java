@@ -197,6 +197,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     public void onResume() {
         super.onResume();
         updateUI();
+
     }
 
     @Override

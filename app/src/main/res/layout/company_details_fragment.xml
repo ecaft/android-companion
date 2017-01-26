@@ -18,7 +18,6 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter" />
 
-
         <TextView
             android:id="@+id/company_details_name"
             android:layout_width="fill_parent"
@@ -28,7 +27,6 @@
             android:text="Google"
             android:textColor="@color/black"
             android:textSize="16sp" />
-
 
         <TextView
             android:id="@+id/company_details_location"
@@ -41,19 +39,27 @@
             android:textColor="@color/dark_gray"
             android:textSize="14sp" />
 
-
+        <Button
+            android:id="@+id/save_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add to Favorites"
+            android:layout_toRightOf="@id/company_details_logo"
+            android:layout_below="@id/company_details_location"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/company_information_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/company_details_logo"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="Company Information"
             style="?android:listSeparatorTextViewStyle"
             android:background="@android:color/darker_gray"
             android:textColor="@color/tint" />
-
 
         <TextView
             android:id="@+id/company_details_information"
@@ -61,28 +67,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/company_information_text"
             android:paddingLeft="20dp"
+            android:paddingTop="10dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
             android:textSize="16sp" />
-
-
-        <Button
-            android:id="@+id/save_company"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Add to Favorites"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/company_details_information"
-            android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/company_details_website"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/company_details_information"
-            android:layout_toLeftOf="@id/save_company"
             android:paddingLeft="20dp"
+            android:paddingTop="10dp"
             android:text="Visit Website"
             android:onClick="companysite"
             android:textColor="@color/black"
@@ -92,8 +88,8 @@
             android:id="@+id/company_positions_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/save_company"
-            android:layout_marginTop="10dp"
+            android:layout_below="@id/company_details_website"
+            android:layout_marginTop="20dp"
             android:text="Open Positions"
             style="?android:listSeparatorTextViewStyle"
             android:background="@android:color/darker_gray"
@@ -105,6 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/company_positions_text"
             android:paddingLeft="20dp"
+            android:paddingTop="10dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -114,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/company_details_positions"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="Majors of Interest"
             style="?android:listSeparatorTextViewStyle"
             android:background="@android:color/darker_gray"
@@ -126,6 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/company_majors_text"
             android:paddingLeft="20dp"
+            android:paddingTop="10dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -135,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
             android:text="Make Note"
             android:layout_alignParentRight="true"
             android:layout_below="@id/company_details_majors"
@@ -147,8 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/save_notes"
             android:layout_below="@id/company_details_majors"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
             android:textSize="16sp" />

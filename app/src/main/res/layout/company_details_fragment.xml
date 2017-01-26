@@ -26,7 +26,7 @@
             android:layout_toRightOf="@id/company_details_logo"
             android:text="Google"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/company_details_location"
@@ -48,7 +48,8 @@
             android:layout_toRightOf="@id/company_details_logo"
             android:layout_below="@id/company_details_location"
             android:layout_marginLeft="16dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/company_information_text"
@@ -59,7 +60,8 @@
             android:text="Company Information"
             style="?android:listSeparatorTextViewStyle"
             android:background="@android:color/darker_gray"
-            android:textColor="@color/tint" />
+            android:textColor="@color/tint"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/company_details_information"
@@ -70,7 +72,7 @@
             android:paddingTop="10dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/company_details_website"
@@ -93,7 +95,8 @@
             android:text="Open Positions"
             style="?android:listSeparatorTextViewStyle"
             android:background="@android:color/darker_gray"
-            android:textColor="@color/tint" />
+            android:textColor="@color/tint"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/company_details_positions"
@@ -104,7 +107,7 @@
             android:paddingTop="10dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/company_majors_text"
@@ -115,7 +118,8 @@
             android:text="Majors of Interest"
             style="?android:listSeparatorTextViewStyle"
             android:background="@android:color/darker_gray"
-            android:textColor="@color/tint" />
+            android:textColor="@color/tint"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/company_details_majors"
@@ -126,7 +130,7 @@
             android:paddingTop="10dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/save_notes"
@@ -137,7 +141,8 @@
             android:text="Make Note"
             android:layout_alignParentRight="true"
             android:layout_below="@id/company_details_majors"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/company_notes"
@@ -148,7 +153,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/ECaFT"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
 
     </RelativeLayout>

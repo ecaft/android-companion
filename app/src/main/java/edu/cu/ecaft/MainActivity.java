@@ -7,14 +7,17 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +35,8 @@ import java.util.List;
 
 import edu.cu.ecaft.DatabaseSchema.CompanyTable;
 
-public class MainActivity extends AppCompatActivity  implements SearchView.OnQueryTextListener  {
+public class MainActivity extends AppCompatActivity  implements SearchView
+        .OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener   {
 
     private static final String TAG = "ECaFT";
     private TabLayout mTabLayout;
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
     private ListView mDrawerList;
     private RelativeLayout mDrawerListLayout;
     private boolean searching;
+    private DrawerLayout drawer;
     /**
      * Database variables
      */
@@ -56,8 +61,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
     private InfoFragment infoFragment;
     private ChecklistFragment checklistFragment;
 
-    ArrayAdapter<FirebaseCompany> adapter;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,47 +73,88 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
         infoFragment = new InfoFragment();
         checklistFragment = new ChecklistFragment();
 
-
-        setContentView(R.layout.app_bar_main);
+       // View drawer = findViewById(R.id.activity_main);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //          getSupportActionBar().setHomeButtonEnabled(true);
 
-        mMenuOptions = getResources().getStringArray(R.array.menu_options);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mFrameLayout = (FrameLayout) findViewById(R.id.content_frame);
-        mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
-        //  mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mMenuOptions));
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-            @Override
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.string.drawer_open, R.string.drawer_close);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        //          getSupportActionBar().setHomeButtonEnabled(true);
+//
+//        mMenuOptions = getResources().getStringArray(R.array.menu_options);
+//
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mFrameLayout = (FrameLayout) findViewById(R.id.content_frame);
+//        mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
+//        mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
+//        //  mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
+//
+//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+//                R.layout.drawer_list_item, mMenuOptions));
+//        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView parent, View view, int position, long id) {
+//                selectItem(position);
+//            }
+//        });
+////
+//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+//                R.string.drawer_open, R.string.drawer_close);
+//        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 
         //      mDrawerList.setSelection(0);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
-        mDrawerList.setItemChecked(0, true);
+        getSupportFragmentManager().beginTransaction().replace(R.id
+                .content_frame, new HomeFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_home);
+       // mDrawerList.setItemChecked(0, true);
+    }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        Fragment fragment = null;
 
+        if (id == R.id.nav_home) {
+            fragment = homeFragment;
+        } else if (id == R.id.nav_map) {
+            fragment = mapFragment;
+        } else if (id == R.id.nav_companies){
+            fragment = infoFragment;
+        } else if (id == R.id.nav_checklist) {
+            fragment = checklistFragment;
+        } else {
+            Log.d("ECaFT", "Cannot select existing menu option.");
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame,
+                fragment).addToBackStack(null)
+                .commit();
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+       // mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -139,7 +183,8 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fragmentManager.beginTransaction().add(R.id.content_frame, fragment)
+        .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
@@ -150,29 +195,24 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+     //   mDrawerToggle.syncState();
     }
 
-//   @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
-//
-//        if (searching) {
-//            getMenuInflater().inflate(R.menu.menu_main, menu);
-//            getMenuInflater().inflate(R.menu.menu_search, menu);
-//            getMenuInflater().inflate(R.menu.menu_filter, menu);
-//
-//            MenuItem filterItem= menu.findItem(R.id.filterButton);
-//            MenuItem searchItem = menu.findItem(R.id.search);
-//            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-//
-//
-//            searchView.setOnQueryTextListener(this);
-//        }
-//        searching=false;
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        if (searching) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            getMenuInflater().inflate(R.menu.menu_search, menu);
+            getMenuInflater().inflate(R.menu.menu_filter, menu);
+
+            MenuItem searchItem = menu.findItem(R.id.search);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView.setOnQueryTextListener(this);
+        }
+        searching=false;
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -188,10 +228,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView.OnQue
                 Intent intent = new Intent(this, SearchActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                return true;
-            case R.id.filterButton:
-                FragmentManager fm = getSupportFragmentManager();
-                final OptionsFragment opt = new OptionsFragment();
                 return true;
             default:
                 return false;

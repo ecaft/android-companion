@@ -35,6 +35,8 @@
     <string name="edit_message">Enter notes</string>
     <string name="button_send">Save</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string-array name="menu_options">
         <item>Home</item>

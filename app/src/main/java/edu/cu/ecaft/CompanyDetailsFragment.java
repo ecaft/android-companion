@@ -54,7 +54,7 @@ public class CompanyDetailsFragment extends Fragment {
         optcpt = args.getBoolean(FirebaseApplication.COMPANY_OPTCPT);
         sponsor = args.getBoolean(FirebaseApplication.COMPANY_SPONSOR);
 
-        Log.d("details", info);
+//        Log.d("details", info);
         // logo = FirebaseApplication.getLogoByID(objectID);
 
         companyName = (TextView) v.findViewById(R.id.company_details_name);

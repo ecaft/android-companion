@@ -5,12 +5,23 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Laura on 11/22/2016.
@@ -57,7 +68,31 @@ public class SearchActivity extends Activity implements SearchView.OnQueryTextLi
     }
     private void showResults(String query) {
         // Query your data set and show results
-        // ...
+
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference();
+        String input = "";
+        DatabaseReference companies = databaseRef.child("companies");
+        Query companyQ = companies.orderByKey().startAt(input).endAt(input + "\uf8ff");
+        companyQ.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> companiesList = new ArrayList<String>();
+
+                for (DataSnapshot post : dataSnapshot.getChildren()) {
+                    companiesList.add(post.getValue().toString());
+                }
+
+                Log.d("HELPPPPPPP", companiesList.toString());
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     @Override

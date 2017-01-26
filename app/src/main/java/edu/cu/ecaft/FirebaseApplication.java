@@ -61,6 +61,8 @@ public class FirebaseApplication extends Application {
                             .class);
                     companies.add(fc);
                 }
+
+                Log.d("filter", "firebaseapp size: " + companies.size());
             }
 
             @Override

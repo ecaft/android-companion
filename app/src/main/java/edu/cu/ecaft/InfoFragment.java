@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,6 +54,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private CompanyAdapter companyAdapter;
     private View v;
     private List<FirebaseCompany> companies;
+    private List<FirebaseCompany> companiesFilter;
+    private SearchView searchView;
     private ListView lv;
     //ArrayList<> data = new ArrayList<>();
 
@@ -66,8 +69,11 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 //            GoogleApiAvailability.getInstance().getErrorDialog(getActivity(),
 //                    resultCode, 1).show();
 //        }
+        companiesFilter = new ArrayList<>();
         companies = FirebaseApplication.getCompanies();
-        companyAdapter = new CompanyAdapter(companies);
+        Log.d("filter", "instantiation size: " + companies.size());
+        companiesFilter.addAll(companies);
+        companyAdapter = new CompanyAdapter(companiesFilter);
 
     }
 
@@ -104,7 +110,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
             final MenuItem searchItem = menu.findItem(R.id.search);
-            final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
             searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
                 @Override
@@ -118,48 +124,48 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 }
             });
 
-            searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener(){
+//            searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener(){
+//
+//                @Override
+//                public void onFocusChange(View view, boolean b) {
+//                    if(!b){
+//                        searchItem.collapseActionView();
+//                        companyAdapter.filter("");
+//                        searchView.setQuery("",false);
+//                        searchView.clearFocus();
+//                        Log.d("BYEEEEEEE", "CLOSING THIS NONSENSE");
+//                    }
+//                }
+//            });
+//            searchView.setIconifiedByDefault(true);
+//            searchView.setOnCloseListener(this);
 
-                @Override
-                public void onFocusChange(View view, boolean b) {
-                    if(!b){
-                        searchItem.collapseActionView();
-                        companyAdapter.filter("");
-                        searchView.setQuery("",false);
-                        Log.d("BYEEEEEEE", "CLOSING THIS NONSENSE");
-                    }
-                }
-            });
-
-            searchView.setIconifiedByDefault(true);
-            searchView.setOnCloseListener(this);
-
-            searchView.findViewById(R.id.search_close_btn).setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    Log.d("AHHHHHHHHHHHHHHHHH", "Hello this is me crying");
-                    searchView.setQuery("", false);
-                    companyAdapter.filter("");
-                    searchView.setIconifiedByDefault(true);
-                }
-            });
-             MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Do something when collapsed
-                searchView.setQuery("", false);
-                companyAdapter.filter("");
-                Log.d("BBBBBBBBBBBBBBBBBBBBbb", "android sucks");
-                return true;  // Return true to collapse action view
-            }
-
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                // Do something when expanded
-                return true;  // Return true to expand action view
-            }
-        });
+//            searchView.findViewById(R.id.search_close_btn).setOnClickListener(new View.OnClickListener(){
+//
+//                @Override
+//                public void onClick(View view) {
+//                    Log.d("AHHHHHHHHHHHHHHHHH", "Hello this is me crying");
+//                    searchView.setQuery("", false);
+//                    companyAdapter.filter("");
+//                    searchView.setIconifiedByDefault(true);
+//                }
+//            });
+//             MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item) {
+//                // Do something when collapsed
+//                searchView.setQuery("", false);
+//                companyAdapter.filter("");
+//                Log.d("BBBBBBBBBBBBBBBBBBBBbb", "android sucks");
+//                return true;  // Return true to collapse action view
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item) {
+//                // Do something when expanded
+//                return true;  // Return true to expand action view
+//            }
+//        });
 
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -171,6 +177,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     companyAdapter.filter(newText);
+                    Log.d("Fuckin search", newText);
                     return false;
                 }
             });
@@ -221,13 +228,24 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
     private void updateUI() {
         // To dismiss the dialog
-
         if (companyAdapter == null) {
             companies = FirebaseApplication.getCompanies();
-            companyAdapter = new CompanyAdapter(companies);
+            companiesFilter.clear();
+            companiesFilter.addAll(companies);
+            companyAdapter = new CompanyAdapter(companiesFilter);
             companyRecylerView.setAdapter(companyAdapter);
-        } else
+        } else if (companies.size() == 0) {
+            Log.d("filter", "company size is 0");
+            companies = FirebaseApplication.getCompanies();
+            companiesFilter.clear();
+            companiesFilter.addAll(companies);
             companyAdapter.notifyDataSetChanged();
+        } else {
+//            if (companiesFilter.size() == 0) {
+//                companiesFilter.addAll(companies);
+//            }
+            companyAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -315,10 +333,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     }
 
     private class CompanyAdapter extends RecyclerView.Adapter<CompanyHolder> {
-        public List<FirebaseCompany> companies;
+        public List<FirebaseCompany> companiesFilter;
 
         public CompanyAdapter(List<FirebaseCompany> companies) {
-            this.companies = companies;
+            companiesFilter = companies;
         }
 
         @Override
@@ -331,7 +349,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         @Override
         public void onBindViewHolder(CompanyHolder holder, int position) {
-            FirebaseCompany currentCompany = companies.get(position);
+            FirebaseCompany currentCompany = companiesFilter.get(position);
             holder.currentCompany = currentCompany;
             holder.mCompanyName.setText(currentCompany.name);
             holder.mCompanyLocation.setText("Table " + currentCompany
@@ -359,35 +377,23 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         @Override
         public int getItemCount() {
-            return companies.size();
+            return companiesFilter.size();
         }
 
         public void filter(String text){
-            List<FirebaseCompany> companyCopy = new ArrayList<FirebaseCompany>();
-            for (FirebaseCompany comp: companies){
-                companyCopy.add(comp);
-            }
-            companies.clear();
-            if (text.isEmpty()){
-                companies.addAll(companyCopy);
-                notifyDataSetChanged();
-            }
-            if (!text.isEmpty()){
-                text=text.toLowerCase();
-                for(FirebaseCompany comp:companyCopy){
-                    if(comp.name.toLowerCase().contains(text)){
-                        companies.add(comp);
-                        notifyDataSetChanged();
-                    }
+            companiesFilter.clear();
+            if (!text.isEmpty()) {
+                for (FirebaseCompany comp: companies){
+                    if (comp.getName().toLowerCase().contains(text.toLowerCase()))
+                        companiesFilter.add(comp);
                 }
-                notifyDataSetChanged();
+            } else {
+                companiesFilter.addAll(companies);
             }
             notifyDataSetChanged();
         }
 
-
     }
-
 
     /**  public class CollectTasks extends AsyncTask<String, Void,
      * List<Company>> {

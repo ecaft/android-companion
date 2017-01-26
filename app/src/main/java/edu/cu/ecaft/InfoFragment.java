@@ -241,9 +241,9 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             companiesFilter.addAll(companies);
             companyAdapter.notifyDataSetChanged();
         } else {
-//            if (companiesFilter.size() == 0) {
-//                companiesFilter.addAll(companies);
-//            }
+            if (companiesFilter.size() == 0) {
+                companiesFilter.addAll(companies);
+            }
             companyAdapter.notifyDataSetChanged();
         }
     }

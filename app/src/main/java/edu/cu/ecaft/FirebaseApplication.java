@@ -56,7 +56,6 @@ public class FirebaseApplication extends Application {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Log.d("test", snapshot.getValue().toString());
                     FirebaseCompany fc = snapshot.getValue(FirebaseCompany
                             .class);
                     companies.add(fc);

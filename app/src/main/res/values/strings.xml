@@ -38,6 +38,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    // Company Details XML
+    <string name="company_details_company_info">Company Information</string>
+    <string name="company_details_company_website">Visit Website</string>
+    <string name="company_details_openings">Open Positions</string>
+    <string name="company_details_majors">Majors of Interest</string>
+    <string name="company_details_note">Notes</string>
+    <string name="company_details_editNote">Add a note for this company</string>
+
     <string-array name="menu_options">
         <item>Home</item>
         <item>Map</item>

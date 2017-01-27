@@ -14,6 +14,7 @@
     <color name="maroon">#780613</color>
     <color name="lighter_lighter_dark_gray">#616161</color>
     <color name="black">#000000</color>
+    <color name="background_gray">#cecdcd</color>
     <color name="com_parse_ui_parse_login_button">#40CCCCCC</color>
     <color name="com_parse_ui_parse_login_button_push">#30CCCCCC</color>
     <color name="com_parse_ui_parse_login_button_focus">#35CCCCCC</color>

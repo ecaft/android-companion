@@ -1,161 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/company_details_logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter" />
+        <RelativeLayout
+            android:id="@+id/company_details_section1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/company_details_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/company_details_logo"
-            android:text="Google"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/company_details_logo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="true"
+                android:padding="5dp"
+                android:scaleType="fitCenter"/>
 
-        <TextView
-            android:id="@+id/company_details_location"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_below="@id/company_details_name"
-            android:layout_toRightOf="@id/company_details_logo"
-            android:text="Engineering Career Fair Team App"
-            android:textColor="@color/dark_gray"
-            android:textSize="14sp" />
+            <LinearLayout
+                android:id="@+id/company_details_section1_center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/company_details_logo"
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/save_company"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Add to Favorites"
-            android:layout_toRightOf="@id/company_details_logo"
-            android:layout_below="@id/company_details_location"
-            android:layout_marginLeft="16dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/company_details_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingBottom="3dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Company Name"/>
+
+                <TextView
+                    android:id="@+id/company_details_location"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:paddingTop="3dp"
+                    android:textColor="?android:textColorSecondary"
+                    android:textSize="14sp"
+                    tools:text="Table XX"/>
+
+            </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/company_information_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_logo"
-            android:layout_marginTop="20dp"
-            android:text="Company Information"
-            style="?android:listSeparatorTextViewStyle"
-            android:background="@android:color/darker_gray"
+            android:background="@color/background_gray"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/company_details_company_info"
             android:textColor="@color/tint"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/company_details_information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_information_text"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="@string/ECaFT"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="Company Information"/>
 
-        <Button
-            android:id="@+id/company_details_website"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_information"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text="Visit Website"
-            android:onClick="companysite"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/company_details_company_website"/>
 
         <TextView
             android:id="@+id/company_positions_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_website"
-            android:layout_marginTop="20dp"
-            android:text="Open Positions"
-            style="?android:listSeparatorTextViewStyle"
-            android:background="@android:color/darker_gray"
+            android:background="@color/background_gray"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/company_details_openings"
             android:textColor="@color/tint"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/company_details_positions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_positions_text"
-            android:paddingLeft="20dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="@string/ECaFT"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="Openings"/>
 
         <TextView
             android:id="@+id/company_majors_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_details_positions"
-            android:layout_marginTop="20dp"
-            android:text="Majors of Interest"
-            style="?android:listSeparatorTextViewStyle"
-            android:background="@android:color/darker_gray"
+            android:background="@color/background_gray"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/company_details_majors"
             android:textColor="@color/tint"
-            android:textSize="16sp" />
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/company_details_majors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/company_majors_text"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="@string/ECaFT"
             android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/save_notes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="Make Note"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/company_details_majors"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp"
+            android:paddingBottom="10dp"
+            tools:text="Majors of Interest"/>
 
         <TextView
-            android:id="@+id/company_notes"
+            android:id="@+id/company_details_notes_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/save_notes"
-            android:layout_below="@id/company_details_majors"
-            android:layout_marginTop="20dp"
-            android:text="@string/ECaFT"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:background="@color/background_gray"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/company_details_note"
+            android:textColor="@color/tint"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/company_details_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="@string/company_details_editNote"
+            android:textSize="14sp"
+            android:cursorVisible="false"
+            android:paddingLeft="10dp"/>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>

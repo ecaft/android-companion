@@ -131,7 +131,7 @@ public class ChecklistFragment extends Fragment {
         public TextView mCompanyName;
         public int currentPosition;
         public CheckBox mCompanyVisited;
-        public FirebaseCompany currentPOCompany;
+        public FirebaseCompany currentCompany;
         //    public SwipeLayout swipeLayout;
         public LinearLayout delete;
         public String currentCompanyName;
@@ -152,31 +152,27 @@ public class ChecklistFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-
                     Bundle myBundle = new Bundle();
-
                     myBundle.putString(FirebaseApplication.COMPANY_ID,
-                            currentPOCompany.id);
+                            currentCompany.id);
                     myBundle.putString(FirebaseApplication.COMPANY_NAME,
-                            currentPOCompany.name);
+                            currentCompany.name);
                     myBundle.putString(FirebaseApplication.COMPANY_MAJORS,
-                            currentPOCompany.majors);
+                            currentCompany.majors);
                     myBundle.putString(FirebaseApplication.COMPANY_TABLE,
-                            currentPOCompany.location);
-
-               /*     myBundle.putString(FirebaseApplication.COMPANY_ID,
-                            currentPOCompany.getObjectId());
-                    myBundle.putString(FirebaseApplication.COMPANY_NAME,
-                            currentPOCompany.getString(FirebaseApplication
-                                    .COMPANY_NAME));
-                    myBundle.putStringArrayList(FirebaseApplication
-                                    .COMPANY_MAJORS,
-                            (ArrayList<String>) currentPOCompany.get
-                                    (FirebaseApplication
-                                    .COMPANY_MAJORS));
-                    myBundle.putString(FirebaseApplication.COMPANY_TABLE,
-                            currentPOCompany.getString(FirebaseApplication
-                                    .COMPANY_TABLE)); */
+                            currentCompany.location);
+                    myBundle.putString(FirebaseApplication.COMPANY_JOBTITLES,
+                            currentCompany.jobtitles);
+                    myBundle.putString(FirebaseApplication.COMPANY_JOBTYPES,
+                            currentCompany.jobtypes);
+                    myBundle.putString(FirebaseApplication.COMPANY_INFO,
+                            currentCompany.information);
+                    myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
+                            currentCompany.website);
+                    myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
+                            currentCompany.optcpt);
+                    myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
+                            currentCompany.sponsor);
 
                     Intent i = new Intent(getActivity(),
                             CompanyDetailsActivity.class);
@@ -214,10 +210,10 @@ public class ChecklistFragment extends Fragment {
                             if (mCompanyVisited.isChecked()) {
                                 Toast.makeText(getContext(), R.string.visited,
                                         Toast.LENGTH_SHORT).show();
-                                MainActivity.setVisitStatus(currentPOCompany, 1);
+                                MainActivity.setVisitStatus(currentCompany, 1);
                                // updateVisitedList();
                             } else {
-                                MainActivity.setVisitStatus(currentPOCompany, 0);
+                                MainActivity.setVisitStatus(currentCompany, 0);
                                 isVisitedList.set(currentPosition, 0);
 
                                 //   updateVisitedList();
@@ -266,8 +262,7 @@ public class ChecklistFragment extends Fragment {
 
                     fc = dataSnapshot.getValue(FirebaseCompany
                             .class);
-                    holder.currentPOCompany = fc;
-
+                    holder.currentCompany = fc;
                     holder.currentCompanyName = fc.name;
                     holder.mCompanyName.setText(fc.name);
                 }

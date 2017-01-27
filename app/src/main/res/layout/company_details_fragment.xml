@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -20,6 +21,7 @@
                 android:id="@+id/company_details_logo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
                 android:adjustViewBounds="true"
                 android:padding="5dp"
                 android:scaleType="fitCenter"/>
@@ -29,16 +31,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
                 android:layout_toRightOf="@id/company_details_logo"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
 
                 <TextView
                     android:id="@+id/company_details_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:paddingBottom="3dp"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -49,7 +50,6 @@
                     android:id="@+id/company_details_location"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
                     android:paddingTop="3dp"
                     android:textColor="?android:textColorSecondary"
                     android:textSize="14sp"
@@ -74,19 +74,23 @@
             android:id="@+id/company_details_information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
             android:textColor="@color/black"
             android:textSize="14sp"
             tools:text="Company Information"/>
 
         <TextView
+            android:id="@+id/company_details_website"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autoLink="web"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:paddingTop="5dp"
             android:text="@string/company_details_company_website"/>
 
@@ -107,7 +111,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -129,11 +134,12 @@
             android:id="@+id/company_details_majors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:paddingBottom="10dp"
             tools:text="Majors of Interest"/>
 
         <TextView
@@ -152,11 +158,12 @@
             android:id="@+id/company_details_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="@string/company_details_editNote"
-            android:textSize="14sp"
             android:cursorVisible="false"
-            android:paddingLeft="10dp"/>
+            android:hint="@string/company_details_editNote"
+            android:inputType="text|textMultiLine|textCapSentences"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textSize="14sp"/>
 
 
     </LinearLayout>

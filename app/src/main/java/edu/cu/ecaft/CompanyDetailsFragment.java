@@ -2,10 +2,13 @@ package edu.cu.ecaft;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +27,8 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyOpenings;
     private ImageView companyLogo;
     private TextView companyInfo;
+    private TextView companyWebsite;
+    private EditText companyNotes;
 
     private String companyTable;
     private String objectID;
@@ -54,6 +59,13 @@ public class CompanyDetailsFragment extends Fragment {
         optcpt = args.getBoolean(FirebaseApplication.COMPANY_OPTCPT);
         sponsor = args.getBoolean(FirebaseApplication.COMPANY_SPONSOR);
 
+        if (jobtitles.isEmpty())
+            jobtitles = "Ask the recruiter for more details or visit their " +
+                    "website for openings.";
+        if (majors.isEmpty())
+            majors = "Ask the recruiter for more details.";
+
+
 //        Log.d("details", info);
         // logo = FirebaseApplication.getLogoByID(objectID);
 
@@ -72,6 +84,29 @@ public class CompanyDetailsFragment extends Fragment {
 
         companyInfo = (TextView) v.findViewById(R.id.company_details_information);
         companyInfo.setText(info);
+
+        companyWebsite = (TextView) v.findViewById(R.id
+                .company_details_website);
+        companyWebsite.setText(website);
+
+        companyNotes = (EditText) v.findViewById(R.id
+                .company_details_editText);
+        companyNotes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("details", s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("details", "done changing text");
+            }
+        });
 
         companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
 

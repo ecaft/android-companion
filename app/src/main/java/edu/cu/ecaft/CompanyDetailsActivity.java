@@ -69,7 +69,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         if (MainActivity.isInDatabase(currentCompanyName))
             menu.getItem(0).setIcon(R.drawable.ic_unfavorite);
         else
-            menu.getItem(0).setIcon(R.drawable.ic_favorite);
+            menu.getItem(0).setIcon(R.drawable.ic_star_border_white_36dp);
         return true;
     }
 
@@ -82,7 +82,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             case R.id.save_company:
                 if (MainActivity.isInDatabase(currentCompanyName)) { //Then you want to remove on click
                     Toast.makeText(this, R.string.unstar, Toast.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_favorite);
+                    item.setIcon(R.drawable.ic_star_border_white_36dp);
                     MainActivity.deleteRow(currentCompanyUUID);
                 } else { //Not in database yet so add it to db
                     Toast.makeText(this, R.string.star, Toast.LENGTH_SHORT).show();

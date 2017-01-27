@@ -2,9 +2,11 @@
 <LinearLayout
     android:id="@+id/checklist_cardview"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:layout_marginBottom="1dp">
+    android:layout_marginBottom="1dp"
+    android:orientation="vertical">
 
     <!-- <com.daimajia.swipe.SwipeLayout
          android:id="@+id/swipe"
@@ -70,14 +72,20 @@
             android:id="@+id/company_checklist_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            tools:text="Company Name"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/info_icons"
             android:layout_toRightOf="@id/check_company"
-            android:text="@string/company_name"
             android:textColor="@color/black"
             android:textSize="15sp"/>
 
 
-</RelativeLayout>
-<!--  </com.daimajia.swipe.SwipeLayout> -->
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/divider"/>
+    <!--  </com.daimajia.swipe.SwipeLayout> -->
 </LinearLayout>

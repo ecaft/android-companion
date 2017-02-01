@@ -125,11 +125,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             inflater.inflate(R.menu.menu_filter, menu);
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
+          //  final SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(filterItem);
+            //mSearchView.clearFocus();
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                  //   FragmentManager fm = getFragmentManager();
                    // final OptionsFragment opt = new OptionsFragment();
+                   // mSearchView.clearFocus();
                     AlertDialog.Builder opt = new AlertDialog.Builder(getContext());
                     Log.d("applesauce", "applsauce");
                     opt.setTitle("Please Choose Major Filters");
@@ -137,8 +141,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                         @Override
                         public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                             if(isChecked){
-                                if(!userChoices.contains(position))
-                                    userChoices.add(position);
+                              //  if(!userChoices.contains(position))
+                                userChoices.add(position);
                             }
                             else{
                                 userChoices.remove(Integer.valueOf(position));
@@ -177,7 +181,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     return true;
                 };
             });
-
+            Log.d("FILTER PREP", userChoices.toString());
             final MenuItem searchItem = menu.findItem(R.id.search);
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
@@ -221,6 +225,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             case R.id.filterButton:
                 Log.d("Does this method WORKKK", "iHello");
                 checkedStatus = new boolean[options.length];
+                Log.d("FILTER TEST", userChoices.toString());
                 return true;
             default:
                 return false;

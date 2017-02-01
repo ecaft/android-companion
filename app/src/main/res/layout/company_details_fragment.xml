@@ -76,8 +76,9 @@
             android:layout_height="wrap_content"
             android:cursorVisible="false"
             android:hint="@string/company_details_editNote"
-            android:inputType="text"
+            android:inputType="text|textMultiLine"
             android:imeOptions="actionDone"
+            android:scrollHorizontally="false"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:textSize="14sp"/>

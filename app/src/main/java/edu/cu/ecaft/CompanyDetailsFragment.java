@@ -43,6 +43,7 @@ public class CompanyDetailsFragment extends Fragment {
     private String sponsorText = "This company cannot sponsor the " +
             "candidate.";
     private String optcptText = "This company does not accept opt/cpt.";
+    private String notesText = "";
     private boolean optcpt;
     private boolean sponsor;
     private StorageReference storageRef = FirebaseApplication
@@ -112,9 +113,14 @@ public class CompanyDetailsFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("details", "done changing text");
+                Log.d("details", "done changing text: " + s.toString());
+                MainActivity.saveNote(objectID, s.toString());
             }
         });
+
+        notesText = MainActivity.getNote(objectID);
+        if (!notesText.isEmpty())
+            companyNotes.setText(notesText);
 
         companySponsor = (TextView) v.findViewById(R.id
                 .company_details_sponsor_info);

@@ -12,6 +12,7 @@ public class DatabaseSchema {
             public static final String ID = "baseid";
             public static final String COMPANY_NAME = "name";
             public static final String VISITED = "visited";
+            public static final String NOTE = "note";
         }
     }
 }

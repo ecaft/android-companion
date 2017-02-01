@@ -23,7 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + CompanyTable.NAME + "(" +
                         CompanyTable.Cols.ID + ", " +
                         CompanyTable.Cols.COMPANY_NAME + ", " +
-                        CompanyTable.Cols.VISITED + ")"
+                        CompanyTable.Cols.VISITED + "," +
+                        CompanyTable.Cols.NOTE + ")"
         );
 
       //  db.execSQL("create index " + INDEX_1 + " on " + CompanyTable.NAME +

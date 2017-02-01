@@ -246,71 +246,14 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         return inside;
     }
 
-
-    public static List<Integer> makeIsInDatabaseList(List<Company>
-                                                             companies) {
-
-        Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
-        List<Integer> compiledList = new ArrayList<>();
-        int pos = 0;
-        boolean inside = false;
-        try {
-            c.moveToFirst();
-            while (!c.isAfterLast()) {
-                compiledList.add((companies.get(pos).name.equals(c.getString
-                        (c.getColumnIndex(CompanyTable.Cols.COMPANY_NAME)))) ? 1 :
-                        0);
-                pos++;
-                c.moveToNext();
-            }
-        } finally {
-            c.close();
-        }
-        return compiledList;
-    }
-
-
     public static void addRow(String currentCompanyUUID, String
             currentCompanyName) {
         ContentValues values = new ContentValues();
         values.put(CompanyTable.Cols.ID, currentCompanyUUID);
         values.put(CompanyTable.Cols.COMPANY_NAME, currentCompanyName);
         values.put(CompanyTable.Cols.VISITED, 0);
+        values.put(CompanyTable.Cols.NOTE, "");
         mDatabase.insert(CompanyTable.NAME, null, values);
-    }
-
-    public static boolean isSaved(Company currentCompany) {
-
-        mDatabase.execSQL("select " + CompanyTable.Cols.VISITED + " from " +
-                CompanyTable.NAME + " where " + CompanyTable.Cols
-                .COMPANY_NAME + "='" + currentCompany.name + "'");
-        Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
-        try {
-            c.moveToFirst();
-
-            while (!c.isAfterLast()) {
-                if (currentCompany.objectID.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.ID)))) {
-                    return true;
-                }
-                c.moveToNext();
-            }
-
-        } finally {
-            c.close();
-        }
-
-        return false;
-    }
-
-    public static boolean isVisited(String name) {
-        Cursor c = mDatabase.query(CompanyTable.NAME, null, CompanyTable.Cols
-                .ID + " = ?", new String[]{name}, null, null, null);
-        try {
-            c.moveToFirst();
-            return c.getInt(c.getColumnIndex(CompanyTable.Cols.VISITED)) == 1;
-        } finally {
-            c.close();
-        }
     }
 
     public static List<Integer> makeIsVisited() {
@@ -345,36 +288,15 @@ public class MainActivity extends AppCompatActivity  implements SearchView
             c.moveToFirst();
 
             while (!c.isAfterLast()) {
-
-              /*  ParseObject po = FirebaseApplication.getPOByID(c.getString(c
-                        .getColumnIndex(CompanyTable.Cols.ID)));
-
-                Company com = new Company(po.getObjectId(),
-                        po.getString(FirebaseApplication.COMPANY_NAME),
-                        (ArrayList<String>) po.get(FirebaseApplication
-                        .COMPANY_MAJORS),
-                        po.getParseFile(FirebaseApplication.COMPANY_LOGO)
-                ); */
                 String com = c.getString(c.getColumnIndex(CompanyTable.Cols
                         .ID));
                 compiledList.add(com);
                 c.moveToNext();
             }
-
         } finally {
             c.close();
         }
-       // Log.d("App", "HELLLLLLLLLLLLLLLO "+ compiledList.toString());
         return compiledList;
-    }
-
-    private static ContentValues getContentValues(Company c, int visited) {
-        ContentValues values = new ContentValues();
-        values.put(CompanyTable.Cols.ID, c.objectID);
-        values.put(CompanyTable.Cols.COMPANY_NAME, c.name);
-        values.put(CompanyTable.Cols.VISITED, visited);
-
-        return values;
     }
 
     public static void setVisitStatus(FirebaseCompany po, int visited){
@@ -384,18 +306,34 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mDatabase.execSQL(str);
     }
 
-    public static void setVisitStatus(ParseObject po, int visited) {
-       // ParseObject po = FirebaseApplication.getPOByID(s);
-        Company com = new Company(po.getObjectId(),
-                po.getString(FirebaseApplication.COMPANY_NAME),
-                po.getString(FirebaseApplication.COMPANY_TABLE),
-                (ArrayList<String>) po.get(FirebaseApplication.COMPANY_MAJORS),
-                po.getParseFile(FirebaseApplication.COMPANY_LOGO)
-        );
-        ContentValues values = getContentValues(com, visited);
-        mDatabase.update(CompanyTable.NAME, values, CompanyTable.Cols.ID +
-                " = ?", new String[]{po.getObjectId()});
+    public static void saveNote(String id, String note) {
+        String str = "update " + CompanyTable.NAME + " set " + CompanyTable
+                .Cols.NOTE + " = \"" + note + "\" where " + CompanyTable
+                .Cols.ID + " = \"" + id + "\"";
+        mDatabase.execSQL(str);
     }
+
+    public static String getNote(String id) {
+        Cursor c = mDatabase.query(CompanyTable.NAME,
+                null, null, null, null, null, CompanyTable.Cols.ID + " ASC");
+
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                String com = c.getString(c.getColumnIndex(CompanyTable.Cols
+                        .ID));
+                if (com.equals(id))
+                    return c.getString(c.getColumnIndex(CompanyTable.Cols
+                            .NOTE));
+                c.moveToNext();
+            }
+        } finally {
+            c.close();
+        }
+        return "";
+    }
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         // User pressed the search button

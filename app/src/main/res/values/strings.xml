@@ -40,11 +40,14 @@
 
     // Company Details XML
     <string name="company_details_company_info">Company Information</string>
-    <string name="company_details_company_website">Visit Website</string>
+    <string name="company_details_company_website">Company Website</string>
     <string name="company_details_openings">Open Positions</string>
     <string name="company_details_majors">Majors of Interest</string>
     <string name="company_details_note">Notes</string>
     <string name="company_details_editNote">Add a note for this company</string>
+    <string name="company_details_sponsor">Sponsorship</string>
+    <string name="company_details_optcpt">OPT/CPT</string>
+
     <string name="ok_label">OK</string>
     <string name="dismiss_label">Dismiss</string>
     <string name="clear_all_label">Clear all</string>

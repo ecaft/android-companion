@@ -93,5 +93,36 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putString(FirebaseApplication.COMPANY_NAME,
+                currentCompanyName);
+        savedInstanceState.putString(FirebaseApplication.COMPANY_ID, currentCompanyUUID);
+        // etc.
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        Fragment fragment = new CompanyDetailsFragment();
+        Intent i = getIntent();
+        Bundle x = i.getExtras();
+
+        currentCompanyName = x.getString(FirebaseApplication.COMPANY_NAME);
+        currentCompanyUUID = x.getString(FirebaseApplication
+                .COMPANY_ID);
+
+
+        fragment.setArguments(i.getExtras());
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+    }
 }
 

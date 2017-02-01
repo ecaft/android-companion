@@ -3,8 +3,10 @@ package edu.cu.ecaft;
 /**
  * Created by laura on 1/24/2017.
  */
+
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,23 @@ public class OptionsFragment extends DialogFragment{
     Button filter;
     ListView list;
     ArrayAdapter<String> adapter;
-    String[] options = {"Alatvel", "Apple"};
+    String[] options = {"Aerospace Engineering",
+            "Atmospheric Science",
+            "Biological Engineering",
+            "Biomedical Engineering",
+            "Biological and Environmental ",
+            "Chemical Engineering",
+            "Civil Engineering",
+            "Computer Science",
+            "Electrical and Computer Engineering",
+            "Engineering Management",
+            "Engineering Physics",
+            "Environmental Engineering",
+            "Information Science",
+            "Materials Science and Engineering",
+            "Mechanical Engineering",
+            "Operations Research and Information Engineering",
+            "Systems Engineering"};
     //Array of something checkboxes???
 
     @Override
@@ -29,8 +47,10 @@ public class OptionsFragment extends DialogFragment{
         list = (ListView) rootView.findViewById(R.id.options);
         filter = (Button) rootView.findViewById(R.id.filter);
 
-        adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, options);
+        adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, options);
         list.setAdapter(adapter);
+
+        Log.d("RA MEETING AT 9:30", "ISSAIAH");
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override

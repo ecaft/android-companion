@@ -1,18 +1,16 @@
 package edu.cu.ecaft;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,8 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,12 +27,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.common.data.Freezable;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 /**
@@ -57,6 +51,28 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private List<FirebaseCompany> companiesFilter;
     private SearchView searchView;
     private ListView lv;
+
+    String[] options = {"Aerospace Engineering",
+            "Atmospheric Science",
+            "Biological Engineering",
+            "Biomedical Engineering",
+            "Biological and Environmental ",
+            "Chemical Engineering",
+            "Civil Engineering",
+            "Computer Science",
+            "Electrical and Computer Engineering",
+            "Engineering Management",
+            "Engineering Physics",
+            "Environmental Engineering",
+            "Information Science",
+            "Materials Science and Engineering",
+            "Mechanical Engineering",
+            "Operations Research and Information Engineering",
+            "Systems Engineering"};
+
+    boolean[] checkedStatus;
+    ArrayList<Integer> userChoices = new ArrayList<>();
+
     //ArrayList<> data = new ArrayList<>();
 
     public InfoFragment() {
@@ -109,6 +125,59 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             inflater.inflate(R.menu.menu_filter, menu);
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
+            filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                 //   FragmentManager fm = getFragmentManager();
+                   // final OptionsFragment opt = new OptionsFragment();
+                    AlertDialog.Builder opt = new AlertDialog.Builder(getContext());
+                    Log.d("applesauce", "applsauce");
+                    opt.setTitle("Please Choose Major Filters");
+                    opt.setMultiChoiceItems(options, checkedStatus, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                            if(isChecked){
+                                if(!userChoices.contains(position))
+                                    userChoices.add(position);
+                            }
+                            else{
+                                userChoices.remove(Integer.valueOf(position));
+                            }
+                        }
+                    });
+                    opt.setCancelable(false);
+                    opt.setPositiveButton(getString(R.string.ok_label), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            String item = "";
+                                    for (int j = 0; j< userChoices.size(); j++){
+                                        item = item + options[userChoices.get(j)];
+                                    }
+                        }
+                    });
+                    opt.setNegativeButton(getString(R.string.dismiss_label), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    opt.setNeutralButton(getString(R.string.clear_all_label), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            for (int i = 0; i< checkedStatus.length; i++){
+                                checkedStatus[i] = false;
+                                userChoices.clear();
+
+                            }
+                        }
+                    });
+                    AlertDialog merp = opt.create();
+                    merp.show();
+                    Log.d("FILTER TEST", userChoices.toString());
+                    return true;
+                };
+            });
+
             final MenuItem searchItem = menu.findItem(R.id.search);
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
@@ -123,49 +192,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
                 }
             });
-
-//            searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener(){
-//
-//                @Override
-//                public void onFocusChange(View view, boolean b) {
-//                    if(!b){
-//                        searchItem.collapseActionView();
-//                        companyAdapter.filter("");
-//                        searchView.setQuery("",false);
-//                        searchView.clearFocus();
-//                        Log.d("BYEEEEEEE", "CLOSING THIS NONSENSE");
-//                    }
-//                }
-//            });
-//            searchView.setIconifiedByDefault(true);
-//            searchView.setOnCloseListener(this);
-
-//            searchView.findViewById(R.id.search_close_btn).setOnClickListener(new View.OnClickListener(){
-//
-//                @Override
-//                public void onClick(View view) {
-//                    Log.d("AHHHHHHHHHHHHHHHHH", "Hello this is me crying");
-//                    searchView.setQuery("", false);
-//                    companyAdapter.filter("");
-//                    searchView.setIconifiedByDefault(true);
-//                }
-//            });
-//             MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                // Do something when collapsed
-//                searchView.setQuery("", false);
-//                companyAdapter.filter("");
-//                Log.d("BBBBBBBBBBBBBBBBBBBBbb", "android sucks");
-//                return true;  // Return true to collapse action view
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                // Do something when expanded
-//                return true;  // Return true to expand action view
-//            }
-//        });
 
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -193,8 +219,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 //companyAdapter.doSearch();
                 return true;
             case R.id.filterButton:
-                FragmentManager fm = getFragmentManager();
-                final OptionsFragment opt = new OptionsFragment();
+                Log.d("Does this method WORKKK", "iHello");
+                checkedStatus = new boolean[options.length];
                 return true;
             default:
                 return false;

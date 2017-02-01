@@ -45,6 +45,9 @@
     <string name="company_details_majors">Majors of Interest</string>
     <string name="company_details_note">Notes</string>
     <string name="company_details_editNote">Add a note for this company</string>
+    <string name="ok_label">OK</string>
+    <string name="dismiss_label">Dismiss</string>
+    <string name="clear_all_label">Clear all</string>
 
     <string-array name="menu_options">
         <item>Home</item>

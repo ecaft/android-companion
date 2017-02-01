@@ -36,4 +36,10 @@ public class MapFragment extends Fragment {
 
         return v;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity.navigationView.setCheckedItem(R.id.nav_map);
+    }
 }

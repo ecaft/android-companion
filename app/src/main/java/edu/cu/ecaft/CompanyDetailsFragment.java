@@ -29,6 +29,8 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyInfo;
     private TextView companyWebsite;
     private EditText companyNotes;
+    private TextView companySponsor;
+    private TextView companyOptcpt;
 
     private String companyTable;
     private String objectID;
@@ -38,6 +40,9 @@ public class CompanyDetailsFragment extends Fragment {
     private String jobtitles;
     private String jobtypes;
     private String website;
+    private String sponsorText = "This company cannot sponsor the " +
+            "candidate.";
+    private String optcptText = "This company does not accept opt/cpt.";
     private boolean optcpt;
     private boolean sponsor;
     private StorageReference storageRef = FirebaseApplication
@@ -60,10 +65,13 @@ public class CompanyDetailsFragment extends Fragment {
         sponsor = args.getBoolean(FirebaseApplication.COMPANY_SPONSOR);
 
         if (jobtitles.isEmpty())
-            jobtitles = "Ask the recruiter for more details or visit their " +
-                    "website for openings.";
+            jobtitles = "Check the company's career website to learn more.";
         if (majors.isEmpty())
-            majors = "Ask the recruiter for more details.";
+            majors = "Check the company's career website to learn more.";
+        if (sponsor)
+            sponsorText = "This company can sponsor the candidate.";
+        if (optcpt)
+            optcptText = "This company accepts opt/cpt.";
 
 
 //        Log.d("details", info);
@@ -107,6 +115,14 @@ public class CompanyDetailsFragment extends Fragment {
                 Log.d("details", "done changing text");
             }
         });
+
+        companySponsor = (TextView) v.findViewById(R.id
+                .company_details_sponsor_info);
+        companySponsor.setText(sponsorText);
+
+        companyOptcpt = (TextView) v.findViewById(R.id
+                .company_details_opt_cpt_text);
+        companyOptcpt.setText(optcptText);
 
         companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
 

@@ -59,6 +59,30 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/company_details_notes_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_gray"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/company_details_note"
+            android:textColor="@color/tint"
+            android:textSize="14sp"/>
+
+        <EditText
+            android:id="@+id/company_details_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:hint="@string/company_details_editNote"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="14sp"/>
+
+        <TextView
             android:id="@+id/company_information_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,10 +100,23 @@
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
-            android:paddingTop="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:textColor="@color/black"
             android:textSize="14sp"
             tools:text="Company Information"/>
+
+        <TextView
+            android:id="@+id/company_details_website_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_gray"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/company_details_company_website"
+            android:textColor="@color/tint"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/company_details_website"
@@ -91,7 +128,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="5dp"
+            android:paddingTop="10dp"
             android:text="@string/company_details_company_website"/>
 
         <TextView
@@ -143,28 +180,52 @@
             tools:text="Majors of Interest"/>
 
         <TextView
-            android:id="@+id/company_details_notes_header"
+            android:id="@+id/company_details_sponsor_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_gray"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
-            android:text="@string/company_details_note"
+            android:text="@string/company_details_sponsor"
             android:textColor="@color/tint"
             android:textSize="14sp"/>
 
-        <EditText
-            android:id="@+id/company_details_editText"
+        <TextView
+            android:id="@+id/company_details_sponsor_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:cursorVisible="false"
-            android:hint="@string/company_details_editNote"
-            android:inputType="text|textMultiLine|textCapSentences"
+            android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Sponsorship given?"/>
+
+        <TextView
+            android:id="@+id/company_details_optcpt_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_gray"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/company_details_optcpt"
+            android:textColor="@color/tint"
             android:textSize="14sp"/>
 
+        <TextView
+            android:id="@+id/company_details_opt_cpt_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Sponsorship given?"/>
 
     </LinearLayout>
 

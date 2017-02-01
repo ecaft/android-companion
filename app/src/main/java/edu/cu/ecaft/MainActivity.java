@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     private RelativeLayout mDrawerListLayout;
     private boolean searching;
     private DrawerLayout drawer;
-    public NavigationView navigationView;
+    public static NavigationView navigationView;
     /**
      * Database variables
      */
@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -149,6 +151,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
                 .commit();
 
         navigationView.setCheckedItem(id);
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

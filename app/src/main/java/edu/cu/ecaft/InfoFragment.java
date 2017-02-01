@@ -56,7 +56,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             "Atmospheric Science",
             "Biological Engineering",
             "Biomedical Engineering",
-            "Biological and Environmental ",
+            "Biological and Environmental",
             "Chemical Engineering",
             "Civil Engineering",
             "Computer Science",
@@ -70,9 +70,9 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             "Operations Research and Information Engineering",
             "Systems Engineering"};
 
-    boolean[] checkedStatus;
+    boolean[] checkedStatus = new boolean[options.length];
     ArrayList<Integer> userChoices = new ArrayList<>();
-
+    ArrayList<String> companiesChecked = new ArrayList<>();
     //ArrayList<> data = new ArrayList<>();
 
     public InfoFragment() {
@@ -125,11 +125,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             inflater.inflate(R.menu.menu_filter, menu);
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
+          //  final SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(filterItem);
+            //mSearchView.clearFocus();
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                  //   FragmentManager fm = getFragmentManager();
                    // final OptionsFragment opt = new OptionsFragment();
+                   // mSearchView.clearFocus();
                     AlertDialog.Builder opt = new AlertDialog.Builder(getContext());
                     Log.d("applesauce", "applsauce");
                     opt.setTitle("Please Choose Major Filters");
@@ -137,8 +141,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                         @Override
                         public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                             if(isChecked){
-                                if(!userChoices.contains(position))
+                                if(!userChoices.contains(position)){
                                     userChoices.add(position);
+                                    checkedStatus[position]= true;
+                                }
                             }
                             else{
                                 userChoices.remove(Integer.valueOf(position));
@@ -149,10 +155,16 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     opt.setPositiveButton(getString(R.string.ok_label), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int which) {
-                            String item = "";
-                                    for (int j = 0; j< userChoices.size(); j++){
-                                        item = item + options[userChoices.get(j)];
-                                    }
+                            companiesChecked.clear();
+                            for (int j = 0; j< userChoices.size(); j++){
+                                if (!companiesChecked.contains(options[userChoices.get(j)]))
+                                    companiesChecked.add(options[userChoices.get(j)]);
+
+                            }
+                            Log.d("PRINTING ITEM", companiesChecked.toString());
+
+                            companyAdapter.filter(companiesChecked);
+
                         }
                     });
                     opt.setNegativeButton(getString(R.string.dismiss_label), new DialogInterface.OnClickListener() {
@@ -167,8 +179,9 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                             for (int i = 0; i< checkedStatus.length; i++){
                                 checkedStatus[i] = false;
                                 userChoices.clear();
-
+                                companiesChecked.clear();
                             }
+                            companyAdapter.filter(companiesChecked);
                         }
                     });
                     AlertDialog merp = opt.create();
@@ -177,7 +190,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     return true;
                 };
             });
-
+            Log.d("FILTER PREP", userChoices.toString());
             final MenuItem searchItem = menu.findItem(R.id.search);
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
@@ -203,7 +216,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     companyAdapter.filter(newText);
-                    Log.d("Fuckin search", newText);
                     return false;
                 }
             });
@@ -219,8 +231,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 //companyAdapter.doSearch();
                 return true;
             case R.id.filterButton:
-                Log.d("Does this method WORKKK", "iHello");
-                checkedStatus = new boolean[options.length];
                 return true;
             default:
                 return false;
@@ -277,7 +287,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     @Override
     public boolean onClose() {
         companyAdapter.filter("");
-        Log.d("HELLLO", "CLOSING THIS NONSENSE");
         return true;
     }
 
@@ -414,6 +423,27 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                         companiesFilter.add(comp);
                 }
             } else {
+                companiesFilter.addAll(companies);
+            }
+            notifyDataSetChanged();
+        }
+        public void filter(ArrayList<String> majors){
+            Log.d("GARY MOD", majors.toString());
+            companiesFilter.clear();
+            if(majors.size()!=0){
+                for (FirebaseCompany comp: companies){
+                    for(String major: majors){
+                        Log.d("PRINTING MAJOR", major);
+                        if (comp.getMajors().contains(major) && !companiesFilter.contains(comp)) {
+                            companiesFilter.add(comp);
+                        }
+                    }
+                    if (comp.getMajors()== ""){
+                        companiesFilter.add(comp);
+                    }
+                }
+            }
+            else{
                 companiesFilter.addAll(companies);
             }
             notifyDataSetChanged();

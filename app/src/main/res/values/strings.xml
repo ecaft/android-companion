@@ -3,10 +3,9 @@
     <string name="action_settings">Settings</string>
     <string name="home_fragment_text1">Cornell\'s Official</string>
     <string name="home_fragment_text2">Engineering Career Fair Team App</string>
-    <string name="home_fragment_text3">Use this app to improve your
-        experience at the career fair. Features include a map of the career
-        fair as well as a list of all the companies present with extra information and the option
-        to add companies to a checklist!</string>
+    <string name="home_fragment_text3">Welcome to the 2017 Cornell Spring Technical and Entreprenurial Career Fair!
+
+The fair is at Barton Hall on Wednesday, February 8th and runs from 9:00am to 2:00pm. We recommend dressing up in formal attire and having multiple copies of your resume and a notepad to keep track of recruiter info. Remember to do your research before-hand and learn more about each company\'s open positions to show that you\'re prepared. Good luck!</string>
     <string name="copyright_text1">© Copyright 2016 </string>
     <string name="copyright_text2"> 2016</string>
     <string name="copyright_text3">Cornell Engineering Career Fair Team

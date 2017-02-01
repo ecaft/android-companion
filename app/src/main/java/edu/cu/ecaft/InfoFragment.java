@@ -155,11 +155,14 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     opt.setPositiveButton(getString(R.string.ok_label), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int which) {
+                            companiesChecked.clear();
                             for (int j = 0; j< userChoices.size(); j++){
                                 if (!companiesChecked.contains(options[userChoices.get(j)]))
                                     companiesChecked.add(options[userChoices.get(j)]);
+
                             }
                             Log.d("PRINTING ITEM", companiesChecked.toString());
+
                             companyAdapter.filter(companiesChecked);
 
                         }
@@ -178,6 +181,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                                 userChoices.clear();
                                 companiesChecked.clear();
                             }
+                            companyAdapter.filter(companiesChecked);
                         }
                     });
                     AlertDialog merp = opt.create();
@@ -283,7 +287,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     @Override
     public boolean onClose() {
         companyAdapter.filter("");
-        Log.d("HELLLO", "CLOSING THIS NONSENSE");
         return true;
     }
 

@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -123,6 +125,16 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         fragment.setArguments(i.getExtras());
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("details", "fasehgisef0sefha9sefhas");
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Log.d(this.getClass().getName(), "back button pressed");
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
 

@@ -49,7 +49,6 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_height="match_parent"
@@ -57,6 +56,17 @@
         android:layout_width="240dp"
         app:elevation="17dp"
         app:headerLayout="@layout/nav_header"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:text="@string/made_with_love"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:textColor="@color/black"/>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

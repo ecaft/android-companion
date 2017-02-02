@@ -77,12 +77,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:cursorVisible="false"
             android:hint="@string/company_details_editNote"
-            android:imeOptions="actionDone"
             android:inputType="text"
-            android:scrollHorizontally="false"
             android:textSize="14sp"
+            android:imeOptions="actionDone"
             android:visibility="gone"/>
 
         <TextView

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">ECaFT</string>
     <string name="action_settings">Settings</string>
-    <string name="home_fragment_text1">Cornell\'s Official</string>
-    <string name="home_fragment_text2">Engineering Career Fair Team App</string>
+    <string name="home_fragment_text1">Cornell\'s Official Engineering Career
+        Fair Team App</string>
     <string name="home_fragment_text3">Welcome to the 2017 Cornell Spring Technical and Entreprenurial Career Fair!
 
 The fair is at Barton Hall on Wednesday, February 8th and runs from 9:00am to 2:00pm. We recommend dressing up in formal attire and having multiple copies of your resume and a notepad to keep track of recruiter info. Remember to do your research before-hand and learn more about each company\'s open positions to show that you\'re prepared. Good luck!</string>
@@ -29,6 +29,7 @@ The fair is at Barton Hall on Wednesday, February 8th and runs from 9:00am to 2:
     <string name="details_ac">Company Details</string>
     <string name="map_text">Map coming soon!</string>
     <string name="remove">REMOVE</string>
+    <string name="made_with_love">Made with ♡ by ECaFT</string>
 
 
     <string name="edit_message">Enter notes</string>

@@ -1,13 +1,17 @@
 package edu.cu.ecaft;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +33,7 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyInfo;
     private TextView companyWebsite;
     private TextView companyNotesHeader;
-    private EditText companyNotes;
+    private static EditText companyNotes;
     private TextView companySponsor;
     private TextView companyOptcpt;
 
@@ -103,30 +107,65 @@ public class CompanyDetailsFragment extends Fragment {
 
         companyNotesHeader = (TextView) v.findViewById(R.id
                 .company_details_notes_header);
+
+        companyNotes = new EditText(inflater.getContext()){
+            @Override
+            public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+                Log.d("details", keyCode + "");
+                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+                    Log.d("details", "elaufhlsieuhfaelsuhgaeu");
+                }
+                return super.onKeyPreIme(keyCode, event);
+            }
+        };
         companyNotes = (EditText) v.findViewById(R.id
                 .company_details_editText);
+
         if (showText) {
             companyNotes.setVisibility(View.VISIBLE);
             companyNotesHeader.setVisibility(View.VISIBLE);
         }
-
-        companyNotes.addTextChangedListener(new TextWatcher() {
+//
+//        companyNotes.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                companyNotes.setCursorVisible(true);
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                Log.d("details", s.toString());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                Log.d("details", "done changing text: " + s.toString());
+//            }
+//        });
+//
+        companyNotes.setOnEditorActionListener(new EditText
+                .OnEditorActionListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                companyNotes.setCursorVisible(true);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("details", s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                Log.d("details", "done changing text: " + s.toString());
-                MainActivity.saveNote(objectID, s.toString());
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent
+                    event) {
+                Log.d("details", "action: " + actionId + " event: " + event);
+                if (actionId == EditorInfo.IME_ACTION_DONE || event.getAction
+                        () == KeyEvent.ACTION_DOWN || event.getKeyCode() ==
+                        KeyEvent.KEYCODE_BACK ||
+                        event.getAction() == KeyEvent.ACTION_UP) {
+                    Log.d("details", "save button pressed");
+                    companyNotes.clearFocus();
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(companyNotes.getWindowToken(), 0);
+                    MainActivity.saveNote(objectID, companyNotes.getText().toString());
+                    return true; // consume
+                }
+                return false; // pass on to other listeners
             }
         });
+        companyNotes.setHorizontallyScrolling(false);
+        companyNotes.setMaxLines(8);
+
 
         Log.d("details", "id of the company for notes: " + objectID);
         notesText = MainActivity.getNote(objectID);
@@ -168,6 +207,10 @@ public class CompanyDetailsFragment extends Fragment {
         return v;
     }
 
+    public static  void clearFocus() {
+        companyNotes.clearFocus();
+    }
+
     public Object[] alphabetize(Object[] array) {
         for (int x = 0; x < array.length - 1; x++) {
             int smallest = findSmallest(array, x);
@@ -185,5 +228,11 @@ public class CompanyDetailsFragment extends Fragment {
                 temp = x + 1;
         }
         return temp;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        MainActivity.saveNote(objectID, companyNotes.getText().toString());
     }
 }

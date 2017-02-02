@@ -32,10 +32,6 @@ public class HomeFragment extends Fragment {
         Bundle args = getArguments();
         textView = (TextView) v.findViewById(R.id.home_fragment_text_view1);
 
-        image = (ImageView) v.findViewById(R.id.logos);
-
-       // getActivity().navi
-
         getActivity().setTitle("Home");
 
         return v;

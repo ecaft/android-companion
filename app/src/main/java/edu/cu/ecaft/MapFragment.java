@@ -28,7 +28,7 @@ public class MapFragment extends Fragment {
 
         SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)
                 v.findViewById(R.id.imageView);
-        imageView.setImage(ImageSource.resource(R.drawable.career_map_final_3));
+        imageView.setImage(ImageSource.resource(R.drawable.career_fair_map_17));
 
    //     imageView = (ImageView) v.findViewById(R.id.map_fragment_image_view);
 

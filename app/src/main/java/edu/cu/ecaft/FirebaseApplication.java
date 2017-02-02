@@ -38,6 +38,7 @@ public class FirebaseApplication extends Application {
     public static final String COMPANY_WEBSITE = "website";
     public static final String COMPANY_OPTCPT = "optcpt";
     public static final String COMPANY_SPONSOR = "sponsor";
+    public static final String SHOW_NOTES = "showNotes";
 
     private static DatabaseReference databaseReference;
     private static FirebaseStorage storage;

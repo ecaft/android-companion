@@ -330,6 +330,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                             currentCompany.optcpt);
                     myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
                             currentCompany.sponsor);
+                    myBundle.putBoolean(FirebaseApplication.SHOW_NOTES, false);
 
                     Intent i = new Intent(getActivity(), CompanyDetailsActivity.class);
                     i.putExtras(myBundle);

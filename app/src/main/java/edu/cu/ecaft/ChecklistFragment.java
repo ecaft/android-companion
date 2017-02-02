@@ -174,6 +174,7 @@ public class ChecklistFragment extends Fragment {
                             currentCompany.optcpt);
                     myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
                             currentCompany.sponsor);
+                    myBundle.putBoolean(FirebaseApplication.SHOW_NOTES, true);
 
                     Intent i = new Intent(getActivity(),
                             CompanyDetailsActivity.class);

@@ -68,20 +68,22 @@
             android:paddingTop="2dp"
             android:text="@string/company_details_note"
             android:textColor="@color/tint"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/company_details_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:cursorVisible="false"
-            android:hint="@string/company_details_editNote"
-            android:inputType="text|textMultiLine"
-            android:imeOptions="actionDone"
-            android:scrollHorizontally="false"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:textSize="14sp"/>
+            android:cursorVisible="false"
+            android:hint="@string/company_details_editNote"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:scrollHorizontally="false"
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/company_information_text"
@@ -99,10 +101,10 @@
             android:id="@+id/company_details_information"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:textColor="@color/black"
             android:textSize="14sp"
             tools:text="Company Information"/>

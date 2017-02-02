@@ -28,6 +28,7 @@ public class CompanyDetailsFragment extends Fragment {
     private ImageView companyLogo;
     private TextView companyInfo;
     private TextView companyWebsite;
+    private TextView companyNotesHeader;
     private EditText companyNotes;
     private TextView companySponsor;
     private TextView companyOptcpt;
@@ -46,6 +47,7 @@ public class CompanyDetailsFragment extends Fragment {
     private String notesText = "";
     private boolean optcpt;
     private boolean sponsor;
+    private boolean showText;
     private StorageReference storageRef = FirebaseApplication
             .getStorageRef();
     @Override
@@ -64,6 +66,7 @@ public class CompanyDetailsFragment extends Fragment {
         website = args.getString(FirebaseApplication.COMPANY_WEBSITE);
         optcpt = args.getBoolean(FirebaseApplication.COMPANY_OPTCPT);
         sponsor = args.getBoolean(FirebaseApplication.COMPANY_SPONSOR);
+        showText = args.getBoolean(FirebaseApplication.SHOW_NOTES);
 
         if (jobtitles.isEmpty())
             jobtitles = "Check the company's career website to learn more.";
@@ -98,12 +101,19 @@ public class CompanyDetailsFragment extends Fragment {
                 .company_details_website);
         companyWebsite.setText(website);
 
+        companyNotesHeader = (TextView) v.findViewById(R.id
+                .company_details_notes_header);
         companyNotes = (EditText) v.findViewById(R.id
                 .company_details_editText);
+        if (showText) {
+            companyNotes.setVisibility(View.VISIBLE);
+            companyNotesHeader.setVisibility(View.VISIBLE);
+        }
+
         companyNotes.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                companyNotes.setCursorVisible(true);
             }
 
             @Override
@@ -118,9 +128,12 @@ public class CompanyDetailsFragment extends Fragment {
             }
         });
 
+        Log.d("details", "id of the company for notes: " + objectID);
         notesText = MainActivity.getNote(objectID);
         if (!notesText.isEmpty())
             companyNotes.setText(notesText);
+        else
+            companyNotes.setHint("Add a note for this company");
 
         companySponsor = (TextView) v.findViewById(R.id
                 .company_details_sponsor_info);

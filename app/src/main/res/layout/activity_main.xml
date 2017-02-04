@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="edu.cu.ecaft.MainActivity">
+        tools:context="edu.ashleyxue.ecaft.MainActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -66,7 +66,8 @@
             android:text="@string/made_with_love"
             android:gravity="center_horizontal"
             android:paddingBottom="10dp"
-            android:textColor="@color/black"/>
+            android:textStyle="bold"
+            android:textColor="@color/dark_gray"/>
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

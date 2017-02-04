@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:542459454913:android:f3dcad746c7b53a1",
+        "mobilesdk_app_id": "1:542459454913:android:9cfd1212801947dc",
         "android_client_info": {
-          "package_name": "edu.cu.ecaft"
+          "package_name": "edu.ashleyxue.ecaft"
         }
       },
       "oauth_client": [

@@ -29,7 +29,7 @@ The fair is at Barton Hall on Wednesday, February 8th and runs from 9:00am to 2:
     <string name="details_ac">Company Details</string>
     <string name="map_text">Map coming soon!</string>
     <string name="remove">REMOVE</string>
-    <string name="made_with_love">Made with ♡ by ECaFT</string>
+    <string name="made_with_love">Made with ♥ by ECaFT</string>
 
 
     <string name="edit_message">Enter notes</string>
@@ -47,6 +47,8 @@ The fair is at Barton Hall on Wednesday, February 8th and runs from 9:00am to 2:
     <string name="company_details_editNote">Add a note for this company</string>
     <string name="company_details_sponsor">Sponsorship</string>
     <string name="company_details_optcpt">OPT/CPT</string>
+    <string name="company_details_sponsorship">Ask company about
+        sponsorship and opt/cpt details.</string>
 
     <string name="ok_label">OK</string>
     <string name="dismiss_label">Dismiss</string>

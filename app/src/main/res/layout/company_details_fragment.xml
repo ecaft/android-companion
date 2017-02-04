@@ -202,31 +202,7 @@
             android:paddingTop="10dp"
             android:textColor="@color/black"
             android:textSize="14sp"
-            tools:text="Sponsorship given?"/>
-
-        <TextView
-            android:id="@+id/company_details_optcpt_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_gray"
-            android:paddingBottom="2dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="2dp"
-            android:text="@string/company_details_optcpt"
-            android:textColor="@color/tint"
-            android:textSize="14sp"/>
-
-        <TextView
-            android:id="@+id/company_details_opt_cpt_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="10dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            tools:text="Sponsorship given?"/>
+            android:text="@string/company_details_sponsorship"/>
 
     </LinearLayout>
 

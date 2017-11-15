@@ -83,9 +83,6 @@ public class CompanyDetailsFragment extends Fragment {
             optcptText = "This company accepts opt/cpt.";
 
 
-//        Log.d("details", info);
-        // logo = FirebaseApplication.getLogoByID(objectID);
-
         companyName = (TextView) v.findViewById(R.id.company_details_name);
         companyName.setText(name);
 
@@ -126,24 +123,7 @@ public class CompanyDetailsFragment extends Fragment {
             companyNotes.setVisibility(View.VISIBLE);
             companyNotesHeader.setVisibility(View.VISIBLE);
         }
-//
-//        companyNotes.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                companyNotes.setCursorVisible(true);
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                Log.d("details", s.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                Log.d("details", "done changing text: " + s.toString());
-//            }
-//        });
-//
+
         companyNotes.setOnEditorActionListener(new EditText
                 .OnEditorActionListener() {
             @Override
@@ -175,13 +155,6 @@ public class CompanyDetailsFragment extends Fragment {
         else
             companyNotes.setHint("Add a note for this company");
 
-//        companySponsor = (TextView) v.findViewById(R.id
-//                .company_details_sponsor_info);
-//        companySponsor.setText(sponsorText);
-
-//        companyOptcpt = (TextView) v.findViewById(R.id
-//                .company_details_opt_cpt_text);
-//        companyOptcpt.setText(optcptText);
 
         companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
 
@@ -195,15 +168,6 @@ public class CompanyDetailsFragment extends Fragment {
 
         getActivity().setTitle(name);
 
-//        String majorText = "";
-//        Object[] majorList = majors.toArray();
-//
-//        majorList = alphabetize(majorList);
-//
-//        for (Object s : majorList) {
-//            majorText = majorText + s.toString() + "\n";
-//        }
-//        companyMajors.setText(majorText);
 
         return v;
     }

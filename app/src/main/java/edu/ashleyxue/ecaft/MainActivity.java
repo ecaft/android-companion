@@ -84,39 +84,9 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         navigationView.setNavigationItemSelectedListener(this);
 
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        //          getSupportActionBar().setHomeButtonEnabled(true);
-//
-//        mMenuOptions = getResources().getStringArray(R.array.menu_options);
-//
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mFrameLayout = (FrameLayout) findViewById(R.id.content_frame);
-//        mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
-//        mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
-//        //  mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
-//
-//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-//                R.layout.drawer_list_item, mMenuOptions));
-//        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView parent, View view, int position, long id) {
-//                selectItem(position);
-//            }
-//        });
-////
-//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-//                R.string.drawer_open, R.string.drawer_close);
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-
-        //      mDrawerList.setSelection(0);
         getSupportFragmentManager().beginTransaction().replace(R.id
                 .content_frame, new HomeFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_home);
-       // mDrawerList.setItemChecked(0, true);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

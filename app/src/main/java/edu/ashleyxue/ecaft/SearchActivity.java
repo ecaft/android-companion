@@ -80,8 +80,6 @@ public class SearchActivity extends Activity implements SearchView.OnQueryTextLi
                     companiesList.add(post.getValue().toString());
                 }
 
-                Log.d("HELPPPPPPP", companiesList.toString());
-
             }
 
             @Override

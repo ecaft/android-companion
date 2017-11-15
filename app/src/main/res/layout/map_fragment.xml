@@ -6,6 +6,10 @@
     <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:scaleX="-1"
+        android:scaleY="-1"
+        />
 
+<!-- hello -->
 </RelativeLayout>

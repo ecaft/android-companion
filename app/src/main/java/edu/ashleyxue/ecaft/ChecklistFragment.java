@@ -66,13 +66,6 @@ public class ChecklistFragment extends Fragment {
 
         emptyView = v.findViewById(R.id.list_fragment_empty_view);
 
-        //updateUI();
-
-        //  if (companies.size() == 0) {
-        //     emptyView.setVisibility(View.VISIBLE);
-        //    companyRecylerView.setVisibility(View.INVISIBLE);
-        // }
-
         getActivity().setTitle("Your Favorites");
 
         return v;
@@ -135,22 +128,11 @@ public class ChecklistFragment extends Fragment {
         public int currentPosition;
         public CheckBox mCompanyVisited;
         public FirebaseCompany currentCompany;
-        //    public SwipeLayout swipeLayout;
         public LinearLayout delete;
         public String currentCompanyName;
 
         public CompanyHolder(View itemView) {
             super(itemView);
-            //swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe);
-
-            //      swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-            //     swipeLayout.addDrag(SwipeLayout.DragEdge.Right, swipeLayout.
-            //            findViewById(R.id.trash));
-
-            //      swipeLayout.getSurfaceView().setOnClickListener(new View
-            //             .OnClickListener() {
-            //         @Override
-            //        public void onClick(View v) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -185,23 +167,6 @@ public class ChecklistFragment extends Fragment {
                 }
             });
 
-
-            //TODO: only one swipe layout at a time...
-/*
-            delete = (LinearLayout) itemView.findViewById(R.id.trash);
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), R.string.unstar,
-                            Toast.LENGTH_SHORT).show();
-                    MainActivity.deleteRow(currentPOCompany.getString
-                            (FirebaseApplication.COMPANY_ID));
-                    companyAdapter.delete(currentPosition);
-                    updateSavedLists();
-                    updateVisitedList();
-                }
-            });
-*/
             mCompanyName = (TextView) itemView.findViewById(
                     R.id.company_checklist_name);
 
@@ -215,12 +180,10 @@ public class ChecklistFragment extends Fragment {
                                 Toast.makeText(getContext(), R.string.visited,
                                         Toast.LENGTH_SHORT).show();
                                 MainActivity.setVisitStatus(currentCompany, 1);
-                               // updateVisitedList();
                             } else {
                                 MainActivity.setVisitStatus(currentCompany, 0);
                                 isVisitedList.set(currentPosition, 0);
 
-                                //   updateVisitedList();
                             }
                         }
                     }
@@ -277,21 +240,11 @@ public class ChecklistFragment extends Fragment {
             });
 
             holder.currentPosition = position;
- //           holder.currentCompanyName = currentCompany;
-   //         holder.mCompanyName.setText(currentCompany);
-//            holder.currentPOCompany = po;
-//            holder.currentPosition = position;
-//            holder.currentCompanyName = po.getString(FirebaseApplication
-//                    .COMPANY_NAME);
-//            holder.mCompanyName.setText(po.getString(FirebaseApplication
-//                    .COMPANY_NAME));
             holder.mCompanyVisited.setChecked(isVisitedList.get(position) == 1);
-           // holder.swipeLayout.close();
 
             Log.d(TAG, "Recycler made for position " + position);
         }
 
-        //     public void onC
 
         public void delete(int position) { //removes the row
             companies.remove(position);

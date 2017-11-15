@@ -36,7 +36,6 @@ public class OptionsFragment extends DialogFragment{
             "Mechanical Engineering",
             "Operations Research and Information Engineering",
             "Systems Engineering"};
-    //Array of something checkboxes???
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -49,8 +48,6 @@ public class OptionsFragment extends DialogFragment{
 
         adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, options);
         list.setAdapter(adapter);
-
-        Log.d("RA MEETING AT 9:30", "ISSAIAH");
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override

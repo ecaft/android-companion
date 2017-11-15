@@ -44,18 +44,16 @@
         android:layout_toRightOf="@id/company_logo">
 
 
-
         <TextView
             android:id="@+id/company_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:singleLine="true"
             android:textStyle="bold"
             android:text="@string/company_name"
             android:textColor="@color/black"
-            android:textSize="16sp"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/company_table"

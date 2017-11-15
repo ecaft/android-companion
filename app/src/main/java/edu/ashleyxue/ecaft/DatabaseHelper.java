@@ -27,9 +27,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         CompanyTable.Cols.NOTE + ")"
         );
 
-      //  db.execSQL("create index " + INDEX_1 + " on " + CompanyTable.NAME +
-      //          "" +
-      //          "(" + CompanyTable.Cols.COMPANY_NAME + ")");
     }
 
     @Override

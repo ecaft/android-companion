@@ -74,7 +74,7 @@ public class FirebaseApplication extends Application {
     }
 
     public static ArrayList<FirebaseCompany> getCompanies() {
-        Log.d("final", "firebase app, return comapnies size: " + companies.size
+        Log.d("final", "firebase app, return companies size: " + companies.size
                 ());
         return companies;
     }

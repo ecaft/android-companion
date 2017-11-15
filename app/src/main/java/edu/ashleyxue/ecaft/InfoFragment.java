@@ -73,18 +73,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     boolean[] checkedStatus = new boolean[options.length];
     ArrayList<Integer> userChoices = new ArrayList<>();
     ArrayList<String> companiesChecked = new ArrayList<>();
-    //ArrayList<> data = new ArrayList<>();
 
     public InfoFragment() {
-//        int resultCode = GoogleApiAvailability.getInstance()
-//                .isGooglePlayServicesAvailable(getActivity());
-//
-//        if (resultCode == ConnectionResult.SUCCESS){
-//            Log.d("ecaft", "isGooglePlayServicesAvailable SUCCESS");
-//        } else {
-//            GoogleApiAvailability.getInstance().getErrorDialog(getActivity(),
-//                    resultCode, 1).show();
-//        }
         companies = new ArrayList<>(FirebaseApplication.getCompanies());
         companiesFilter = new ArrayList<>();
         companiesFilter.addAll(companies);
@@ -114,8 +104,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         updateUI();
 
-        //ct.execute();
-
         getActivity().setTitle("List Of Companies");
         setHasOptionsMenu(true);
         return v;
@@ -129,15 +117,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             inflater.inflate(R.menu.menu_filter, menu);
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
-          //  final SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(filterItem);
-            //mSearchView.clearFocus();
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
-                 //   FragmentManager fm = getFragmentManager();
-                   // final OptionsFragment opt = new OptionsFragment();
-                   // mSearchView.clearFocus();
                     AlertDialog.Builder opt = new AlertDialog.Builder(getContext());
                     Log.d("applesauce", "applsauce");
                     opt.setTitle("Please Choose Major Filters");
@@ -294,7 +277,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     public boolean onClose() {
         Log.d("final", "info fragment onclose");
 
-        // companyAdapter.filter("");
         return true;
     }
 
@@ -402,9 +384,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             StorageReference path = storageRef.child("logos/" +
                     currentCompany.getId() + ".png");
 
-            // Log.d("Firebase", path.toString() + ": " +  path.hashCode() +
-            // "");
-
             Glide.with(getContext())
                     .using(new FirebaseImageLoader())
                     .load(path)
@@ -440,7 +419,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             notifyDataSetChanged();
         }
         public void filter(ArrayList<String> majors){
-            Log.d("GARY MOD", majors.toString());
+            Log.d("majors", majors.toString());
             companiesFilter.clear();
             if(majors.size()!=0){
                 for (FirebaseCompany comp: companies){
@@ -466,33 +445,4 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
     }
 
-    /**  public class CollectTasks extends AsyncTask<String, Void,
-     * List<Company>> {
-
-     protected List<Company> doInBackground(String... strings) {
-     List<Company> companies = new ArrayList<>();
-     List<ParseObject> list = FirebaseApplication.getCompanyPOS();
-
-
-     for (ParseObject po : list) {
-     Company c = new Company(po.getObjectId(),
-     po.getString(FirebaseApplication.COMPANY_NAME),
-     (ArrayList<String>) po.get(FirebaseApplication.COMPANY_MAJORS),
-     po.getParseFile(FirebaseApplication.COMPANY_LOGO)
-     );
-     companies.add(c);
-     }
-     return companies;
-     }
-
-     protected void onPostExecute(List<Company> list) {
-     companyRecylerView = (RecyclerView) v.findViewById(R.id
-     .info_recycler_view);
-     companyRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-     companyRecylerView.setHasFixedSize(true);
-     companyRecylerView.setAdapter(new CompanyAdapter(list));
-
-     }
-     }
-     */
 }

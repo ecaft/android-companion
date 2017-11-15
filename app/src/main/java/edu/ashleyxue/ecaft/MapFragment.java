@@ -31,7 +31,6 @@ public class MapFragment extends Fragment {
         imageView.setImage(ImageSource.resource(R.drawable
                 .career_fair_17_final_map));
 
-   //     imageView = (ImageView) v.findViewById(R.id.map_fragment_image_view);
 
         getActivity().setTitle("Map");
 

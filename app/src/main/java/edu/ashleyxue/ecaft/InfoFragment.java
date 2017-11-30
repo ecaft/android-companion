@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,7 +54,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private SearchView searchView;
     private ListView lv;
 
-    String[] options = {"Aerospace Engineering",
+    String[] majorOptions = {
+            "Aerospace Engineering",
             "Atmospheric Science",
             "Biological Engineering",
             "Biomedical Engineering",
@@ -70,7 +73,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             "Operations Research and Information Engineering",
             "Systems Engineering"};
 
-    boolean[] checkedStatus = new boolean[options.length];
+    String [] jobOptions = { "Co-op", "Full-time", "Internship", "Other"};
+    boolean sponsorship = false;
+
+    boolean[] checkedStatus = new boolean[majorOptions.length];
     ArrayList<Integer> userChoices = new ArrayList<>();
     ArrayList<String> companiesChecked = new ArrayList<>();
 
@@ -82,7 +88,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         Log.d("final", "instantiation: filter size: " + companiesFilter.size
                 () + ", total size: " + companies.size());
     }
-
 
 
     @Override
@@ -117,14 +122,25 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             inflater.inflate(R.menu.menu_filter, menu);
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
+            Log.d("Filter Page", "Creating this fragment");
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                 @Override
+                public boolean onMenuItemClick(MenuItem menuItem){
+                    FilterFragment frag = new FilterFragment();
+                    FragmentManager fragManager = getFragmentManager();
+                    FragmentTransaction fragTrans = fragManager.beginTransaction();
+                    fragTrans.replace(R.id.info_recycler_view, frag);
+                    fragTrans.addToBackStack(null);
+                    Log.d("Filter Page", "CALLING NEW FRAGMENT");
+                    fragTrans.commit();
+                    return true;
+                }
+              /*  @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     AlertDialog.Builder opt = new AlertDialog.Builder(getContext());
-                    Log.d("applesauce", "applsauce");
                     opt.setTitle("Please Choose Major Filters");
-                    opt.setMultiChoiceItems(options, checkedStatus, new DialogInterface.OnMultiChoiceClickListener() {
+                    opt.setMultiChoiceItems(majorOptions, checkedStatus, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                             if(isChecked){
@@ -144,8 +160,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                         public void onClick(DialogInterface dialogInterface, int which) {
                             companiesChecked.clear();
                             for (int j = 0; j< userChoices.size(); j++){
-                                if (!companiesChecked.contains(options[userChoices.get(j)]))
-                                    companiesChecked.add(options[userChoices.get(j)]);
+                                if (!companiesChecked.contains(majorOptions[userChoices.get(j)]))
+                                    companiesChecked.add(majorOptions[userChoices.get(j)]);
 
                             }
                             Log.d("PRINTING ITEM", companiesChecked.toString());
@@ -175,7 +191,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     merp.show();
                     Log.d("FILTER TEST", userChoices.toString());
                     return true;
-                };
+                }; */
             });
             Log.d("FILTER PREP", userChoices.toString());
             final MenuItem searchItem = menu.findItem(R.id.search);
@@ -378,8 +394,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             FirebaseCompany currentCompany = companiesFilter.get(position);
             holder.currentCompany = currentCompany;
             holder.mCompanyName.setText(currentCompany.name);
-            holder.mCompanyLocation.setText("Table " + currentCompany
-                    .location);
+            holder.mCompanyLocation.setText("Table " + currentCompany.location);
 
             StorageReference path = storageRef.child("logos/" +
                     currentCompany.getId() + ".png");

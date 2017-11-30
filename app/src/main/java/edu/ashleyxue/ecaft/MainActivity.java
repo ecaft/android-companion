@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     private HomeFragment homeFragment;
     private MapFragment mapFragment;
     private InfoFragment infoFragment;
+    private FilterFragment filterFragment;
     private ChecklistFragment checklistFragment;
 
     @Override
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         homeFragment = new HomeFragment();
         mapFragment = new MapFragment();
         infoFragment = new InfoFragment();
+        filterFragment = new FilterFragment();
         checklistFragment = new ChecklistFragment();
 
        // View drawer = findViewById(R.id.activity_main);

@@ -128,12 +128,12 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem){
                     FilterFragment frag = new FilterFragment();
-                    FragmentManager fragManager = getFragmentManager();
-                    FragmentTransaction fragTrans = fragManager.beginTransaction();
-                    fragTrans.replace(R.id.info_recycler_view, frag);
-                    fragTrans.addToBackStack(null);
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(((ViewGroup)(getView().getParent())).getId(), frag);
+                    //transaction.replace(R.id.info_cardview, frag);
+                    transaction.addToBackStack(null);
                     Log.d("Filter Page", "CALLING NEW FRAGMENT");
-                    fragTrans.commit();
+                    transaction.commit();
                     return true;
                 }
               /*  @Override

@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -91,7 +93,6 @@ public class FilterFragment extends Fragment {
         labels = options.keySet().toArray(new String[0]);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,7 +115,6 @@ public class FilterFragment extends Fragment {
         private Context context;
         private HashMap<String, String[]> options;
         private String[] labels;
-
 
         public ExpandableListAdapter(String[] labels, HashMap<String, String[]> options){
             this.options = options;
@@ -167,7 +167,7 @@ public class FilterFragment extends Fragment {
 
             final String expandedListText = (String) getChild(groupPosition, childPosition);
             if (convertView == null) {
-                LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater layoutInflater = getActivity().getLayoutInflater();
                 convertView = layoutInflater.inflate(R.layout.filter_item, null);
             }
             TextView expandedListTextView = (TextView) convertView.findViewById(R.id.item_text);
@@ -180,8 +180,7 @@ public class FilterFragment extends Fragment {
                                  View convertView, ViewGroup parent) {
             String listTitle = (String) getGroup(listPosition);
             if (convertView == null) {
-                LayoutInflater layoutInflater = (LayoutInflater) this.context.
-                        getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater layoutInflater = getActivity().getLayoutInflater();
                 convertView = layoutInflater.inflate(R.layout.filter_group, null);
             }
             TextView listTitleTextView = (TextView) convertView

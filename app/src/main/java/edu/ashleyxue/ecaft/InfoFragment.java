@@ -32,6 +32,7 @@ import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -53,6 +54,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private List<FirebaseCompany> companiesFilter;
     private SearchView searchView;
     private ListView lv;
+    static ArrayList<String> userChoices = new ArrayList<String>();
+    static HashMap<Integer, boolean []> prevFilterOptions = new HashMap<Integer, boolean[]>();
 
     String[] majorOptions = {
             "Aerospace Engineering",
@@ -77,7 +80,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     boolean sponsorship = false;
 
     boolean[] checkedStatus = new boolean[majorOptions.length];
-    ArrayList<Integer> userChoices = new ArrayList<>();
     ArrayList<String> companiesChecked = new ArrayList<>();
 
     public InfoFragment() {
@@ -123,7 +125,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
             Log.d("Filter Page", "Creating this fragment");
-            final ArrayList<String> userChoices = new ArrayList<String> (FilterFragment.filterOptions);
+            userChoices = new ArrayList<String> (FilterFragment.filterOptions);
+            prevFilterOptions = FilterFragment.mChildCheckStates;
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                 @Override
@@ -140,63 +143,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     companyAdapter.filter(userChoices);
                     return true;
                 }
-
-              /*  @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    AlertDialog.Builder opt = new AlertDialog.Builder(getContext());
-                    opt.setTitle("Please Choose Major Filters");
-                    opt.setMultiChoiceItems(majorOptions, checkedStatus, new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-                            if(isChecked){
-                                if(!userChoices.contains(position)){
-                                    userChoices.add(position);
-                                    checkedStatus[position]= true;
-                                }
-                            }
-                            else{
-                                userChoices.remove(Integer.valueOf(position));
-                            }
-                        }
-                    });
-                    opt.setCancelable(false);
-                    opt.setPositiveButton(getString(R.string.ok_label), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            companiesChecked.clear();
-                            for (int j = 0; j< userChoices.size(); j++){
-                                if (!companiesChecked.contains(majorOptions[userChoices.get(j)]))
-                                    companiesChecked.add(majorOptions[userChoices.get(j)]);
-
-                            }
-                            Log.d("PRINTING ITEM", companiesChecked.toString());
-
-                            companyAdapter.filter(companiesChecked);
-
-                        }
-                    });
-                    opt.setNegativeButton(getString(R.string.dismiss_label), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    opt.setNeutralButton(getString(R.string.clear_all_label), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            for (int i = 0; i< checkedStatus.length; i++){
-                                checkedStatus[i] = false;
-                                userChoices.clear();
-                                companiesChecked.clear();
-                            }
-                            companyAdapter.filter(companiesChecked);
-                        }
-                    });
-                    AlertDialog merp = opt.create();
-                    merp.show();
-                    Log.d("FILTER TEST", userChoices.toString());
-                    return true;
-                }; */
             });
             final MenuItem searchItem = menu.findItem(R.id.search);
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);

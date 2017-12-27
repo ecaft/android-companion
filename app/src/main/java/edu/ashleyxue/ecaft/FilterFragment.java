@@ -52,6 +52,7 @@ public class FilterFragment extends Fragment {
     ExpandableListView lv;
     private ArrayList<String> labels;
     private HashMap<String, List<String>> options;
+    static HashMap<Integer, boolean[] > mChildCheckStates = new HashMap<Integer, boolean[]>();
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
@@ -152,10 +153,9 @@ public class FilterFragment extends Fragment {
                 return false;
             }
         });
-        Button button = (Button) view.findViewById(R.id.button3);
+        Button filterButton = (Button) view.findViewById(R.id.submitFilter);
 
-
-        button.setOnClickListener(new View.OnClickListener() {
+        filterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 filterOptions = new ArrayList<String>();
                 Log.d("CHECK LOG COUNT", Integer.toString(listAdapter.getGroupCount()));
@@ -168,6 +168,29 @@ public class FilterFragment extends Fragment {
                     Log.i("CHECKED OFF FILTER: ", member);
                 } //TODO JUST TESTING THE BUTTON
                 getFragmentManager().popBackStack();
+            }
+        });
+        Button closeButton = (Button) view.findViewById(R.id.closeFilter);
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
+        Button clearButton = (Button) view.findViewById(R.id.clearFilter);
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                filterOptions = new ArrayList<String>();
+                for (String member : filterOptions){
+                    Log.i("CHECKED OFF FILTER: ", member);
+                } //TODO JUST TESTING THE BUTTON
+                mChildCheckStates = new HashMap<Integer, boolean[]>();
+                for (int i = 0; i < 3; i++)
+                {
+                    lv.collapseGroup(i);
+                }
             }
         });
     }
@@ -188,7 +211,6 @@ public class FilterFragment extends Fragment {
         private Context mContext;
         private HashMap<String, List<String>> moptions;
         private List<String>  mlabels;
-        private HashMap<Integer, boolean[] > mChildCheckStates;
         private ChildViewHolder childViewHolder;
         private GroupViewHolder groupViewHolder;
         private String groupText;
@@ -197,7 +219,7 @@ public class FilterFragment extends Fragment {
         public ExpandableListAdapter( List<String> labels, HashMap<String, List<String>> options){
             this.moptions = options;
             this.mlabels = labels;
-            mChildCheckStates = new HashMap<Integer, boolean[]>();
+            mChildCheckStates = InfoFragment.prevFilterOptions;
 
             this.inf =  getActivity().getLayoutInflater();
         }
@@ -315,17 +337,12 @@ public class FilterFragment extends Fragment {
             childViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
-                        getChecked[mChildPosition] = isChecked;
-                        mChildCheckStates.put(mGroupPosition, getChecked);
-                    } else {
-                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
-                        getChecked[mChildPosition] = isChecked;
-                        mChildCheckStates.put(mGroupPosition, getChecked);
-                    }
+                    boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                    getChecked[mChildPosition] = isChecked;
+                    mChildCheckStates.put(mGroupPosition, getChecked);
                 }
             });
+
             return convertView;
         }
 

@@ -23,15 +23,39 @@
     <ExpandableListView
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="471dp"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"
         android:indicatorLeft="320dp" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout2"
+        android:layout_gravity="bottom"
+        android:paddingLeft="35dip"
+        android:paddingRight="35dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUBMIT" />
+        <Button
+            android:id="@+id/submitFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="FILTER" />
 
+        <Button
+            android:id="@+id/closeFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="CLOSE" />
+        <Button
+            android:id="@+id/clearFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="CLEAR" />
+
+    </RelativeLayout>
 </LinearLayout>

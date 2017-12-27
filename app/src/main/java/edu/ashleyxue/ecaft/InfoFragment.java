@@ -375,6 +375,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 if (i.compareTo(new Integer(0)) == 0) {
                     List<String> majors = filterChoices.get(i);
                     if (majors.size() != 0) {
+                        if (majors.get(0).compareTo("All Majors") == 0){
+                            majorFilters.addAll(companies);
+                            break;
+                        }
                         for (FirebaseCompany comp : companies) {
                             for (String major : majors) {
                                 if (comp.getMajors().contains(major) && !majorFilters.contains(comp)) {
@@ -392,6 +396,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 if (i.compareTo(new Integer(1)) == 0) {
                     List<String> jobTypes = filterChoices.get(i);
                     if (jobTypes.size() != 0) {
+                        if (jobTypes.get(0).compareTo("All Types") == 0){
+                            jobFilters.addAll(companies);
+                            break;
+                        }
                         for (FirebaseCompany comp : companies) {
                             for (String type : jobTypes) {
                                 if (comp.getJobtypes().contains(type) && !jobFilters.contains(comp)) {

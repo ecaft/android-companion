@@ -100,6 +100,7 @@ public class FilterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTitle("Filter");
         return inflater.inflate(R.layout.filter_fragment, container, false);
     }
 
@@ -135,6 +136,12 @@ public class FilterFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
                 Log.i("CHILD", "clicking on child");
+
+                CheckBox cb = (CheckBox) v.findViewById(R.id.item_check_box);
+
+                if( cb != null )
+                    cb.toggle();
+
                 // TODO Auto-generated method stub
                 Toast.makeText(
                         getActivity().getApplicationContext(),

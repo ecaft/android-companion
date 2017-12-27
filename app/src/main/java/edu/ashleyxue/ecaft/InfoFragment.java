@@ -377,7 +377,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     if (majors.size() != 0) {
                         for (FirebaseCompany comp : companies) {
                             for (String major : majors) {
-                                Log.d("PRINTING MAJOR", major);
                                 if (comp.getMajors().contains(major) && !majorFilters.contains(comp)) {
                                     majorFilters.add(comp);
                                 }
@@ -395,7 +394,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     if (jobTypes.size() != 0) {
                         for (FirebaseCompany comp : companies) {
                             for (String type : jobTypes) {
-                                Log.d("PRINTING TYPE", type);
                                 if (comp.getJobtypes().contains(type) && !jobFilters.contains(comp)) {
                                     jobFilters.add(comp);
                                 }
@@ -413,7 +411,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     if (jobTypes.size() != 0) {
                         for (FirebaseCompany comp : companies) {
                             for (String type : jobTypes) {
-                                Log.d("PRINTING TYPE", type);
                                 if (comp.getJobtypes().contains(type) && !sponsorshipFilters.contains(comp)) {
                                     sponsorshipFilters.add(comp);
                                 }

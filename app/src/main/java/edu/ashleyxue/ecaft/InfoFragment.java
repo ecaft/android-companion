@@ -123,6 +123,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
             Log.d("Filter Page", "Creating this fragment");
+            final ArrayList<String> userChoices = new ArrayList<String> (FilterFragment.filterOptions);
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                 @Override
@@ -134,8 +135,12 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     transaction.addToBackStack(null);
                     Log.d("Filter Page", "CALLING NEW FRAGMENT");
                     transaction.commit();
+
+                    Log.d("FILTER PREP", userChoices.toString());
+                    companyAdapter.filter(userChoices);
                     return true;
                 }
+
               /*  @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     AlertDialog.Builder opt = new AlertDialog.Builder(getContext());
@@ -193,7 +198,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     return true;
                 }; */
             });
-            Log.d("FILTER PREP", userChoices.toString());
             final MenuItem searchItem = menu.findItem(R.id.search);
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 

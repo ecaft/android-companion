@@ -55,8 +55,13 @@ public class FilterFragment extends Fragment {
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
+    static List<String> filterOptions = new ArrayList<String>();
 
     public FilterFragment(){}
+
+    public List<String> getFilterOptions(){
+        return filterOptions;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -123,16 +128,17 @@ public class FilterFragment extends Fragment {
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity().getApplicationContext(),
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
                         labels.get(groupPosition) + " Expanded",
                         Toast.LENGTH_SHORT).show();
             }
         });
         lv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
+                Log.i("CHILD", "clicking on child");
                 // TODO Auto-generated method stub
                 Toast.makeText(
                         getActivity().getApplicationContext(),
@@ -142,6 +148,7 @@ public class FilterFragment extends Fragment {
                                 labels.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
+
                 return false;
             }
         });
@@ -150,19 +157,17 @@ public class FilterFragment extends Fragment {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                List<String> filterOptions = new ArrayList<String>();
+                filterOptions = new ArrayList<String>();
                 Log.d("CHECK LOG COUNT", Integer.toString(listAdapter.getGroupCount()));
                 for(int mGroupPosition =0; mGroupPosition < listAdapter.getGroupCount(); mGroupPosition++)
                 {
                     List<String> mGroupOptions = listAdapter.getCheckedItemsInGroup(mGroupPosition);
-                    for(String temp: mGroupOptions){
-                        System.out.println(temp);
-                    }
                     filterOptions.addAll(mGroupOptions);
                 }
                 for (String member : filterOptions){
                     Log.i("CHECKED OFF FILTER: ", member);
-                } //TODO JUST TESTING THE FIRST
+                } //TODO JUST TESTING THE BUTTON
+                getFragmentManager().popBackStack();
             }
         });
     }

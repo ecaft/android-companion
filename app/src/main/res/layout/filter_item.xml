@@ -3,6 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <CheckBox
         android:id="@+id/item_check_box"
         android:layout_width="wrap_content"
@@ -12,6 +13,8 @@
         android:id="@+id/item_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:textColor="@color/black" />
 </LinearLayout>

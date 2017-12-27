@@ -21,7 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,6 +37,7 @@ import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
 import android.widget.ExpandableListView;
@@ -47,15 +50,18 @@ import android.widget.ExpandableListView;
 public class FilterFragment extends Fragment {
     View rootView;
     ExpandableListView lv;
-    private String[] labels;
-    private HashMap<String, String[]> options;
+    private ArrayList<String> labels;
+    private HashMap<String, List<String>> options;
+
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
 
     public FilterFragment(){}
 
-
-    public HashMap<String, String[]> getData(){
-        HashMap<String, String[]> filterOptions = new HashMap<String, String[]>();
-        String[] majors =  {
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        ArrayList<String> majors = new ArrayList<>(Arrays.asList(
                 "Aerospace Engineering",
                 "Atmospheric Science",
                 "Biological Engineering",
@@ -72,32 +78,28 @@ public class FilterFragment extends Fragment {
                 "Materials Science and Engineering",
                 "Mechanical Engineering",
                 "Operations Research and Information Engineering",
-                "Systems Engineering"};
+                "Systems Engineering"));
 
-        String [] jobOptions = { "Co-op", "Full-time", "Internship", "Other"};
+        ArrayList<String> jobOptions = new ArrayList<>(Arrays.asList(
+                "Co-op", "Full-time", "Internship", "Other"));
 
-        String [] other = {"Sponsorship required"};
+        ArrayList<String> other =  new ArrayList<>(Arrays.asList(
+                "Sponsorship Required"));
+        options = new HashMap<String, List<String>>();
+        options.put("Majors", majors);
+        options.put("Open Positions", jobOptions);
+        options.put("Other", other);
 
-        filterOptions.put("Majors", majors);
-        filterOptions.put("Open positions", jobOptions);
-        filterOptions.put("Other", other);
+        labels =  new ArrayList<>(Arrays.asList(
+                "Majors", "Open Positions", "Other"));
 
-        return filterOptions;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-
-        options = getData();
-        labels = options.keySet().toArray(new String[0]);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_layout, container, false);
+        return inflater.inflate(R.layout.filter_fragment, container, false);
     }
 
     @Override
@@ -106,40 +108,153 @@ public class FilterFragment extends Fragment {
 
         lv = (ExpandableListView) view.findViewById(R.id.expandableListView);
 
-        lv.setAdapter(new ExpandableListAdapter(labels, options));
+        listAdapter = new ExpandableListAdapter(labels, options);
 
+        lv.setAdapter(listAdapter);
+
+        lv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return false;
+            }
+        });
+        lv.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        labels.get(groupPosition) + " Expanded",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        lv.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                // TODO Auto-generated method stub
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        labels.get(groupPosition)
+                                + " : "
+                                + options.get(
+                                labels.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT)
+                        .show();
+                return false;
+            }
+        });
+        Button button = (Button) view.findViewById(R.id.button3);
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                List<String> filterOptions = new ArrayList<String>();
+                Log.d("CHECK LOG COUNT", Integer.toString(listAdapter.getGroupCount()));
+                for(int mGroupPosition =0; mGroupPosition < listAdapter.getGroupCount(); mGroupPosition++)
+                {
+                    List<String> mGroupOptions = listAdapter.getCheckedItemsInGroup(mGroupPosition);
+                    for(String temp: mGroupOptions){
+                        System.out.println(temp);
+                    }
+                    filterOptions.addAll(mGroupOptions);
+                }
+                for (String member : filterOptions){
+                    Log.i("CHECKED OFF FILTER: ", member);
+                } //TODO JUST TESTING THE FIRST
+            }
+        });
+    }
+
+    public final class GroupViewHolder {
+
+        TextView mGroupText;
+    }
+
+    public final class ChildViewHolder {
+
+        TextView mChildText;
+        CheckBox mCheckBox;
     }
 
     public class ExpandableListAdapter extends BaseExpandableListAdapter {
         private final LayoutInflater inf;
-        private Context context;
-        private HashMap<String, String[]> options;
-        private String[] labels;
+        private Context mContext;
+        private HashMap<String, List<String>> moptions;
+        private List<String>  mlabels;
+        private HashMap<Integer, boolean[] > mChildCheckStates;
+        private ChildViewHolder childViewHolder;
+        private GroupViewHolder groupViewHolder;
+        private String groupText;
+        private String childText;
 
-        public ExpandableListAdapter(String[] labels, HashMap<String, String[]> options){
-            this.options = options;
-            this.labels = labels;
-            inf =  getActivity().getLayoutInflater();
+        public ExpandableListAdapter( List<String> labels, HashMap<String, List<String>> options){
+            this.moptions = options;
+            this.mlabels = labels;
+            mChildCheckStates = new HashMap<Integer, boolean[]>();
+
+            this.inf =  getActivity().getLayoutInflater();
+        }
+
+        public List<String> getGroupItems (int mGroupPosition){
+            if(mGroupPosition == 0)
+                return new ArrayList<>(Arrays.asList(
+                        "Aerospace Engineering",
+                        "Atmospheric Science",
+                        "Biological Engineering",
+                        "Biomedical Engineering",
+                        "Biological and Environmental",
+                        "Chemical Engineering",
+                        "Civil Engineering",
+                        "Computer Science",
+                        "Electrical and Computer Engineering",
+                        "Engineering Management",
+                        "Engineering Physics",
+                        "Environmental Engineering",
+                        "Information Science",
+                        "Materials Science and Engineering",
+                        "Mechanical Engineering",
+                        "Operations Research and Information Engineering",
+                        "Systems Engineering"));
+            else if (mGroupPosition == 1)
+                return new ArrayList<>(Arrays.asList(
+                        "Co-op", "Full-time", "Internship", "Other"));
+            return new ArrayList<>(Arrays.asList(
+                    "Sponsorship Required"));
+        }
+        public  List<String> getCheckedItemsInGroup(int mGroupPosition)
+        {
+            boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+            List<String> list = getGroupItems(mGroupPosition);
+            List<String> wanted = new ArrayList <String>();
+            if(getChecked != null) {
+                for (int j = 0; j < getChecked.length; ++j) {
+                    if (getChecked[j] == true)
+                        wanted.add(list.get(j));
+                }
+            }
+            return wanted;
         }
 
         @Override
         public int getGroupCount(){
-            return labels.length;
+            return mlabels.size();
         }
 
         @Override
         public int getChildrenCount(int groupPosition){
-            return options.get(labels[groupPosition]).length;
+            return moptions.get(mlabels.get(groupPosition)).size();
         }
 
         @Override
-        public Object getGroup(int groupPosition){
-            return labels[groupPosition];
+        public String getGroup(int groupPosition){
+            return mlabels.get(groupPosition);
         }
 
         @Override
-        public Object getChild(int groupPosition, int childPosition){
-            return options.get(labels[groupPosition])[childPosition];
+        public String getChild(int groupPosition, int childPosition){
+            return moptions.get(mlabels.get(groupPosition)).get(childPosition);
         }
 
         @Override
@@ -164,20 +279,75 @@ public class FilterFragment extends Fragment {
 
         @Override
         public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            final int mGroupPosition = groupPosition;
+            final int mChildPosition = childPosition;
+            childText = getChild(mGroupPosition, mChildPosition);
 
-            final String expandedListText = (String) getChild(groupPosition, childPosition);
             if (convertView == null) {
-                LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-                convertView = layoutInflater.inflate(R.layout.filter_item, null);
+                LayoutInflater inflater =  getActivity().getLayoutInflater();
+                convertView = inflater.inflate(R.layout.filter_item, null);
+                childViewHolder = new ChildViewHolder();
+                childViewHolder.mChildText = (TextView) convertView
+                        .findViewById(R.id.item_text);
+                childViewHolder.mCheckBox = (CheckBox) convertView
+                        .findViewById(R.id.item_check_box);
+                convertView.setTag(R.layout.filter_item, childViewHolder);
+            } else {
+                childViewHolder = (ChildViewHolder) convertView
+                        .getTag(R.layout.filter_item);
             }
-            TextView expandedListTextView = (TextView) convertView.findViewById(R.id.item_text);
-            expandedListTextView.setText(expandedListText);
+            childViewHolder.mChildText.setText(childText);
+            childViewHolder.mCheckBox.setOnCheckedChangeListener(null);
+
+            if (mChildCheckStates.containsKey(mGroupPosition)) {
+                boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                childViewHolder.mCheckBox.setChecked(getChecked[mChildPosition]);
+            } else {
+                boolean getChecked[] = new boolean[getChildrenCount(mGroupPosition)];
+                mChildCheckStates.put(mGroupPosition, getChecked);
+                childViewHolder.mCheckBox.setChecked(false);
+            }
+            childViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = isChecked;
+                        mChildCheckStates.put(mGroupPosition, getChecked);
+                    } else {
+                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = isChecked;
+                        mChildCheckStates.put(mGroupPosition, getChecked);
+                    }
+                }
+            });
             return convertView;
         }
 
         @Override
-        public View getGroupView(int listPosition, boolean isExpanded,
+        public View getGroupView(int groupPosition, boolean isExpanded,
                                  View convertView, ViewGroup parent) {
+            groupText = getGroup(groupPosition);
+
+            if (convertView == null) {
+
+                LayoutInflater inflater =  getActivity().getLayoutInflater();
+                convertView = inflater.inflate(R.layout.filter_group, null);
+
+                groupViewHolder = new GroupViewHolder();
+
+                groupViewHolder.mGroupText = (TextView) convertView.findViewById(R.id.listTitle);
+
+                convertView.setTag(groupViewHolder);
+            } else {
+
+                groupViewHolder = (GroupViewHolder) convertView.getTag();
+            }
+
+            groupViewHolder.mGroupText.setText(groupText);
+
+            return convertView;
+            /*
             String listTitle = (String) getGroup(listPosition);
             if (convertView == null) {
                 LayoutInflater layoutInflater = getActivity().getLayoutInflater();
@@ -188,6 +358,7 @@ public class FilterFragment extends Fragment {
             listTitleTextView.setTypeface(null, Typeface.BOLD);
             listTitleTextView.setText(listTitle);
             return convertView;
+            */
         }
 
     }

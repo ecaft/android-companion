@@ -54,7 +54,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private List<FirebaseCompany> companiesFilter;
     private SearchView searchView;
     private ListView lv;
-    static ArrayList<String> userChoices = new ArrayList<String>();
+    static HashMap<Integer, List<String>> userChoices = new HashMap<Integer, List<String>>();
     static HashMap<Integer, boolean []> prevFilterOptions = new HashMap<Integer, boolean[]>();
 
     String[] majorOptions = {
@@ -125,8 +125,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
             Log.d("Filter Page", "Creating this fragment");
-            userChoices = new ArrayList<String> (FilterFragment.filterOptions);
-            prevFilterOptions = FilterFragment.mChildCheckStates;
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                 @Override
@@ -134,36 +132,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     FilterFragment frag = new FilterFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(((ViewGroup)(getView().getParent())).getId(), frag);
-                    //transaction.replace(R.id.info_cardview, frag);
                     transaction.addToBackStack(null);
                     Log.d("Filter Page", "CALLING NEW FRAGMENT");
                     transaction.commit();
 
-                    Log.d("FILTER PREP", userChoices.toString());
-                    companyAdapter.filter(userChoices);
                     return true;
                 }
             });
             final MenuItem searchItem = menu.findItem(R.id.search);
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-            searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(View view) {
-                    Log.d("final", "search view attached");
-                    for (int i = 0; i< checkedStatus.length; i++){
-                        checkedStatus[i] = false;
-                        userChoices.clear();
-                        companiesChecked.clear();
-                    }
-                    companyAdapter.filter(companiesChecked);
-                }
-
-                @Override
-                public void onViewDetachedFromWindow(View view) {
-                    Log.d("final", "search view detached");
-                }
-            });
 
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -198,6 +175,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     @Override
     public void onResume() {
         super.onResume();
+        userChoices = new HashMap<Integer, List<String>> (FilterFragment.filterOptions);
+        prevFilterOptions = FilterFragment.mChildCheckStates;
+        Log.d("FILTER PREP", userChoices.toString());
+        companyAdapter.filter(userChoices);
         Log.d("final", "info fragment onresume");
         updateUI();
         MainActivity.navigationView.setCheckedItem(R.id.nav_companies);
@@ -383,28 +364,83 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     "size:" + companies.size());
             notifyDataSetChanged();
         }
-        public void filter(ArrayList<String> majors){
-            Log.d("majors", majors.toString());
+        public void filter(HashMap<Integer, List<String>> filterChoices){
             companiesFilter.clear();
-            if(majors.size()!=0){
-                for (FirebaseCompany comp: companies){
-                    for(String major: majors){
-                        Log.d("PRINTING MAJOR", major);
-                        if (comp.getMajors().contains(major) && !companiesFilter.contains(comp)) {
-                            companiesFilter.add(comp);
+            List<FirebaseCompany> majorFilters = new ArrayList<FirebaseCompany>();
+            List<FirebaseCompany> jobFilters = new ArrayList<FirebaseCompany>();
+            List<FirebaseCompany> sponsorshipFilters = new ArrayList<FirebaseCompany>();
+
+            List<FirebaseCompany> defaultAll = new ArrayList<>(FirebaseApplication.getCompanies());
+            for (Integer i : filterChoices.keySet()) {
+                if (i.compareTo(new Integer(0)) == 0) {
+                    List<String> majors = filterChoices.get(i);
+                    if (majors.size() != 0) {
+                        for (FirebaseCompany comp : companies) {
+                            for (String major : majors) {
+                                Log.d("PRINTING MAJOR", major);
+                                if (comp.getMajors().contains(major) && !majorFilters.contains(comp)) {
+                                    majorFilters.add(comp);
+                                }
+                            }
+                            if (comp.getMajors() == "") {
+                                majorFilters.add(comp);
+                            }
                         }
-                    }
-                    if (comp.getMajors()== ""){
-                        companiesFilter.add(comp);
+                    } else {
+                        majorFilters.addAll(companies);
                     }
                 }
+                if (i.compareTo(new Integer(1)) == 0) {
+                    List<String> jobTypes = filterChoices.get(i);
+                    if (jobTypes.size() != 0) {
+                        for (FirebaseCompany comp : companies) {
+                            for (String type : jobTypes) {
+                                Log.d("PRINTING TYPE", type);
+                                if (comp.getJobtypes().contains(type) && !jobFilters.contains(comp)) {
+                                    jobFilters.add(comp);
+                                }
+                            }
+                            if (comp.getJobtypes() == "") {
+                                jobFilters.add(comp);
+                            }
+                        }
+                    } else {
+                        jobFilters.addAll(companies);
+                    }
+                }
+                /*if (i.compareTo(new Integer(1)) == 0) {
+                    List<String> jobTypes = filterChoices.get(i);
+                    if (jobTypes.size() != 0) {
+                        for (FirebaseCompany comp : companies) {
+                            for (String type : jobTypes) {
+                                Log.d("PRINTING TYPE", type);
+                                if (comp.getJobtypes().contains(type) && !sponsorshipFilters.contains(comp)) {
+                                    sponsorshipFilters.add(comp);
+                                }
+                            }
+                            if (comp.getJobtypes() == "") {
+                                sponsorshipFilters.add(comp);
+                            }
+                        }
+                    } else {
+                        sponsorshipFilters.addAll(companies);
+                    }
+                } */
+
             }
-            else{
-                companiesFilter.addAll(companies);
+            if (majorFilters.size() > 0){
+                defaultAll.retainAll(majorFilters) ;
+                Log.d("MAJOR FILTERS SIZE", Integer.toString(majorFilters.size()));
             }
-            Log.d("final", "FILTER CALL: filter size: " + companiesFilter.size
-                    () + ", total " +
-                    "size:" + companies.size());
+            if (jobFilters.size() > 0 ){
+                defaultAll.retainAll(jobFilters);
+                Log.d("jobFilters SIZE", Integer.toString(jobFilters.size()));
+            }
+            if (sponsorshipFilters.size()> 0){
+                defaultAll.retainAll(sponsorshipFilters);
+                Log.d("sponsorshipFilters SIZE", Integer.toString(sponsorshipFilters.size()));
+            }
+            companiesFilter = defaultAll;
             notifyDataSetChanged();
         }
 

@@ -56,13 +56,8 @@ public class FilterFragment extends Fragment {
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    static List<String> filterOptions = new ArrayList<String>();
-
+    static HashMap<Integer, List<String>> filterOptions = new HashMap<Integer, List<String>>();
     public FilterFragment(){}
-
-    public List<String> getFilterOptions(){
-        return filterOptions;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -157,16 +152,16 @@ public class FilterFragment extends Fragment {
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                filterOptions = new ArrayList<String>();
+                filterOptions = new HashMap<Integer, List<String>>();
                 Log.d("CHECK LOG COUNT", Integer.toString(listAdapter.getGroupCount()));
                 for(int mGroupPosition =0; mGroupPosition < listAdapter.getGroupCount(); mGroupPosition++)
                 {
                     List<String> mGroupOptions = listAdapter.getCheckedItemsInGroup(mGroupPosition);
-                    filterOptions.addAll(mGroupOptions);
+                    for (String member : mGroupOptions){
+                        Log.i("CHECKED OFF FILTER: ", member);
+                    } //TODO JUST TESTING THE BUTTON
+                    filterOptions.put(mGroupPosition, mGroupOptions);
                 }
-                for (String member : filterOptions){
-                    Log.i("CHECKED OFF FILTER: ", member);
-                } //TODO JUST TESTING THE BUTTON
                 getFragmentManager().popBackStack();
             }
         });
@@ -182,10 +177,7 @@ public class FilterFragment extends Fragment {
 
         clearButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                filterOptions = new ArrayList<String>();
-                for (String member : filterOptions){
-                    Log.i("CHECKED OFF FILTER: ", member);
-                } //TODO JUST TESTING THE BUTTON
+                filterOptions = new HashMap<Integer, List<String>>();
                 mChildCheckStates = new HashMap<Integer, boolean[]>();
                 for (int i = 0; i < 3; i++)
                 {

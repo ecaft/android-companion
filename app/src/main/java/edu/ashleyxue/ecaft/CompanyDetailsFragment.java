@@ -1,8 +1,10 @@
 package edu.ashleyxue.ecaft;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +20,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Ashley on 1/16/2016.
@@ -103,10 +109,23 @@ public class CompanyDetailsFragment extends Fragment {
                 .company_details_website);
         companyWebsite.setText(website);
 
-        companyNotesHeader = (TextView) v.findViewById(R.id
-                .company_details_notes_header);
+        Button notesButton = (Button) v.findViewById(R.id.notesButton);
 
-        companyNotes = new EditText(inflater.getContext()){
+        notesButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("Notes Page", "Button Being Clicked");
+                NotesFragment noteFrag = new NotesFragment();
+                Intent i = getActivity().getIntent();
+                Bundle x = i.getExtras();
+                noteFrag.setArguments(i.getExtras());
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(((ViewGroup)(getView().getParent())).getId(), noteFrag);
+                transaction.addToBackStack(null);
+                Log.d("Notes Page", "CALLING NEW FRAGMENT");
+                transaction.commit();
+            }
+        });
+        /*companyNotes = new EditText(inflater.getContext()){
             @Override
             public boolean onKeyPreIme(int keyCode, KeyEvent event) {
                 Log.d("details", keyCode + "");
@@ -155,7 +174,7 @@ public class CompanyDetailsFragment extends Fragment {
         else
             companyNotes.setHint("Add a note for this company");
 
-
+        */
         companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
 
         StorageReference path = storageRef.child("logos/" +
@@ -198,6 +217,6 @@ public class CompanyDetailsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        MainActivity.saveNote(objectID, companyNotes.getText().toString());
+        //MainActivity.saveNote(objectID, companyNotes.getText().toString());
     }
 }

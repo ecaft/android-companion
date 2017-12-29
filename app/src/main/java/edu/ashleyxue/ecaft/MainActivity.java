@@ -271,12 +271,12 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mDatabase.execSQL(str);
     }
 
-    public static void saveNote(String id, String note) {
+    /*public static void saveNote(String id, String note) {
         String str = "update " + CompanyTable.NAME + " set " + CompanyTable
                 .Cols.NOTE + " = \"" + note + "\" where " + CompanyTable
                 .Cols.ID + " = \"" + id + "\"";
         mDatabase.execSQL(str);
-    }
+    } */
 
     public static String getNote(String id) {
         Cursor c = mDatabase.query(CompanyTable.NAME,

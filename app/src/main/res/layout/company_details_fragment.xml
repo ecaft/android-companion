@@ -57,7 +57,11 @@
 
             </LinearLayout>
         </RelativeLayout>
-
+        <Button
+            android:id= "@+id/notesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "NOTES"/>
         <TextView
             android:id="@+id/company_details_notes_header"
             android:layout_width="match_parent"

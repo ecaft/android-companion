@@ -3,10 +3,11 @@
 <RelativeLayout android:id="@+id/info_cardview"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="120dp"
                 android:background="@drawable/list_item_selector"
-                android:orientation="horizontal">
-
+                android:orientation="horizontal"
+                android:paddingLeft="15dp">
+<!--
     <ImageView
         android:id="@+id/company_logo"
         android:layout_width="71dp"
@@ -14,25 +15,38 @@
         android:adjustViewBounds="true"
         android:padding="12dp"
         android:scaleType="fitCenter"/>
+-->
 
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/info_icons"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:paddingRight="8dp">
+        android:paddingRight="2dp">
+
+        <ImageView
+            android:id="@+id/company_logo"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="60dp"
+            android:layout_gravity="right"
+            android:background="@color/white"/>
 
         <ImageButton
             android:id="@+id/save_company"
             style="?android:attr/actionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="90dp"
+            android:layout_gravity="end"
+            android:tint="#dfc75c"
             android:src="@drawable/ic_favorite"/>
 
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/company_name_holder"
@@ -40,8 +54,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/info_icons"
-        android:layout_toRightOf="@id/company_logo">
+        android:layout_toLeftOf="@id/info_icons">
+        <!--android:layout_toRightOf="@id/company_logo"-->
 
 
         <TextView
@@ -52,16 +66,17 @@
             android:maxLines="1"
             android:textStyle="bold"
             android:text="@string/company_name"
-            android:textColor="@color/black"
-            android:textSize="12sp"/>
+            android:textColor="@color/white"
+            android:layout_marginTop="40dp"
+            android:textSize="25sp"/>
 
         <TextView
             android:id="@+id/company_table"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/company_name"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="14sp"/>
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
     </LinearLayout>
 
     <View

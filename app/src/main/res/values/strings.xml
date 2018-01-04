@@ -60,6 +60,8 @@ The fair is at Barton Hall on Wednesday, February 8th and runs from 9:00am to 2:
     <string name="dismiss_label">Dismiss</string>
     <string name="clear_all_label">Clear all</string>
 
+    <string name="checklist_lists">Lists</string>
+
     <string-array name="menu_options">
         <item>Home</item>
         <item>Map</item>

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,16 +41,21 @@ public class ChecklistFragment extends Fragment {
 
     private List<Integer> isVisitedList;
     private List<String> companies;
+    private List<String> companyLocations;
 
     private Parcelable savedState;
     private Bundle savedBundle;
 
     private int swipedPosition;
 
+    private boolean listButtonClicked = false;
+
+
     public ChecklistFragment() {
         isVisitedList = MainActivity.makeIsVisited();
         companies = MainActivity.makeSavedList();
-        companyAdapter = new CompanyAdapter(companies);
+        companyLocations = MainActivity.makeSavedList();
+        companyAdapter = new CompanyAdapter(companies, companyLocations);
     }
 
     @Override
@@ -58,11 +64,35 @@ public class ChecklistFragment extends Fragment {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
         View v = inflater.inflate(R.layout.checklist_fragment, container, false);
+        final LinearLayout layout = (LinearLayout) v.findViewById(R.id.list_button);
+        layout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
+                if(listButtonClicked)
+                    params.topMargin = 1000;
+                else{
+                    params.topMargin = 1400;
+                }
+                listButtonClicked = !listButtonClicked;
+                layout.setLayoutParams(params);
+            }
+
+        });
 
         companyRecylerView = (RecyclerView) v.findViewById(R.id.checklist_recycler_view);
         companyRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         companyRecylerView.setHasFixedSize(true);
         companyRecylerView.setAdapter(companyAdapter);
+
+       // LinearLayout addCompanyLayout =
+                //(LinearLayout) v.findViewById(R.id.checklist_addCompany_main);
+        //RelativeLayout.LayoutParams addCompanyParams =
+                //(RelativeLayout.LayoutParams) addCompanyLayout.getLayoutParams();
+        //addCompanyParams.addRule(RelativeLayout.RIGHT_OF, R.id.checklist_recycler_view);
+        //addCompanyLayout.setLayoutParams(addCompanyParams);
 
         emptyView = v.findViewById(R.id.list_fragment_empty_view);
 
@@ -70,6 +100,7 @@ public class ChecklistFragment extends Fragment {
 
         return v;
     }
+
 
     @Override
     public void onResume() {
@@ -96,13 +127,14 @@ public class ChecklistFragment extends Fragment {
 
     private void updateSavedLists() {
         companies = MainActivity.makeSavedList();
+        companyLocations = MainActivity.makeSavedList();
     }
 
     private void updateUI() {
         updateVisitedList();
         updateSavedLists();
 
-        companyAdapter = new CompanyAdapter(companies);
+        companyAdapter = new CompanyAdapter(companies, companyLocations);
         companyRecylerView.setAdapter(companyAdapter);
 
 
@@ -125,6 +157,7 @@ public class ChecklistFragment extends Fragment {
     private class CompanyHolder extends RecyclerView.ViewHolder {
         public RelativeLayout mCompanyRL;
         public TextView mCompanyName;
+        public TextView mCompanyLocation;
         public int currentPosition;
         public CheckBox mCompanyVisited;
         public FirebaseCompany currentCompany;
@@ -170,6 +203,9 @@ public class ChecklistFragment extends Fragment {
             mCompanyName = (TextView) itemView.findViewById(
                     R.id.company_checklist_name);
 
+            mCompanyLocation = (TextView) itemView.findViewById(R.id
+                    .checklist_company_table);
+
             mCompanyVisited = (CheckBox) itemView.findViewById(
                     R.id.check_company);
             mCompanyVisited.setOnClickListener(
@@ -194,9 +230,11 @@ public class ChecklistFragment extends Fragment {
 
     private class CompanyAdapter extends RecyclerView.Adapter<CompanyHolder> {
         public List<String> companies;
+        public List<String> companyLocations;
         public FirebaseCompany fc;
-        public CompanyAdapter(List<String> companies) {
+        public CompanyAdapter(List<String> companies, List<String> companyLocations) {
             this.companies = companies;
+            this.companyLocations = companyLocations;
         }
 
 
@@ -232,6 +270,8 @@ public class ChecklistFragment extends Fragment {
                     holder.currentCompany = fc;
                     holder.currentCompanyName = fc.name;
                     holder.mCompanyName.setText(fc.name);
+                    //holder.currentPosition = fc.location
+                    holder.mCompanyLocation.setText(fc.location);
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -257,4 +297,6 @@ public class ChecklistFragment extends Fragment {
             return companies.size();
         }
     }
+
+
 }

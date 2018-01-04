@@ -30,6 +30,7 @@ import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -51,6 +52,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private List<FirebaseCompany> companiesFilter;
     private SearchView searchView;
     private ListView lv;
+    private HashMap<String, Integer> backgroundImages;
 
     String[] options = {"Aerospace Engineering",
             "Atmospheric Science",
@@ -79,6 +81,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         companiesFilter = new ArrayList<>();
         companiesFilter.addAll(companies);
         companyAdapter = new CompanyAdapter(companiesFilter);
+
+        backgroundImages = new HashMap<String, Integer>(5);
+        backgroundImages.put("1stdibs",R.drawable.firstdibs_background);
+        backgroundImages.put("Acacia Communications",R.drawable.acacia_background);
+        backgroundImages.put("Accenture",R.drawable.accenture_background);
+        backgroundImages.put("Air Products & Chemicals, Inc.",R.drawable.airproducts_background);
+        backgroundImages.put("Amazon",R.drawable.amazon_background);
+
+
         Log.d("final", "instantiation: filter size: " + companiesFilter.size
                 () + ", total size: " + companies.size());
     }
@@ -269,6 +280,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         companyAdapter.notifyDataSetChanged();
 
+        //Log.d("zxcv", companies.toString());
         Log.d("final", "filter size: " + companiesFilter.size() + ", total " +
                 "size:" + companies.size());
     }
@@ -353,7 +365,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     }
                 }
             });
-
         }
 
     }
@@ -364,6 +375,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         public CompanyAdapter(List<FirebaseCompany> companies) {
             companiesFilter = companies;
         }
+
 
         @Override
         public CompanyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -395,6 +407,14 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 holder.mCompanySave.setImageResource(R.drawable.ic_unfavorite);
             }
 
+           try{
+               holder.mCompanyRL.setBackgroundResource(backgroundImages.get(holder.currentCompany.getName()));
+           }
+           catch(NullPointerException e){
+               holder.mCompanyRL.setBackgroundResource(R.drawable.black);
+           }
+
+            holder.mCompanyRL.getBackground().setAlpha(170);
             Log.d(TAG, "Recycler made for position " + position);
         }
 

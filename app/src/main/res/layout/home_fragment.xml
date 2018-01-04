@@ -84,7 +84,7 @@
         android:layout_height="320dp"
         android:adjustViewBounds="true"
         android:layout_marginTop="130dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="60dp"
         android:padding="0dp"
         android:gravity="right"
         android:scaleType="fitEnd"

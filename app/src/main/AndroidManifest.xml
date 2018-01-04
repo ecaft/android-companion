@@ -59,6 +59,10 @@
                 android:resource="@xml/searchable">
             </meta-data>
         </activity>
+        <activity
+            android:name="edu.ashleyxue.ecaft.ListButtonActivity"
+            android:label="Lists">
+        </activity>
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"

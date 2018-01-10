@@ -45,7 +45,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         toolbar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#800000")));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            // getSupportActionBar().setLogo(R.drawable.divider);
         }
 
 
@@ -130,7 +129,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d("details", "fasehgisef0sefha9sefhas");
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             Log.d(this.getClass().getName(), "back button pressed");
         }

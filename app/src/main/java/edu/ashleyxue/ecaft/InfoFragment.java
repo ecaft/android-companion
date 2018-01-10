@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +32,7 @@ import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -51,8 +54,12 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private List<FirebaseCompany> companiesFilter;
     private SearchView searchView;
     private ListView lv;
+    static HashMap<Integer, List<String>> userChoices = new HashMap<Integer, List<String>>();
+    static HashMap<Integer, boolean []> prevFilterOptions = new HashMap<Integer, boolean[]>();
+    private HashMap<String, Integer> backgroundImages;
 
-    String[] options = {"Aerospace Engineering",
+    String[] majorOptions = {
+            "Aerospace Engineering",
             "Atmospheric Science",
             "Biological Engineering",
             "Biomedical Engineering",
@@ -70,29 +77,30 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             "Operations Research and Information Engineering",
             "Systems Engineering"};
 
-    boolean[] checkedStatus = new boolean[options.length];
-    ArrayList<Integer> userChoices = new ArrayList<>();
+    String [] jobOptions = { "Co-op", "Full-time", "Internship", "Other"};
+    boolean sponsorship = false;
+
+    boolean[] checkedStatus = new boolean[majorOptions.length];
     ArrayList<String> companiesChecked = new ArrayList<>();
-    //ArrayList<> data = new ArrayList<>();
 
     public InfoFragment() {
-//        int resultCode = GoogleApiAvailability.getInstance()
-//                .isGooglePlayServicesAvailable(getActivity());
-//
-//        if (resultCode == ConnectionResult.SUCCESS){
-//            Log.d("ecaft", "isGooglePlayServicesAvailable SUCCESS");
-//        } else {
-//            GoogleApiAvailability.getInstance().getErrorDialog(getActivity(),
-//                    resultCode, 1).show();
-//        }
         companies = new ArrayList<>(FirebaseApplication.getCompanies());
         companiesFilter = new ArrayList<>();
         companiesFilter.addAll(companies);
+
         companyAdapter = new CompanyAdapter(companiesFilter);
+
+        backgroundImages = new HashMap<String, Integer>(5);
+        backgroundImages.put("1stdibs",R.drawable.firstdibs_background);
+        backgroundImages.put("Acacia Communications",R.drawable.acacia_background);
+        backgroundImages.put("Accenture",R.drawable.accenture_background);
+        backgroundImages.put("Air Products & Chemicals, Inc.",R.drawable.airproducts_background);
+        backgroundImages.put("Amazon",R.drawable.amazon_background);
+
+
         Log.d("final", "instantiation: filter size: " + companiesFilter.size
                 () + ", total size: " + companies.size());
     }
-
 
 
     @Override
@@ -114,8 +122,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         updateUI();
 
-        //ct.execute();
-
         getActivity().setTitle("List Of Companies");
         setHasOptionsMenu(true);
         return v;
@@ -129,92 +135,23 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             inflater.inflate(R.menu.menu_filter, menu);
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
-          //  final SearchView mSearchView = (SearchView) MenuItemCompat.getActionView(filterItem);
-            //mSearchView.clearFocus();
+            Log.d("Filter Page", "Creating this fragment");
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                 @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                 //   FragmentManager fm = getFragmentManager();
-                   // final OptionsFragment opt = new OptionsFragment();
-                   // mSearchView.clearFocus();
-                    AlertDialog.Builder opt = new AlertDialog.Builder(getContext());
-                    Log.d("applesauce", "applsauce");
-                    opt.setTitle("Please Choose Major Filters");
-                    opt.setMultiChoiceItems(options, checkedStatus, new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-                            if(isChecked){
-                                if(!userChoices.contains(position)){
-                                    userChoices.add(position);
-                                    checkedStatus[position]= true;
-                                }
-                            }
-                            else{
-                                userChoices.remove(Integer.valueOf(position));
-                            }
-                        }
-                    });
-                    opt.setCancelable(false);
-                    opt.setPositiveButton(getString(R.string.ok_label), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            companiesChecked.clear();
-                            for (int j = 0; j< userChoices.size(); j++){
-                                if (!companiesChecked.contains(options[userChoices.get(j)]))
-                                    companiesChecked.add(options[userChoices.get(j)]);
+                public boolean onMenuItemClick(MenuItem menuItem){
+                    FilterFragment frag = new FilterFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(((ViewGroup)(getView().getParent())).getId(), frag);
+                    transaction.addToBackStack(null);
+                    Log.d("Filter Page", "CALLING NEW FRAGMENT");
+                    transaction.commit();
 
-                            }
-                            Log.d("PRINTING ITEM", companiesChecked.toString());
-
-                            companyAdapter.filter(companiesChecked);
-
-                        }
-                    });
-                    opt.setNegativeButton(getString(R.string.dismiss_label), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    opt.setNeutralButton(getString(R.string.clear_all_label), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            for (int i = 0; i< checkedStatus.length; i++){
-                                checkedStatus[i] = false;
-                                userChoices.clear();
-                                companiesChecked.clear();
-                            }
-                            companyAdapter.filter(companiesChecked);
-                        }
-                    });
-                    AlertDialog merp = opt.create();
-                    merp.show();
-                    Log.d("FILTER TEST", userChoices.toString());
                     return true;
-                };
+                }
             });
-            Log.d("FILTER PREP", userChoices.toString());
             final MenuItem searchItem = menu.findItem(R.id.search);
             searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-            searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(View view) {
-                    Log.d("final", "search view attached");
-                    for (int i = 0; i< checkedStatus.length; i++){
-                        checkedStatus[i] = false;
-                        userChoices.clear();
-                        companiesChecked.clear();
-                    }
-                    companyAdapter.filter(companiesChecked);
-                }
-
-                @Override
-                public void onViewDetachedFromWindow(View view) {
-                    Log.d("final", "search view detached");
-                }
-            });
 
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
@@ -249,6 +186,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     @Override
     public void onResume() {
         super.onResume();
+        userChoices = new HashMap<Integer, List<String>> (FilterFragment.filterOptions);
+        prevFilterOptions = FilterFragment.mChildCheckStates;
+        Log.d("FILTER PREP", userChoices.toString());
+        companyAdapter.filter(userChoices);
         Log.d("final", "info fragment onresume");
         updateUI();
         //MainActivity.navigationView.setSelectedItemId(R.id.nav_companies);
@@ -287,6 +228,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         companyAdapter.notifyDataSetChanged();
 
+        //Log.d("zxcv", companies.toString());
         Log.d("final", "filter size: " + companiesFilter.size() + ", total " +
                 "size:" + companies.size());
     }
@@ -295,7 +237,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     public boolean onClose() {
         Log.d("final", "info fragment onclose");
 
-        // companyAdapter.filter("");
         return true;
     }
 
@@ -384,6 +325,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             companiesFilter = companies;
         }
 
+
         @Override
         public CompanyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
@@ -397,14 +339,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             FirebaseCompany currentCompany = companiesFilter.get(position);
             holder.currentCompany = currentCompany;
             holder.mCompanyName.setText(currentCompany.name);
-            holder.mCompanyLocation.setText("Table " + currentCompany
-                    .location);
+            holder.mCompanyLocation.setText("Table " + currentCompany.location);
 
             StorageReference path = storageRef.child("logos/" +
                     currentCompany.getId() + ".png");
-
-            // Log.d("Firebase", path.toString() + ": " +  path.hashCode() +
-            // "");
 
             Glide.with(getContext())
                     .using(new FirebaseImageLoader())
@@ -417,6 +355,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 holder.mCompanySave.setImageResource(R.drawable.ic_unfavorite);
             }
 
+           try{
+               holder.mCompanyRL.setBackgroundResource(backgroundImages.get(holder.currentCompany.getName()));
+           }
+           catch(NullPointerException e){
+               holder.mCompanyRL.setBackgroundResource(R.drawable.black);
+           }
+
+
+            holder.mCompanyRL.getBackground().setAlpha(170);
             Log.d(TAG, "Recycler made for position " + position);
         }
 
@@ -440,60 +387,91 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     "size:" + companies.size());
             notifyDataSetChanged();
         }
-        public void filter(ArrayList<String> majors){
-            Log.d("GARY MOD", majors.toString());
+        public void filter(HashMap<Integer, List<String>> filterChoices){
             companiesFilter.clear();
-            if(majors.size()!=0){
-                for (FirebaseCompany comp: companies){
-                    for(String major: majors){
-                        Log.d("PRINTING MAJOR", major);
-                        if (comp.getMajors().contains(major) && !companiesFilter.contains(comp)) {
-                            companiesFilter.add(comp);
+            List<FirebaseCompany> majorFilters = new ArrayList<FirebaseCompany>();
+            List<FirebaseCompany> jobFilters = new ArrayList<FirebaseCompany>();
+            List<FirebaseCompany> sponsorshipFilters = new ArrayList<FirebaseCompany>();
+
+            List<FirebaseCompany> defaultAll = new ArrayList<>(FirebaseApplication.getCompanies());
+            for (Integer i : filterChoices.keySet()) {
+                if (i.compareTo(new Integer(0)) == 0) {
+                    List<String> majors = filterChoices.get(i);
+                    if (majors.size() != 0) {
+                        if (majors.get(0).compareTo("All Majors") == 0){
+                            majorFilters.addAll(companies);
+                            break;
                         }
-                    }
-                    if (comp.getMajors()== ""){
-                        companiesFilter.add(comp);
+                        for (FirebaseCompany comp : companies) {
+                            for (String major : majors) {
+                                if (comp.getMajors().contains(major) && !majorFilters.contains(comp)) {
+                                    majorFilters.add(comp);
+                                }
+                            }
+                            if (comp.getMajors() == "") {
+                                majorFilters.add(comp);
+                            }
+                        }
+                    } else {
+                        majorFilters.addAll(companies);
                     }
                 }
+                if (i.compareTo(new Integer(1)) == 0) {
+                    List<String> jobTypes = filterChoices.get(i);
+                    if (jobTypes.size() != 0) {
+                        if (jobTypes.get(0).compareTo("All Types") == 0){
+                            jobFilters.addAll(companies);
+                            break;
+                        }
+                        for (FirebaseCompany comp : companies) {
+                            for (String type : jobTypes) {
+                                if (comp.getJobtypes().contains(type) && !jobFilters.contains(comp)) {
+                                    jobFilters.add(comp);
+                                }
+                            }
+                            if (comp.getJobtypes() == "") {
+                                jobFilters.add(comp);
+                            }
+                        }
+                    } else {
+                        jobFilters.addAll(companies);
+                    }
+                }
+                /*if (i.compareTo(new Integer(1)) == 0) {
+                    List<String> jobTypes = filterChoices.get(i);
+                    if (jobTypes.size() != 0) {
+                        for (FirebaseCompany comp : companies) {
+                            for (String type : jobTypes) {
+                                if (comp.getJobtypes().contains(type) && !sponsorshipFilters.contains(comp)) {
+                                    sponsorshipFilters.add(comp);
+                                }
+                            }
+                            if (comp.getJobtypes() == "") {
+                                sponsorshipFilters.add(comp);
+                            }
+                        }
+                    } else {
+                        sponsorshipFilters.addAll(companies);
+                    }
+                } */
+
             }
-            else{
-                companiesFilter.addAll(companies);
+            if (majorFilters.size() > 0){
+                defaultAll.retainAll(majorFilters) ;
+                Log.d("MAJOR FILTERS SIZE", Integer.toString(majorFilters.size()));
             }
-            Log.d("final", "FILTER CALL: filter size: " + companiesFilter.size
-                    () + ", total " +
-                    "size:" + companies.size());
+            if (jobFilters.size() > 0 ){
+                defaultAll.retainAll(jobFilters);
+                Log.d("jobFilters SIZE", Integer.toString(jobFilters.size()));
+            }
+            if (sponsorshipFilters.size()> 0){
+                defaultAll.retainAll(sponsorshipFilters);
+                Log.d("sponsorshipFilters SIZE", Integer.toString(sponsorshipFilters.size()));
+            }
+            companiesFilter = defaultAll;
             notifyDataSetChanged();
         }
 
     }
 
-    /**  public class CollectTasks extends AsyncTask<String, Void,
-     * List<Company>> {
-
-     protected List<Company> doInBackground(String... strings) {
-     List<Company> companies = new ArrayList<>();
-     List<ParseObject> list = FirebaseApplication.getCompanyPOS();
-
-
-     for (ParseObject po : list) {
-     Company c = new Company(po.getObjectId(),
-     po.getString(FirebaseApplication.COMPANY_NAME),
-     (ArrayList<String>) po.get(FirebaseApplication.COMPANY_MAJORS),
-     po.getParseFile(FirebaseApplication.COMPANY_LOGO)
-     );
-     companies.add(c);
-     }
-     return companies;
-     }
-
-     protected void onPostExecute(List<Company> list) {
-     companyRecylerView = (RecyclerView) v.findViewById(R.id
-     .info_recycler_view);
-     companyRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-     companyRecylerView.setHasFixedSize(true);
-     companyRecylerView.setAdapter(new CompanyAdapter(list));
-
-     }
-     }
-     */
 }

@@ -2,29 +2,94 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
                 android:paddingTop="25dp">
+
+<!--
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="rectangle" >
+        <solid android:color="#003737"/>
+        <stroke android:width="266dp" android:height="53dp" android:color="#003737" />
+        <corners android:radius="26.5dp"/>
+        <padding android:left="0dp" android:top="0dp" android:right="0dp" android:bottom="0dp" />
+    </shape>
+
+
 
     <TextView
         android:id="@+id/home_fragment_text_view1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="0dp"
+        android:gravity="left"
         android:text="@string/home_fragment_text1"
         android:textColor="@color/white"
-        android:textSize="25sp"/>
+        android:textSize="15sp"/>
+        -->
 
+    <!-- android:gravity="center_horizontal" -->
+<!--
     <TextView
         android:id="@+id/home_fragment_text_view3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/home_fragment_text_view1"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="90dp"
+        android:paddingLeft="10dp"
         android:gravity="center_horizontal"
         android:text="@string/home_fragment_text3"
         android:textColor="@color/white"
-        android:textSize="18sp"/>
+        android:textSize="28sp"/>
+-->
+
+    <ImageView
+        android:id="@+id/home_fragment_text_view1"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginLeft="0dp"
+        android:adjustViewBounds="true"
+        android:padding="0dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/homepage_fragment_text1"/>
+
+    <TextView
+        android:id="@+id/home_fragment_text_view3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/home_fragment_text3"
+        android:textColor="@color/white"
+        android:textSize="28sp"/>
+<!--
+    <TextView
+        android:id="@+id/home_fragment_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/home_fragment_text_view3"
+        android:layout_marginTop="180dp"
+        android:paddingLeft="10dp"
+        android:gravity="right"
+        android:text="@string/home_fragment_tips"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+    -->
+
+    <ImageView
+        android:id="@+id/home_fragment_tips"
+        android:layout_width="350dp"
+        android:layout_height="320dp"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="130dp"
+        android:layout_marginLeft="60dp"
+        android:padding="0dp"
+        android:gravity="right"
+        android:scaleType="fitEnd"
+        android:src="@drawable/homepage_tips"/>
+
+
 
 </RelativeLayout>

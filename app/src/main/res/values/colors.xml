@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#A81414</color>
+    <color name="colorPrimary">#6e1010</color> 
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#6e1010</color>
-    <color name="white">#FFFFFF</color>
+    <color name="white">#ffffff</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="tint">#424242</color>
     <color name="red">#F44336</color>
     <color name="dark_red">#841313</color>
     <color name="divider">#BDBDBD</color>
     <color name="dark_gray">#212121</color>
+    <color name="green">#338989</color>
     <color name="lighter_dark_gray">#424242</color>
     <color name="maroon">#780613</color>
     <color name="lighter_lighter_dark_gray">#616161</color>

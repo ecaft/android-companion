@@ -1,9 +1,15 @@
 package edu.ashleyxue.ecaft;
 
+import java.util.Arrays;
+
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,24 +17,34 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.widget.EditText;
+import android.text.InputType;
+import android.support.v4.app.FragmentManager;
 
+
+import com.bumptech.glide.load.engine.Resource;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Ashley on 11/8/2015.
  */
-public class ChecklistFragment extends Fragment {
+public class ChecklistFragment extends DialogFragment{
 
     private static final String TAG = "ECaFT";
     private static final String STATE_KEY = "Recycler State";
@@ -40,24 +56,141 @@ public class ChecklistFragment extends Fragment {
 
     private List<Integer> isVisitedList;
     private List<String> companies;
+    private List<String> companyLocations;
+
+    private CharSequence[] items;
+    private List<CharSequence> allCompanies;
+    private List<CharSequence> unCheckedCompanies;
+    private int checkedItem = -1;
+
 
     private Parcelable savedState;
     private Bundle savedBundle;
 
     private int swipedPosition;
 
+    private boolean listButtonClicked = false;
+
+    private ImageButton addCompany;
+
+
+
+
     public ChecklistFragment() {
-        isVisitedList = MainActivity.makeIsVisited();
-        companies = MainActivity.makeSavedList();
-        companyAdapter = new CompanyAdapter(companies);
+        isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
+        companies = MainActivity.makeSavedList(MainActivity.currentUserList);
+        companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
+        companyAdapter = new CompanyAdapter(companies, companyLocations);
+
+        items = new CharSequence[1];
+        allCompanies = new ArrayList<CharSequence>();
+        unCheckedCompanies = new ArrayList<CharSequence>();
+
     }
 
+    public List<CharSequence> filterLists(List<CharSequence> allCompanies, List<String> checkedCompanies){
+        List<CharSequence> notStarred = new ArrayList<CharSequence>();
+        for(CharSequence s: allCompanies){
+            if(!checkedCompanies.contains(s)) {
+                int i = MainActivity.allCompanyIds.indexOf(s);
+                notStarred.add(MainActivity.allCompanies.get(i));
+            }
+        }
+        return notStarred;
+    }
+
+    @TargetApi(21)
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
+        MainActivity.currentUserList = 0;
         View v = inflater.inflate(R.layout.checklist_fragment, container, false);
+        final RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.list_button);
+        layout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
+                if(listButtonClicked)
+                    params.topMargin = 1000;
+                else{
+                    params.topMargin = 1400;
+                }
+                listButtonClicked = !listButtonClicked;
+                layout.setLayoutParams(params);
+            }
+
+        });
+
+        addCompany = (ImageButton) v.findViewById(R.id.checklist_addCompany);
+        addCompany.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+                createDialog().show();
+            }
+        });
+        //final RelativeLayout addListLayout = (RelativeLayout) v.findViewById(R.id.add_list_button);
+        final Button favoriteList = (Button) v.findViewById((R.id.select_list));
+        final ImageButton addListButton = (ImageButton) v.findViewById(R.id.add_list_button);
+        addListButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+                Button newList = new Button(getContext());
+                createNewListDialog(newList);
+
+                RelativeLayout.LayoutParams params1 =
+                        (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
+                int top = params1.topMargin;
+                int left = params1.leftMargin;
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
+                        (favoriteList.getWidth(),favoriteList.getHeight());
+                params.topMargin = top;
+                params.leftMargin = (MainActivity.mDatabases.size() * favoriteList.getWidth()) + left;
+                newList.setLayoutParams(params);
+                //newList.setBackgroundResource(R.drawable.ic_list_unselected);
+                newList.setBackgroundTintList
+                        (getContext().getResources().getColorStateList(R.color.green));
+                newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
+                //newList.setBackgroundResource(R.color.black);
+
+
+                layout.addView(newList);
+                MainActivity.currentUserList = MainActivity.mDatabases.size();
+                //DatabaseHelper newDB = new DatabaseHelper(getContext());
+                //newDB.onCreate(new DatabaseHelper(MainActivity.mContext).getWritableDatabase());
+                MainActivity.mDatabases.add(
+                        new DatabaseHelper(MainActivity.mContext).getWritableDatabase());
+                //MainActivity.mDatabases.add(newDB.getWritableDatabase());
+                //MainActivity.mDatabases.get(MainActivity.currentUserList).
+                  //      execSQL("delete from "+ DatabaseSchema.CompanyTable.NAME);
+                Log.d("testtest", MainActivity.mDatabases.size() + "");
+                //Log.d("testtest", favoriteList.getHeight() + "");
+                //Log.d("testtest", favoriteList.getWidth() + "");
+                updateUI();
+                /*
+                ChecklistFragment fragment = (ChecklistFragment)
+                        getFragmentManager().findFragmentById(R.id.checklist_fragment);
+
+                getFragmentManager().beginTransaction()
+                        .detach(fragment)
+                        .attach(fragment)
+                        .commit();
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.checklist_fragment,
+                        new ChecklistFragment()).addToBackStack(null)
+                        .commit();
+                        */
+            }
+
+        });
 
         companyRecylerView = (RecyclerView) v.findViewById(R.id.checklist_recycler_view);
         companyRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -66,17 +199,81 @@ public class ChecklistFragment extends Fragment {
 
         emptyView = v.findViewById(R.id.list_fragment_empty_view);
 
-        //updateUI();
-
-        //  if (companies.size() == 0) {
-        //     emptyView.setVisibility(View.VISIBLE);
-        //    companyRecylerView.setVisibility(View.INVISIBLE);
-        // }
-
         getActivity().setTitle("Your Favorites");
 
+        //return inflater.inflate(R.layout.checklist_fragment, container, false);
         return v;
     }
+
+
+    public AlertDialog createNewListDialog(final Button b){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Create a New List");
+        // Set up the input
+        final EditText input = new EditText(getContext());
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String newListName = input.getText().toString();
+                Log.d("testtest", newListName);
+                MainActivity.userListNames.add(newListName);
+                b.setText(newListName);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                b.setText("Untitled List");
+                dialog.cancel();
+            }
+        });
+
+        return builder.show();
+    }
+
+    public AlertDialog createDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add a Company");
+        updateSavedLists();
+        CharSequence[] temp = MainActivity.allCompanyIds.toArray(new CharSequence[0]);
+        allCompanies = Arrays.asList(temp);
+        unCheckedCompanies = filterLists(allCompanies,companies);
+        items = unCheckedCompanies.toArray(new CharSequence[0]);
+
+        checkedItem = -1;
+
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+                checkedItem = which;
+            }
+        });
+
+        // add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked OK
+                if(checkedItem != -1) {
+                    Log.d("qwert",checkedItem + "");
+                    int i = MainActivity.allCompanies.indexOf(items[checkedItem].toString());
+                    MainActivity.addRow(
+                            MainActivity.allCompanyIds.get(i), items[checkedItem].toString());
+                    updateUI();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        return builder.create();
+    }
+
 
     @Override
     public void onResume() {
@@ -99,23 +296,25 @@ public class ChecklistFragment extends Fragment {
     }
 
     private void updateVisitedList() {
-        isVisitedList = MainActivity.makeIsVisited();
+        isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
     }
 
     private void updateSavedLists() {
-        companies = MainActivity.makeSavedList();
+        companies = MainActivity.makeSavedList(MainActivity.currentUserList);
+        companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
     }
 
-    private void updateUI() {
+    public void updateUI() {
         updateVisitedList();
         updateSavedLists();
+        unCheckedCompanies = filterLists(allCompanies,companies);
+        items = unCheckedCompanies.toArray(new CharSequence[0]);
 
-        companyAdapter = new CompanyAdapter(companies);
+        companyAdapter = new CompanyAdapter(companies, companyLocations);
         companyRecylerView.setAdapter(companyAdapter);
 
 
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -124,6 +323,7 @@ public class ChecklistFragment extends Fragment {
             savedState = companyRecylerView.getLayoutManager().onSaveInstanceState();
             outState.putParcelable(STATE_KEY, savedState);
         }
+        updateUI();
     }
 
 
@@ -133,25 +333,15 @@ public class ChecklistFragment extends Fragment {
     private class CompanyHolder extends RecyclerView.ViewHolder {
         public RelativeLayout mCompanyRL;
         public TextView mCompanyName;
+        public TextView mCompanyLocation;
         public int currentPosition;
         public CheckBox mCompanyVisited;
         public FirebaseCompany currentCompany;
-        //    public SwipeLayout swipeLayout;
         public LinearLayout delete;
         public String currentCompanyName;
 
         public CompanyHolder(View itemView) {
             super(itemView);
-            //swipeLayout = (SwipeLayout) itemView.findViewById(R.id.swipe);
-
-            //      swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-            //     swipeLayout.addDrag(SwipeLayout.DragEdge.Right, swipeLayout.
-            //            findViewById(R.id.trash));
-
-            //      swipeLayout.getSurfaceView().setOnClickListener(new View
-            //             .OnClickListener() {
-            //         @Override
-            //        public void onClick(View v) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -186,25 +376,11 @@ public class ChecklistFragment extends Fragment {
                 }
             });
 
-
-            //TODO: only one swipe layout at a time...
-/*
-            delete = (LinearLayout) itemView.findViewById(R.id.trash);
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), R.string.unstar,
-                            Toast.LENGTH_SHORT).show();
-                    MainActivity.deleteRow(currentPOCompany.getString
-                            (FirebaseApplication.COMPANY_ID));
-                    companyAdapter.delete(currentPosition);
-                    updateSavedLists();
-                    updateVisitedList();
-                }
-            });
-*/
             mCompanyName = (TextView) itemView.findViewById(
                     R.id.company_checklist_name);
+
+            mCompanyLocation = (TextView) itemView.findViewById(R.id
+                    .checklist_company_table);
 
             mCompanyVisited = (CheckBox) itemView.findViewById(
                     R.id.check_company);
@@ -216,12 +392,10 @@ public class ChecklistFragment extends Fragment {
                                 Toast.makeText(getContext(), R.string.visited,
                                         Toast.LENGTH_SHORT).show();
                                 MainActivity.setVisitStatus(currentCompany, 1);
-                               // updateVisitedList();
                             } else {
                                 MainActivity.setVisitStatus(currentCompany, 0);
                                 isVisitedList.set(currentPosition, 0);
 
-                                //   updateVisitedList();
                             }
                         }
                     }
@@ -232,9 +406,11 @@ public class ChecklistFragment extends Fragment {
 
     private class CompanyAdapter extends RecyclerView.Adapter<CompanyHolder> {
         public List<String> companies;
+        public List<String> companyLocations;
         public FirebaseCompany fc;
-        public CompanyAdapter(List<String> companies) {
+        public CompanyAdapter(List<String> companies, List<String> companyLocations) {
             this.companies = companies;
+            this.companyLocations = companyLocations;
         }
 
 
@@ -270,6 +446,9 @@ public class ChecklistFragment extends Fragment {
                     holder.currentCompany = fc;
                     holder.currentCompanyName = fc.name;
                     holder.mCompanyName.setText(fc.name);
+                    //holder.currentPosition = fc.location
+                    holder.mCompanyLocation.setText(fc.location);
+
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -278,21 +457,11 @@ public class ChecklistFragment extends Fragment {
             });
 
             holder.currentPosition = position;
- //           holder.currentCompanyName = currentCompany;
-   //         holder.mCompanyName.setText(currentCompany);
-//            holder.currentPOCompany = po;
-//            holder.currentPosition = position;
-//            holder.currentCompanyName = po.getString(FirebaseApplication
-//                    .COMPANY_NAME);
-//            holder.mCompanyName.setText(po.getString(FirebaseApplication
-//                    .COMPANY_NAME));
             holder.mCompanyVisited.setChecked(isVisitedList.get(position) == 1);
-           // holder.swipeLayout.close();
 
             Log.d(TAG, "Recycler made for position " + position);
         }
 
-        //     public void onC
 
         public void delete(int position) { //removes the row
             companies.remove(position);
@@ -304,5 +473,8 @@ public class ChecklistFragment extends Fragment {
         public int getItemCount() {
             return companies.size();
         }
+
     }
+
+
 }

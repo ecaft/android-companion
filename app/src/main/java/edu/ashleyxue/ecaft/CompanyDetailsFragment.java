@@ -1,8 +1,10 @@
 package edu.ashleyxue.ecaft;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -24,6 +26,8 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.content.Context;
 
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Ashley on 1/16/2016.
@@ -101,9 +105,6 @@ public class CompanyDetailsFragment extends Fragment {
             optcptText = "This company accepts opt/cpt.";
 
 
-//        Log.d("details", info);
-        // logo = FirebaseApplication.getLogoByID(objectID);
-
         companyName = (TextView) v.findViewById(R.id.company_details_name);
         companyName.setText(name);
 
@@ -141,6 +142,23 @@ public class CompanyDetailsFragment extends Fragment {
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
         companyNotes = new EditText(inflater.getContext()){
+        Button notesButton = (Button) v.findViewById(R.id.notesButton);
+
+        notesButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("Notes Page", "Button Being Clicked");
+                NotesFragment noteFrag = new NotesFragment();
+                Intent i = getActivity().getIntent();
+                Bundle x = i.getExtras();
+                noteFrag.setArguments(i.getExtras());
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(((ViewGroup)(getView().getParent())).getId(), noteFrag);
+                transaction.addToBackStack(null);
+                Log.d("Notes Page", "CALLING NEW FRAGMENT");
+                transaction.commit();
+            }
+        });
+        /*companyNotes = new EditText(inflater.getContext()){
             @Override
             public boolean onKeyPreIme(int keyCode, KeyEvent event) {
                 Log.d("details", keyCode + "");
@@ -260,14 +278,7 @@ public class CompanyDetailsFragment extends Fragment {
         else
             companyNotes.setHint("Add a note for this company");
 
-//        companySponsor = (TextView) v.findViewById(R.id
-//                .company_details_sponsor_info);
-//        companySponsor.setText(sponsorText);
-
-//        companyOptcpt = (TextView) v.findViewById(R.id
-//                .company_details_opt_cpt_text);
-//        companyOptcpt.setText(optcptText);
-
+        */
         companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
 
         StorageReference path = storageRef.child("logos/" +
@@ -280,15 +291,6 @@ public class CompanyDetailsFragment extends Fragment {
 
         getActivity().setTitle(name);
 
-//        String majorText = "";
-//        Object[] majorList = majors.toArray();
-//
-//        majorList = alphabetize(majorList);
-//
-//        for (Object s : majorList) {
-//            majorText = majorText + s.toString() + "\n";
-//        }
-//        companyMajors.setText(majorText);
 
         return v;
     }
@@ -319,7 +321,7 @@ public class CompanyDetailsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        MainActivity.saveNote(objectID, companyNotes.getText().toString());
+        //MainActivity.saveNote(objectID, companyNotes.getText().toString());
     }
 
     private void dispatchTakePictureIntent() {

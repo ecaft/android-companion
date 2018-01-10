@@ -41,7 +41,6 @@ public class FirebaseApplication extends Application {
     private static StorageReference storageRef;
     private static ArrayList<FirebaseCompany> companies;
 
-
     public void onCreate() {
         super.onCreate();
         Log.d("final", "firebase application oncreate");
@@ -57,6 +56,8 @@ public class FirebaseApplication extends Application {
                     FirebaseCompany fc = snapshot.getValue(FirebaseCompany
                             .class);
                     companies.add(fc);
+                    MainActivity.allCompanies.add(fc.getName());
+                    MainActivity.allCompanyIds.add(fc.getId());
                 }
 
                 Log.d("final", "firebaseapp size: " + companies.size());
@@ -74,7 +75,7 @@ public class FirebaseApplication extends Application {
     }
 
     public static ArrayList<FirebaseCompany> getCompanies() {
-        Log.d("final", "firebase app, return comapnies size: " + companies.size
+        Log.d("final", "firebase app, return companies size: " + companies.size
                 ());
         return companies;
     }

@@ -50,7 +50,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_margin="16dp"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginRight="8dp"
+            android:buttonTint="@color/red" />
 
 
         <LinearLayout
@@ -61,11 +62,12 @@
             android:padding="16dp">
 
 
-            <ImageView
+            <TextView
+                android:id="@+id/checklist_company_table"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_keyboard_arrow_right_black_24dp"/>
+                android:text="@string/company_name"/>
         </LinearLayout>
 
         <TextView
@@ -79,13 +81,12 @@
             android:textColor="@color/black"
             android:textSize="15sp"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divider"/>
 
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/divider"/>
     <!--  </com.daimajia.swipe.SwipeLayout> -->
 </LinearLayout>

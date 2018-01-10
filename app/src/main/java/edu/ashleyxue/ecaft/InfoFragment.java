@@ -56,6 +56,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private ListView lv;
     static HashMap<Integer, List<String>> userChoices = new HashMap<Integer, List<String>>();
     static HashMap<Integer, boolean []> prevFilterOptions = new HashMap<Integer, boolean[]>();
+    private HashMap<String, Integer> backgroundImages;
 
     String[] majorOptions = {
             "Aerospace Engineering",
@@ -86,7 +87,17 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         companies = new ArrayList<>(FirebaseApplication.getCompanies());
         companiesFilter = new ArrayList<>();
         companiesFilter.addAll(companies);
+
         companyAdapter = new CompanyAdapter(companiesFilter);
+
+        backgroundImages = new HashMap<String, Integer>(5);
+        backgroundImages.put("1stdibs",R.drawable.firstdibs_background);
+        backgroundImages.put("Acacia Communications",R.drawable.acacia_background);
+        backgroundImages.put("Accenture",R.drawable.accenture_background);
+        backgroundImages.put("Air Products & Chemicals, Inc.",R.drawable.airproducts_background);
+        backgroundImages.put("Amazon",R.drawable.amazon_background);
+
+
         Log.d("final", "instantiation: filter size: " + companiesFilter.size
                 () + ", total size: " + companies.size());
     }
@@ -216,6 +227,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         companyAdapter.notifyDataSetChanged();
 
+        //Log.d("zxcv", companies.toString());
         Log.d("final", "filter size: " + companiesFilter.size() + ", total " +
                 "size:" + companies.size());
     }
@@ -312,6 +324,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             companiesFilter = companies;
         }
 
+
         @Override
         public CompanyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
@@ -341,6 +354,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 holder.mCompanySave.setImageResource(R.drawable.ic_unfavorite);
             }
 
+           try{
+               holder.mCompanyRL.setBackgroundResource(backgroundImages.get(holder.currentCompany.getName()));
+           }
+           catch(NullPointerException e){
+               holder.mCompanyRL.setBackgroundResource(R.drawable.black);
+           }
+
+
+            holder.mCompanyRL.getBackground().setAlpha(170);
             Log.d(TAG, "Recycler made for position " + position);
         }
 

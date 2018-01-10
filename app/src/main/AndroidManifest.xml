@@ -49,18 +49,18 @@
         </activity>
 
         <activity
+            android:name="edu.ashleyxue.ecaft.CameraActivity"
+            android:label="Camera"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name="edu.ashleyxue.ecaft.CompanyDetailsActivity"
             android:label="@string/details_ac"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity
-            android:name="edu.ashleyxue.ecaft.CameraActivity"
-            android:label="Camera"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"

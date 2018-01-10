@@ -78,7 +78,7 @@ public class CompanyDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.company_details_fragment, container, false);
+        final View v = inflater.inflate(R.layout.company_details_fragment, container, false);
         Bundle args = getArguments();
         objectID = args.getString(FirebaseApplication.COMPANY_ID);
         name = args.getString(FirebaseApplication.COMPANY_NAME);
@@ -141,112 +141,25 @@ public class CompanyDetailsFragment extends Fragment {
 
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
-        companyNotes = new EditText(inflater.getContext()){
-        Button notesButton = (Button) v.findViewById(R.id.notesButton);
 
-        notesButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("Notes Page", "Button Being Clicked");
-                NotesFragment noteFrag = new NotesFragment();
-                Intent i = getActivity().getIntent();
-                Bundle x = i.getExtras();
-                noteFrag.setArguments(i.getExtras());
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(((ViewGroup)(getView().getParent())).getId(), noteFrag);
-                transaction.addToBackStack(null);
-                Log.d("Notes Page", "CALLING NEW FRAGMENT");
-                transaction.commit();
-            }
-        });
-        /*companyNotes = new EditText(inflater.getContext()){
-            @Override
-            public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-                Log.d("details", keyCode + "");
-                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
-                    Log.d("details", "elaufhlsieuhfaelsuhgaeu");
-                }
-                return super.onKeyPreIme(keyCode, event);
-            }
-        };
-        companyNotes = (EditText) v.findViewById(R.id
-                .company_details_editText);
+        companyNotes = new android.support.v7.widget.AppCompatEditText(inflater.getContext()){
+            Button notesButton = (Button) v.findViewById(R.id.notesButton);
 
-
-        if (showText) {
-            notes_company_info.setVisibility(View.VISIBLE);
-            notes_company_info.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (companyNotes.getVisibility() == View.GONE) {
-                        companyNotes.setVisibility(View.VISIBLE);
-                        companyNotesHeader.setVisibility(View.VISIBLE);
-                        companyPhotosHeader.setVisibility(View.VISIBLE);
-                        companyMajorsHeader.setVisibility(View.GONE);
-                        companyMajors.setVisibility(View.GONE);
-                        companySponsorHeader.setVisibility(View.GONE);
-                        companyInfoHeader.setVisibility(View.GONE);
-                        companyInfo.setVisibility(View.GONE);
-                        companyOpeningsHeader.setVisibility(View.GONE);
-                        companyOpenings.setVisibility(View.GONE);
-                        companySponsorHardCode.setVisibility(View.GONE);
-                    } else {
-                        companyNotes.setVisibility(View.GONE);
-                        companyNotesHeader.setVisibility(View.GONE);
-                        companyPhotosHeader.setVisibility(View.GONE);
-                        companyMajorsHeader.setVisibility(View.VISIBLE);
-                        companyMajors.setVisibility(View.VISIBLE);
-                        companySponsorHeader.setVisibility(View.VISIBLE);
-                        companyInfoHeader.setVisibility(View.VISIBLE);
-                        companyInfo.setVisibility(View.VISIBLE);
-                        companyOpeningsHeader.setVisibility(View.VISIBLE);
-                        companyOpenings.setVisibility(View.VISIBLE);
-                        companySponsorHardCode.setVisibility(View.VISIBLE);
+            notesButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Log.d("Notes Page", "Button Being Clicked");
+                        NotesFragment noteFrag = new NotesFragment();
+                        Intent i = getActivity().getIntent();
+                        Bundle x = i.getExtras();
+                        noteFrag.setArguments(i.getExtras());
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(((ViewGroup)(getView().getParent())).getId(), noteFrag);
+                        transaction.addToBackStack(null);
+                        Log.d("Notes Page", "CALLING NEW FRAGMENT");
+                        transaction.commit();
                     }
-                }
-            });
-        }
+                });
 
-        /*camera_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });*/
-
-/*
-        if(notes_company_info.isChecked()){
-            companyNotes.setVisibility(View.VISIBLE);
-            companyNotesHeader.setVisibility(View.VISIBLE);
-            companyMajorsHeader.setVisibility(View.GONE);
-            companyMajors.setVisibility(View.GONE);
-            companySponsorHeader.setVisibility(View.GONE);
-            companyInfoHeader.setVisibility(View.GONE);
-            companyInfo.setVisibility(View.GONE);
-            companyOpeningsHeader.setVisibility(View.GONE);
-            companyOpenings.setVisibility(View.GONE);
-            companySponsorHardCode.setVisibility(View.GONE);
-            //companySponsor.setVisibility(View.GONE);
-            //companyOptcpt.setVisibility(View.GONE);
-        }
-*/
-//
-//        companyNotes.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                companyNotes.setCursorVisible(true);
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                Log.d("details", s.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                Log.d("details", "done changing text: " + s.toString());
-//            }
-//        });
-//
         companyNotes.setOnEditorActionListener(new EditText
                 .OnEditorActionListener() {
             @Override

@@ -141,11 +141,13 @@ public class CompanyDetailsFragment extends Fragment {
 
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
+        companyNotes = (EditText) v.findViewById(R.id.company_details_editText);
 
-        companyNotes = new android.support.v7.widget.AppCompatEditText(inflater.getContext()){
-            Button notesButton = (Button) v.findViewById(R.id.notesButton);
+        //companyNotes = new android.support.v7.widget.AppCompatEditText(inflater.getContext()){
 
-            notesButton.setOnClickListener(new View.OnClickListener() {
+        //    Button notesButton = (Button) v.findViewById(R.id.notesButton);
+
+            /*notesButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Log.d("Notes Page", "Button Being Clicked");
                         NotesFragment noteFrag = new NotesFragment();
@@ -158,10 +160,9 @@ public class CompanyDetailsFragment extends Fragment {
                         Log.d("Notes Page", "CALLING NEW FRAGMENT");
                         transaction.commit();
                     }
-                });
+                });*/
 
-        companyNotes.setOnEditorActionListener(new EditText
-                .OnEditorActionListener() {
+        companyNotes.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent
                     event) {
@@ -191,7 +192,7 @@ public class CompanyDetailsFragment extends Fragment {
         else
             companyNotes.setHint("Add a note for this company");
 
-        */
+
         companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
 
         StorageReference path = storageRef.child("logos/" +

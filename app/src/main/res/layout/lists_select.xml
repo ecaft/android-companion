@@ -1,33 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:layout_marginTop="345dp"
     android:paddingTop="10dp"
     android:background="@drawable/list_select_shape"
     android:orientation="horizontal"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/checklist_lists"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:paddingLeft="30dp" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-   <ImageButton
-       android:layout_width="40dp"
-       android:layout_height="40dp"
-       android:background="@mipmap/ic_add_circle_outline_black_24dp"
-       android:backgroundTint="@color/red"
-       android:layout_marginLeft="220dp"
-       android:layout_gravity="right"
-       android:scaleType="fitEnd">
-   </ImageButton>
+        <TextView
+            android:id="@+id/lists_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/checklist_lists"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:paddingLeft="30dp" />
 
-</LinearLayout>
+       <ImageButton
+           android:id="@+id/add_list_button"
+           android:layout_width="40dp"
+           android:layout_height="40dp"
+           android:background="@mipmap/ic_add_circle_outline_black_24dp"
+           android:backgroundTint="@color/red"
+           android:layout_marginLeft="220dp"
+           android:layout_gravity="right"
+           android:scaleType="fitEnd">
+       </ImageButton>
+
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/select_list"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
+            android:text="Favorites"
+            android:textSize="12dp"
+            android:background="@drawable/ic_userlist_unselected"
+            android:backgroundTint="@color/green" />
+
+        <ListView
+            android:id="@+id/lists_selector_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/select_list" />
+
+
+</RelativeLayout>
 
 

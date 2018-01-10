@@ -80,6 +80,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         companies = new ArrayList<>(FirebaseApplication.getCompanies());
         companiesFilter = new ArrayList<>();
         companiesFilter.addAll(companies);
+
         companyAdapter = new CompanyAdapter(companiesFilter);
 
         backgroundImages = new HashMap<String, Integer>(5);
@@ -365,6 +366,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     }
                 }
             });
+
         }
 
     }
@@ -413,6 +415,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
            catch(NullPointerException e){
                holder.mCompanyRL.setBackgroundResource(R.drawable.black);
            }
+
 
             holder.mCompanyRL.getBackground().setAlpha(170);
             Log.d(TAG, "Recycler made for position " + position);

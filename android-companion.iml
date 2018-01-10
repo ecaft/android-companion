@@ -14,5 +14,6 @@
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    </content>
   </component>
 </module>

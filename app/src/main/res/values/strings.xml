@@ -8,7 +8,11 @@
    <!-- <string name="home_fragment_text3">Welcome to the 2017 Cornell Spring Technical and Entreprenurial Career Fair!
 
 The fair is at Barton Hall on Wednesday, February 8th and runs from 9:00am to 2:00pm. We recommend dressing up in formal attire and having multiple copies of your resume and a notepad to keep track of recruiter info. Remember to do your research before-hand and learn more about each company\'s open positions to show that you\'re prepared. Good luck!</string>
--->
+    <string name="home_fragment_text_4">Wednesday, February 8th
+
+    9:00 am - 2:00 pm
+
+    Barton Hall</string>-->
     <string name="home_fragment_text3">Wednesday, February 8th \n 9:00 am - 2:00 pm \n Barton Hall </string>
     <string name="home_fragment_tips">Tips: Formal Attire, Copies of Resumes, Research Companies, Bring Notepad/Take Notes</string>
 
@@ -51,11 +55,15 @@ The fair is at Barton Hall on Wednesday, February 8th and runs from 9:00am to 2:
     <string name="company_details_openings">Open Positions</string>
     <string name="company_details_majors">Majors of Interest</string>
     <string name="company_details_note">Notes</string>
-    <string name="company_details_editNote">Add a note for this company</string>
+    <string name="company_details_photos">Photos</string>
+    <string name="company_details_editNote">Tap to add a note about this company</string>
     <string name="company_details_sponsor">Sponsorship</string>
     <string name="company_details_optcpt">OPT/CPT</string>
     <string name="company_details_sponsorship">Ask company about
         sponsorship and opt/cpt details.</string>
+    <string name="notes_button">Notes</string>
+    <string name="company_info_button">Company Info</string>
+    <string name="camera_button">Camera</string>
 
     <string name="ok_label">OK</string>
     <string name="dismiss_label">Dismiss</string>

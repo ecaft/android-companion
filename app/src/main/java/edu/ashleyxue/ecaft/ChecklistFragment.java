@@ -82,6 +82,7 @@ public class ChecklistFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUI();
+        //MainActivity.navigationView.setSelectedItemId(R.id.nav_checklist);
         MainActivity.navigationView.setCheckedItem(R.id.nav_checklist);
     }
 

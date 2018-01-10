@@ -10,13 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
+
+import android.content.Intent;
+import android.provider.MediaStore;
+import android.content.Context;
+
 
 /**
  * Created by Ashley on 1/16/2016.
@@ -25,15 +32,26 @@ public class CompanyDetailsFragment extends Fragment {
 
     private TextView companyName;
     private TextView companyMajors;
+    private TextView companyMajorsHeader;
     private TextView companyLocation;
     private TextView companyOpenings;
+    private TextView companyOpeningsHeader;
     private ImageView companyLogo;
     private TextView companyInfo;
+    private TextView companyInfoHeader;
     private TextView companyWebsite;
     private TextView companyNotesHeader;
     private static EditText companyNotes;
     private TextView companySponsor;
     private TextView companyOptcpt;
+    private TextView companySponsorHeader;
+    private TextView companySponsorHardCode;
+    private TextView companyPhotosHeader;
+
+    private ToggleButton notes_company_info;
+
+    private Button camera_button;
+    static final int REQUEST_IMAGE_CAPTURE = 1; //for picture taking
 
     private String companyTable;
     private String objectID;
@@ -92,6 +110,8 @@ public class CompanyDetailsFragment extends Fragment {
         companyMajors = (TextView) v.findViewById(R.id.company_details_majors);
         companyMajors.setText(majors);
 
+        companyMajorsHeader = (TextView) v.findViewById(R.id.company_majors_text);
+
         companyLocation = (TextView) v.findViewById(R.id
                 .company_details_location);
         companyLocation.setText("Table " + companyTable);
@@ -99,8 +119,12 @@ public class CompanyDetailsFragment extends Fragment {
         companyOpenings = (TextView) v.findViewById(R.id.company_details_positions);
         companyOpenings.setText(jobtitles);
 
+        companyOpeningsHeader = (TextView) v.findViewById(R.id.company_positions_text);
+
         companyInfo = (TextView) v.findViewById(R.id.company_details_information);
         companyInfo.setText(info);
+
+        companyInfoHeader = (TextView) v.findViewById(R.id.company_information_text);
 
         companyWebsite = (TextView) v.findViewById(R.id
                 .company_details_website);
@@ -108,6 +132,13 @@ public class CompanyDetailsFragment extends Fragment {
 
         companyNotesHeader = (TextView) v.findViewById(R.id
                 .company_details_notes_header);
+
+        companySponsorHeader = (TextView) v.findViewById(R.id.company_details_sponsor_header);
+        companySponsorHardCode = (TextView) v.findViewById(R.id.company_details_sponsor_info);
+
+        companyPhotosHeader = (TextView) v.findViewById(R.id.company_details_photos_header);
+
+        notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
         companyNotes = new EditText(inflater.getContext()){
             @Override
@@ -122,10 +153,64 @@ public class CompanyDetailsFragment extends Fragment {
         companyNotes = (EditText) v.findViewById(R.id
                 .company_details_editText);
 
+
         if (showText) {
+            notes_company_info.setVisibility(View.VISIBLE);
+            notes_company_info.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (companyNotes.getVisibility() == View.GONE) {
+                        companyNotes.setVisibility(View.VISIBLE);
+                        companyNotesHeader.setVisibility(View.VISIBLE);
+                        companyPhotosHeader.setVisibility(View.VISIBLE);
+                        companyMajorsHeader.setVisibility(View.GONE);
+                        companyMajors.setVisibility(View.GONE);
+                        companySponsorHeader.setVisibility(View.GONE);
+                        companyInfoHeader.setVisibility(View.GONE);
+                        companyInfo.setVisibility(View.GONE);
+                        companyOpeningsHeader.setVisibility(View.GONE);
+                        companyOpenings.setVisibility(View.GONE);
+                        companySponsorHardCode.setVisibility(View.GONE);
+                    } else {
+                        companyNotes.setVisibility(View.GONE);
+                        companyNotesHeader.setVisibility(View.GONE);
+                        companyPhotosHeader.setVisibility(View.GONE);
+                        companyMajorsHeader.setVisibility(View.VISIBLE);
+                        companyMajors.setVisibility(View.VISIBLE);
+                        companySponsorHeader.setVisibility(View.VISIBLE);
+                        companyInfoHeader.setVisibility(View.VISIBLE);
+                        companyInfo.setVisibility(View.VISIBLE);
+                        companyOpeningsHeader.setVisibility(View.VISIBLE);
+                        companyOpenings.setVisibility(View.VISIBLE);
+                        companySponsorHardCode.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
+
+        /*camera_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });*/
+
+/*
+        if(notes_company_info.isChecked()){
             companyNotes.setVisibility(View.VISIBLE);
             companyNotesHeader.setVisibility(View.VISIBLE);
+            companyMajorsHeader.setVisibility(View.GONE);
+            companyMajors.setVisibility(View.GONE);
+            companySponsorHeader.setVisibility(View.GONE);
+            companyInfoHeader.setVisibility(View.GONE);
+            companyInfo.setVisibility(View.GONE);
+            companyOpeningsHeader.setVisibility(View.GONE);
+            companyOpenings.setVisibility(View.GONE);
+            companySponsorHardCode.setVisibility(View.GONE);
+            //companySponsor.setVisibility(View.GONE);
+            //companyOptcpt.setVisibility(View.GONE);
         }
+*/
 //
 //        companyNotes.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -235,5 +320,12 @@ public class CompanyDetailsFragment extends Fragment {
     public void onStop() {
         super.onStop();
         MainActivity.saveNote(objectID, companyNotes.getText().toString());
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 }

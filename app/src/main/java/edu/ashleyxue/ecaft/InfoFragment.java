@@ -251,6 +251,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         super.onResume();
         Log.d("final", "info fragment onresume");
         updateUI();
+        //MainActivity.navigationView.setSelectedItemId(R.id.nav_companies);
         MainActivity.navigationView.setCheckedItem(R.id.nav_companies);
     }
 

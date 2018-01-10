@@ -41,6 +41,7 @@ public class MapFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        //MainActivity.navigationView.setSelectedItemId(R.id.nav_map);
         MainActivity.navigationView.setCheckedItem(R.id.nav_map);
     }
 }

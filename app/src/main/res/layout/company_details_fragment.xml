@@ -19,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/company_details_logo"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_marginLeft="10dp"
                 android:adjustViewBounds="true"
                 android:padding="5dp"
@@ -55,45 +55,86 @@
                     android:textSize="14sp"
                     tools:text="Table XX"/>
 
+                <TextView
+                    android:id="@+id/company_details_website"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="web"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/company_details_company_website"/>
+
             </LinearLayout>
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/company_details_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <ToggleButton
+                android:id="@+id/notes_or_info"
+                android:layout_width="115dp"
+                android:layout_height="29dp"
+                android:layout_gravity="center_horizontal"
+                android:textOff="@string/notes_button"
+                android:textOn="@string/company_info_button"
+                android:textSize="13dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
+            <Button
+                android:id="@+id/camera_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/camera_button"/>
+
+        </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/company_details_notes_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_gray"
+            android:background="@color/company_info_background_gray"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
             android:text="@string/company_details_note"
-            android:textColor="@color/tint"
-            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
             android:visibility="gone"/>
 
         <EditText
             android:id="@+id/company_details_editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:hint="@string/company_details_editNote"
             android:inputType="text"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:imeOptions="actionDone"
             android:visibility="gone"/>
+
 
         <TextView
             android:id="@+id/company_information_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_gray"
+            android:background="@color/company_info_background_gray"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
             android:text="@string/company_details_company_info"
-            android:textColor="@color/tint"
-            android:textSize="14sp"/>
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/company_details_information"
@@ -104,10 +145,11 @@
             android:paddingRight="10dp"
             android:paddingTop="10dp"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             tools:text="Company Information"/>
 
-        <TextView
+
+ <!--       <TextView
             android:id="@+id/company_details_website_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,6 +160,7 @@
             android:text="@string/company_details_company_website"
             android:textColor="@color/tint"
             android:textSize="14sp"/>
+
 
         <TextView
             android:id="@+id/company_details_website"
@@ -131,18 +174,18 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:text="@string/company_details_company_website"/>
-
+-->
         <TextView
             android:id="@+id/company_positions_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_gray"
+            android:background="@color/company_info_background_gray"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
             android:text="@string/company_details_openings"
-            android:textColor="@color/tint"
-            android:textSize="14sp"/>
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/company_details_positions"
@@ -153,20 +196,20 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             tools:text="Openings"/>
 
         <TextView
             android:id="@+id/company_majors_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_gray"
+            android:background="@color/company_info_background_gray"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
             android:text="@string/company_details_majors"
-            android:textColor="@color/tint"
-            android:textSize="14sp"/>
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/company_details_majors"
@@ -177,20 +220,20 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             tools:text="Majors of Interest"/>
 
         <TextView
             android:id="@+id/company_details_sponsor_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_gray"
+            android:background="@color/company_info_background_gray"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
             android:text="@string/company_details_sponsor"
-            android:textColor="@color/tint"
-            android:textSize="14sp"/>
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/company_details_sponsor_info"
@@ -201,9 +244,21 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:text="@string/company_details_sponsorship"/>
 
+        <TextView
+            android:id="@+id/company_details_photos_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/company_info_background_gray"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="2dp"
+            android:text="@string/company_details_photos"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </ScrollView>

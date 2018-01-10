@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.ashleyxue.ecaft.DatabaseSchema.CompanyTable;
@@ -42,11 +43,20 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     private boolean searching;
     private DrawerLayout drawer;
     public static NavigationView navigationView;
+
+    public static List<String> allCompanies = new ArrayList<String>();
+    public static List<String> allCompanyIds = new ArrayList<String>();
+
     /**
      * Database variables
      */
-    private Context mContext;
-    public static SQLiteDatabase mDatabase;
+    public static Context mContext;
+    //public static SQLiteDatabase mDatabase;
+    public static List<SQLiteDatabase> mDatabases;
+    public static int currentUserList = 0;
+    public static List<String> userListNames = new ArrayList<String>(){{
+        add("Favorites");
+    }};
     /**
      * Fragments
      */
@@ -59,8 +69,11 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Log.d("testingtesting", FirebaseDatabase.getInstance().getApp().getName());
         mContext = getApplicationContext();
-        mDatabase = new DatabaseHelper(mContext).getWritableDatabase();
+        //mDatabase = new DatabaseHelper(mContext).getWritableDatabase();
+        mDatabases = new ArrayList<SQLiteDatabase>();
+        mDatabases.add(new DatabaseHelper(mContext).getWritableDatabase());
 
         homeFragment = new HomeFragment();
         mapFragment = new MapFragment();
@@ -181,15 +194,19 @@ public class MainActivity extends AppCompatActivity  implements SearchView
                 return false;
         }
     }
+
+
     /**
      * Database Methods
      */
     public static void deleteRow(String id) {
+        SQLiteDatabase mDatabase = mDatabases.get(0);
         mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.ID + " = ?", new String[]{id});
     }
 
 
     public static boolean isInDatabase(String name) {
+        SQLiteDatabase mDatabase = mDatabases.get(0);
         Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
         boolean inside = false;
         try {
@@ -211,6 +228,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
     public static void addRow(String currentCompanyUUID, String
             currentCompanyName) {
+        SQLiteDatabase mDatabase = mDatabases.get(0);
         ContentValues values = new ContentValues();
         values.put(CompanyTable.Cols.ID, currentCompanyUUID);
         values.put(CompanyTable.Cols.COMPANY_NAME, currentCompanyName);
@@ -219,9 +237,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mDatabase.insert(CompanyTable.NAME, null, values);
     }
 
-    public static List<Integer> makeIsVisited() {
-        List<Integer> compiledList = new ArrayList<>();
 
+    public static List<Integer> makeIsVisited() {
+        SQLiteDatabase mDatabase = mDatabases.get(0);
+        List<Integer> compiledList = new ArrayList<>();
         Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null,
                 null, CompanyTable.Cols.COMPANY_NAME + " ASC");
         try {
@@ -242,11 +261,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
 
     public static List<String> makeSavedList() {
+        SQLiteDatabase mDatabase = mDatabases.get(0);
         List<String> compiledList = new ArrayList<>();
-
         Cursor c = mDatabase.query(CompanyTable.NAME,
                 null, null, null, null, null, CompanyTable.Cols.ID + " ASC");
-
         try {
             c.moveToFirst();
 
@@ -262,7 +280,9 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         return compiledList;
     }
 
+
     public static void setVisitStatus(FirebaseCompany po, int visited){
+        SQLiteDatabase mDatabase = mDatabases.get(0);
         String str = "update " + CompanyTable.NAME + " set " + CompanyTable
                 .Cols.VISITED + " = " + visited + " where " + CompanyTable
                 .Cols.ID + " = \"" + po.getId() + "\"";
@@ -270,6 +290,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
     public static void saveNote(String id, String note) {
+        SQLiteDatabase mDatabase = mDatabases.get(0);
         String str = "update " + CompanyTable.NAME + " set " + CompanyTable
                 .Cols.NOTE + " = \"" + note + "\" where " + CompanyTable
                 .Cols.ID + " = \"" + id + "\"";
@@ -277,6 +298,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
     public static String getNote(String id) {
+        SQLiteDatabase mDatabase = mDatabases.get(0);
         Cursor c = mDatabase.query(CompanyTable.NAME,
                 null, null, null, null, null, CompanyTable.Cols.ID + " ASC");
 
@@ -308,4 +330,68 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         // User changed the text
         return false;
     }
+
+    public static void addRow(String currentCompanyUUID, String
+            currentCompanyName, int userList) {
+        SQLiteDatabase mDatabase = mDatabases.get(userList);
+        ContentValues values = new ContentValues();
+        values.put(CompanyTable.Cols.ID, currentCompanyUUID);
+        values.put(CompanyTable.Cols.COMPANY_NAME, currentCompanyName);
+        values.put(CompanyTable.Cols.VISITED, 0);
+        values.put(CompanyTable.Cols.NOTE, "");
+        mDatabase.insert(CompanyTable.NAME, null, values);
+    }
+
+
+    public static List<Integer> makeIsVisited(int userList) {
+        SQLiteDatabase mDatabase = mDatabases.get(userList);
+        List<Integer> compiledList = new ArrayList<>();
+        Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null,
+                null, CompanyTable.Cols.COMPANY_NAME + " ASC");
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+
+                compiledList.add(c.getInt(c.getColumnIndex(CompanyTable.Cols
+                        .VISITED)));
+                c.moveToNext();
+            }
+        } finally {
+            c.close();
+        }
+
+        return compiledList;
+    }
+
+
+    public static List<String> makeSavedList(int userList) {
+        SQLiteDatabase mDatabase = mDatabases.get(userList);
+        List<String> compiledList = new ArrayList<>();
+        Cursor c = mDatabase.query(CompanyTable.NAME,
+                null, null, null, null, null, CompanyTable.Cols.ID + " ASC");
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                String com = c.getString(c.getColumnIndex(CompanyTable.Cols
+                        .ID));
+                compiledList.add(com);
+                c.moveToNext();
+            }
+        } finally {
+            c.close();
+        }
+        return compiledList;
+    }
+
+
+    public static void setVisitStatus(FirebaseCompany po, int visited, int userList){
+        SQLiteDatabase mDatabase = mDatabases.get(userList);
+        String str = "update " + CompanyTable.NAME + " set " + CompanyTable
+                .Cols.VISITED + " = " + visited + " where " + CompanyTable
+                .Cols.ID + " = \"" + po.getId() + "\"";
+        mDatabase.execSQL(str);
+    }
+
 }

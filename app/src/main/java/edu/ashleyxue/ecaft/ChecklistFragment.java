@@ -5,6 +5,7 @@ import java.util.Arrays;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.Settings;
@@ -63,6 +64,9 @@ public class ChecklistFragment extends DialogFragment{
     private List<CharSequence> unCheckedCompanies;
     private int checkedItem = -1;
 
+    //private List<Button> userLists = new ArrayList<Button>(){{
+      //  add(new Button(getContext()));
+    //}};
 
     private Parcelable savedState;
     private Bundle savedBundle;
@@ -77,9 +81,14 @@ public class ChecklistFragment extends DialogFragment{
 
 
     public ChecklistFragment() {
-        isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
+        /*isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
         companies = MainActivity.makeSavedList(MainActivity.currentUserList);
         companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
+        */
+        isVisitedList = MainActivity.makeUserListIsVisited();
+        companies = MainActivity.makeUserListSavedList();
+        companyLocations = MainActivity.makeUserListSavedList();
+
         companyAdapter = new CompanyAdapter(companies, companyLocations);
 
         items = new CharSequence[1];
@@ -88,23 +97,13 @@ public class ChecklistFragment extends DialogFragment{
 
     }
 
-    public List<CharSequence> filterLists(List<CharSequence> allCompanies, List<String> checkedCompanies){
-        List<CharSequence> notStarred = new ArrayList<CharSequence>();
-        for(CharSequence s: allCompanies){
-            if(!checkedCompanies.contains(s)) {
-                int i = MainActivity.allCompanyIds.indexOf(s);
-                notStarred.add(MainActivity.allCompanies.get(i));
-            }
-        }
-        return notStarred;
-    }
-
-    @TargetApi(21)
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
+        //Log.d("testtest", "testing" + MainActivity.getTables().size());
+        //Log.d("testtest", "testing" + MainActivity.mDatabase.delete);
         MainActivity.currentUserList = 0;
         View v = inflater.inflate(R.layout.checklist_fragment, container, false);
         final RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.list_button);
@@ -136,58 +135,14 @@ public class ChecklistFragment extends DialogFragment{
         });
         //final RelativeLayout addListLayout = (RelativeLayout) v.findViewById(R.id.add_list_button);
         final Button favoriteList = (Button) v.findViewById((R.id.select_list));
+
         final ImageButton addListButton = (ImageButton) v.findViewById(R.id.add_list_button);
         addListButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v)
             {
-                Button newList = new Button(getContext());
-                createNewListDialog(newList);
-
-                RelativeLayout.LayoutParams params1 =
-                        (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
-                int top = params1.topMargin;
-                int left = params1.leftMargin;
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                        (favoriteList.getWidth(),favoriteList.getHeight());
-                params.topMargin = top;
-                params.leftMargin = (MainActivity.mDatabases.size() * favoriteList.getWidth()) + left;
-                newList.setLayoutParams(params);
-                //newList.setBackgroundResource(R.drawable.ic_list_unselected);
-                newList.setBackgroundTintList
-                        (getContext().getResources().getColorStateList(R.color.green));
-                newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
-                //newList.setBackgroundResource(R.color.black);
-
-
-                layout.addView(newList);
-                MainActivity.currentUserList = MainActivity.mDatabases.size();
-                //DatabaseHelper newDB = new DatabaseHelper(getContext());
-                //newDB.onCreate(new DatabaseHelper(MainActivity.mContext).getWritableDatabase());
-                MainActivity.mDatabases.add(
-                        new DatabaseHelper(MainActivity.mContext).getWritableDatabase());
-                //MainActivity.mDatabases.add(newDB.getWritableDatabase());
-                //MainActivity.mDatabases.get(MainActivity.currentUserList).
-                  //      execSQL("delete from "+ DatabaseSchema.CompanyTable.NAME);
-                Log.d("testtest", MainActivity.mDatabases.size() + "");
-                //Log.d("testtest", favoriteList.getHeight() + "");
-                //Log.d("testtest", favoriteList.getWidth() + "");
-                updateUI();
-                /*
-                ChecklistFragment fragment = (ChecklistFragment)
-                        getFragmentManager().findFragmentById(R.id.checklist_fragment);
-
-                getFragmentManager().beginTransaction()
-                        .detach(fragment)
-                        .attach(fragment)
-                        .commit();
-
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.checklist_fragment,
-                        new ChecklistFragment()).addToBackStack(null)
-                        .commit();
-                        */
+                createNewListDialog(favoriteList, layout);
             }
 
         });
@@ -201,12 +156,167 @@ public class ChecklistFragment extends DialogFragment{
 
         getActivity().setTitle("Your Favorites");
 
+        for(String s : MainActivity.getTables()){
+            if(!s.equals("companies")) {
+                MainActivity.userListNames.add(s);
+                layout.addView(createUserListButton(s, favoriteList));
+                updateUI();
+            }
+        }
+
+
         //return inflater.inflate(R.layout.checklist_fragment, container, false);
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+        MainActivity.navigationView.setCheckedItem(R.id.nav_checklist);
+    }
 
-    public AlertDialog createNewListDialog(final Button b){
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            Parcelable savedRecyclerLayoutState = savedInstanceState
+                    .getParcelable(STATE_KEY);
+            companyRecylerView.getLayoutManager().onRestoreInstanceState
+                    (savedRecyclerLayoutState);
+        }
+    }
+
+    private void updateVisitedList() {
+        //isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
+        isVisitedList = MainActivity.makeUserListIsVisited();
+    }
+
+    private void updateSavedLists() {
+        //companies = MainActivity.makeSavedList(MainActivity.currentUserList);
+        //companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
+
+        companies = MainActivity.makeUserListSavedList();
+        companyLocations = MainActivity.makeUserListSavedList();
+    }
+
+    public void updateUI() {
+        updateVisitedList();
+        updateSavedLists();
+        unCheckedCompanies = filterLists(allCompanies,companies);
+        items = unCheckedCompanies.toArray(new CharSequence[0]);
+
+        companyAdapter = new CompanyAdapter(companies, companyLocations);
+        companyRecylerView.setAdapter(companyAdapter);
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (companyRecylerView != null) {
+            savedState = companyRecylerView.getLayoutManager().onSaveInstanceState();
+            outState.putParcelable(STATE_KEY, savedState);
+        }
+        updateUI();
+    }
+
+    public List<CharSequence> filterLists(List<CharSequence> allCompanies, List<String> checkedCompanies){
+        List<CharSequence> notStarred = new ArrayList<CharSequence>();
+        for(CharSequence s: allCompanies){
+            if(!checkedCompanies.contains(s)) {
+                int i = MainActivity.allCompanyIds.indexOf(s);
+                notStarred.add(MainActivity.allCompanies.get(i));
+            }
+        }
+        return notStarred;
+    }
+
+    @TargetApi(21)
+    public Button createUserListButton(String listName, Button favoriteList){
+        Button newList = new Button(getContext());
+        newList.setText(listName);
+        RelativeLayout.LayoutParams params1 =
+                (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
+        int top = params1.topMargin;
+       // Log.d("testtest", listName + " " + top);
+        int left = params1.leftMargin;
+        //Log.d("testtest", favoriteList.getHeight() + " height");
+        //Log.d("testtest", listName + " " + left);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
+                (300, 300);
+        params.topMargin = top;
+        params.leftMargin = ((MainActivity.userListNames.size() - 1) *
+                300) + left;
+        newList.setLayoutParams(params);
+        //newList.setBackgroundResource(R.drawable.ic_list_unselected);
+        newList.setBackgroundTintList
+                (getContext().getResources().getColorStateList(R.color.colorPrimary));
+        newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
+        //newList.setBackgroundResource(R.color.black);
+
+
+        return newList;
+    }
+
+    @TargetApi(21)
+    public void addUserListButton(String listName, Button favoriteList, RelativeLayout layout){
+        Button newList = new Button(getContext());
+        newList.setText(listName);
+        RelativeLayout.LayoutParams params1 =
+                (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
+        int top = params1.topMargin;
+        int left = params1.leftMargin;
+        //Log.d("testtest", favoriteList.getWidth() + " width");
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
+                (favoriteList.getWidth(), favoriteList.getHeight());
+        params.topMargin = top;
+        params.leftMargin = ((MainActivity.userListNames.size() - 1) *
+                favoriteList.getWidth()) + left;
+        newList.setLayoutParams(params);
+        //newList.setBackgroundResource(R.drawable.ic_list_unselected);
+        newList.setBackgroundTintList
+                (getContext().getResources().getColorStateList(R.color.green));
+        newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
+        //newList.setBackgroundResource(R.color.black);
+
+
+        layout.addView(newList);
+        MainActivity.currentUserList = MainActivity.userListNames.size() - 1;
+        try {
+            MainActivity.mDatabase.execSQL("create table " + MainActivity.userListNames.get(
+                    MainActivity.currentUserList) + "(" +
+                    DatabaseSchema.CompanyTable.Cols.ID + ", " +
+                    DatabaseSchema.CompanyTable.Cols.COMPANY_NAME + ", " +
+                    DatabaseSchema.CompanyTable.Cols.VISITED + "," +
+                    DatabaseSchema.CompanyTable.Cols.NOTE + ")"
+            );
+        } catch (SQLiteException e){
+            MainActivity.mDatabase.execSQL("DROP TABLE IF EXISTS '" + MainActivity.userListNames.get(
+                    MainActivity.currentUserList) + "'");
+            MainActivity.mDatabase.execSQL("create table " + MainActivity.userListNames.get(
+                    MainActivity.currentUserList).trim() + "(" +
+                    DatabaseSchema.CompanyTable.Cols.ID + ", " +
+                    DatabaseSchema.CompanyTable.Cols.COMPANY_NAME + ", " +
+                    DatabaseSchema.CompanyTable.Cols.VISITED + "," +
+                    DatabaseSchema.CompanyTable.Cols.NOTE + ")"
+            );
+        }
+        //DatabaseHelper newDB = new DatabaseHelper(getContext());
+        //newDB.onCreate(new DatabaseHelper(MainActivity.mContext).getWritableDatabase());
+        //MainActivity.mDatabases.add(
+          //      new DatabaseHelper(MainActivity.mContext).getWritableDatabase());
+        //MainActivity.mDatabases.add(newDB.getWritableDatabase());
+        //MainActivity.mDatabases.get(MainActivity.currentUserList).
+        //      execSQL("delete from "+ DatabaseSchema.CompanyTable.NAME);
+        //Log.d("testtest", favoriteList.getHeight() + "");
+        //Log.d("testtest", favoriteList.getWidth() + "");
+        updateUI();
+    }
+
+    public AlertDialog createNewListDialog(final Button b, final RelativeLayout l){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Create a New List");
         // Set up the input
@@ -220,15 +330,15 @@ public class ChecklistFragment extends DialogFragment{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newListName = input.getText().toString();
-                Log.d("testtest", newListName);
+                if(newListName.trim().equals(""))
+                    newListName = "Untitled List";
                 MainActivity.userListNames.add(newListName);
-                b.setText(newListName);
+                addUserListButton(newListName, b, l);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                b.setText("Untitled List");
                 dialog.cancel();
             }
         });
@@ -261,9 +371,8 @@ public class ChecklistFragment extends DialogFragment{
             public void onClick(DialogInterface dialog, int which) {
                 // user clicked OK
                 if(checkedItem != -1) {
-                    Log.d("qwert",checkedItem + "");
                     int i = MainActivity.allCompanies.indexOf(items[checkedItem].toString());
-                    MainActivity.addRow(
+                    MainActivity.addUserListRow(
                             MainActivity.allCompanyIds.get(i), items[checkedItem].toString());
                     updateUI();
                 }
@@ -272,57 +381,6 @@ public class ChecklistFragment extends DialogFragment{
         builder.setNegativeButton("Cancel", null);
 
         return builder.create();
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
-        MainActivity.navigationView.setCheckedItem(R.id.nav_checklist);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            Parcelable savedRecyclerLayoutState = savedInstanceState
-                    .getParcelable(STATE_KEY);
-            companyRecylerView.getLayoutManager().onRestoreInstanceState
-                    (savedRecyclerLayoutState);
-        }
-    }
-
-    private void updateVisitedList() {
-        isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
-    }
-
-    private void updateSavedLists() {
-        companies = MainActivity.makeSavedList(MainActivity.currentUserList);
-        companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
-    }
-
-    public void updateUI() {
-        updateVisitedList();
-        updateSavedLists();
-        unCheckedCompanies = filterLists(allCompanies,companies);
-        items = unCheckedCompanies.toArray(new CharSequence[0]);
-
-        companyAdapter = new CompanyAdapter(companies, companyLocations);
-        companyRecylerView.setAdapter(companyAdapter);
-
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (companyRecylerView != null) {
-            savedState = companyRecylerView.getLayoutManager().onSaveInstanceState();
-            outState.putParcelable(STATE_KEY, savedState);
-        }
-        updateUI();
     }
 
 
@@ -390,9 +448,11 @@ public class ChecklistFragment extends DialogFragment{
                             if (mCompanyVisited.isChecked()) {
                                 Toast.makeText(getContext(), R.string.visited,
                                         Toast.LENGTH_SHORT).show();
-                                MainActivity.setVisitStatus(currentCompany, 1);
+                                //MainActivity.setVisitStatus(currentCompany, 1);
+                                MainActivity.setUserListVisitStatus(currentCompany, 1);
                             } else {
-                                MainActivity.setVisitStatus(currentCompany, 0);
+                                //MainActivity.setVisitStatus(currentCompany, 0);
+                                MainActivity.setUserListVisitStatus(currentCompany, 0);
                                 isVisitedList.set(currentPosition, 0);
 
                             }

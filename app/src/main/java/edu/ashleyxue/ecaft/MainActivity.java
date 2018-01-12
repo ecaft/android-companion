@@ -200,13 +200,11 @@ public class MainActivity extends AppCompatActivity  implements SearchView
      * Database Methods
      */
     public static void deleteRow(String id) {
-        //SQLiteDatabase mDatabase = mDatabases.get(0);
         mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.ID + " = ?", new String[]{id});
     }
 
 
     public static boolean isInDatabase(String name) {
-        //SQLiteDatabase mDatabase = mDatabases.get(0);
         Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
         boolean inside = false;
         try {
@@ -228,7 +226,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
     public static void addRow(String currentCompanyUUID, String
             currentCompanyName) {
-        //SQLiteDatabase mDatabase = mDatabases.get(0);
         ContentValues values = new ContentValues();
         values.put(CompanyTable.Cols.ID, currentCompanyUUID);
         values.put(CompanyTable.Cols.COMPANY_NAME, currentCompanyName);
@@ -239,7 +236,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
 
     public static List<Integer> makeIsVisited() {
-        //SQLiteDatabase mDatabase = mDatabases.get(0);
         List<Integer> compiledList = new ArrayList<>();
         Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null,
                 null, CompanyTable.Cols.COMPANY_NAME + " ASC");
@@ -261,7 +257,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
 
     public static List<String> makeSavedList() {
-        //SQLiteDatabase mDatabase = mDatabases.get(0);
         List<String> compiledList = new ArrayList<>();
         Cursor c = mDatabase.query(CompanyTable.NAME,
                 null, null, null, null, null, CompanyTable.Cols.ID + " ASC");
@@ -282,7 +277,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
 
     public static void setVisitStatus(FirebaseCompany po, int visited){
-        //SQLiteDatabase mDatabase = mDatabases.get(0);
         String str = "update " + CompanyTable.NAME + " set " + CompanyTable
                 .Cols.VISITED + " = " + visited + " where " + CompanyTable
                 .Cols.ID + " = \"" + po.getId() + "\"";
@@ -290,7 +284,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
     public static void saveNote(String id, String note) {
-        //SQLiteDatabase mDatabase = mDatabases.get(0);
         String str = "update " + CompanyTable.NAME + " set " + CompanyTable
                 .Cols.NOTE + " = \"" + note + "\" where " + CompanyTable
                 .Cols.ID + " = \"" + id + "\"";
@@ -298,7 +291,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
     public static String getNote(String id) {
-        //SQLiteDatabase mDatabase = mDatabases.get(0);
         Cursor c = mDatabase.query(CompanyTable.NAME,
                 null, null, null, null, null, CompanyTable.Cols.ID + " ASC");
 

@@ -64,9 +64,7 @@ public class ChecklistFragment extends DialogFragment{
     private List<CharSequence> unCheckedCompanies;
     private int checkedItem = -1;
 
-    //private List<Button> userLists = new ArrayList<Button>(){{
-      //  add(new Button(getContext()));
-    //}};
+    private List<Button> userListButtons;
 
     private Parcelable savedState;
     private Bundle savedBundle;
@@ -95,6 +93,7 @@ public class ChecklistFragment extends DialogFragment{
         allCompanies = new ArrayList<CharSequence>();
         unCheckedCompanies = new ArrayList<CharSequence>();
 
+        userListButtons = new ArrayList<Button>();
     }
 
     @Override
@@ -135,6 +134,16 @@ public class ChecklistFragment extends DialogFragment{
         });
         //final RelativeLayout addListLayout = (RelativeLayout) v.findViewById(R.id.add_list_button);
         final Button favoriteList = (Button) v.findViewById((R.id.select_list));
+        favoriteList.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+                userListClick(favoriteList);
+            }
+
+        });
+
 
         final ImageButton addListButton = (ImageButton) v.findViewById(R.id.add_list_button);
         addListButton.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +156,33 @@ public class ChecklistFragment extends DialogFragment{
 
         });
 
+        userListButtons.add(favoriteList);
+        for(String s : MainActivity.getTables()){
+            if(!s.equals("companies")) {
+                if(!MainActivity.userListNames.contains(s))
+                    MainActivity.userListNames.add(s);
+                final Button userList = createUserListButton(s, favoriteList);
+                layout.addView(userList);
+                userList.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v)
+                    {
+                        userListClick(userList);
+                    }
+
+                });
+                userList.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        deleteUserListDialog(userList);
+                        return true;
+                    }
+                });
+                userListButtons.add(userList);
+            }
+        }
+
         companyRecylerView = (RecyclerView) v.findViewById(R.id.checklist_recycler_view);
         companyRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         companyRecylerView.setHasFixedSize(true);
@@ -155,14 +191,6 @@ public class ChecklistFragment extends DialogFragment{
         emptyView = v.findViewById(R.id.list_fragment_empty_view);
 
         getActivity().setTitle("Your Favorites");
-
-        for(String s : MainActivity.getTables()){
-            if(!s.equals("companies")) {
-                MainActivity.userListNames.add(s);
-                layout.addView(createUserListButton(s, favoriteList));
-                updateUI();
-            }
-        }
 
 
         //return inflater.inflate(R.layout.checklist_fragment, container, false);
@@ -201,6 +229,7 @@ public class ChecklistFragment extends DialogFragment{
         companyLocations = MainActivity.makeUserListSavedList();
     }
 
+    @TargetApi(21)
     public void updateUI() {
         updateVisitedList();
         updateSavedLists();
@@ -210,6 +239,15 @@ public class ChecklistFragment extends DialogFragment{
         companyAdapter = new CompanyAdapter(companies, companyLocations);
         companyRecylerView.setAdapter(companyAdapter);
 
+        userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
+                (getContext().getResources().getColorStateList(R.color.green));
+
+        for(int i = 1; i < userListButtons.size(); i++){
+            final RelativeLayout layout = (RelativeLayout) getView().findViewById(R.id.list_button);
+            try {
+                layout.addView(userListButtons.get(i));
+            } catch (Exception e){}
+        }
 
     }
 
@@ -221,6 +259,23 @@ public class ChecklistFragment extends DialogFragment{
             outState.putParcelable(STATE_KEY, savedState);
         }
         updateUI();
+    }
+
+    @TargetApi(21)
+    public void userListClick(Button b){
+        if(!b.equals(userListButtons.get(MainActivity.currentUserList))) {
+            b.setBackgroundTintList
+                    (getContext().getResources().getColorStateList(R.color.green));
+            userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
+                    (getContext().getResources().getColorStateList(R.color.colorPrimary));
+
+            if (b.getText().equals("Favorites"))
+                MainActivity.currentUserList = 0;
+            else {
+                MainActivity.currentUserList = MainActivity.userListNames.indexOf(b.getText());
+            }
+            updateUI();
+        }
     }
 
     public List<CharSequence> filterLists(List<CharSequence> allCompanies, List<String> checkedCompanies){
@@ -248,8 +303,7 @@ public class ChecklistFragment extends DialogFragment{
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                 (300, 300);
         params.topMargin = top;
-        params.leftMargin = ((MainActivity.userListNames.size() - 1) *
-                300) + left;
+        params.leftMargin = ((MainActivity.userListNames.size() - 1) * 300) + left;
         newList.setLayoutParams(params);
         //newList.setBackgroundResource(R.drawable.ic_list_unselected);
         newList.setBackgroundTintList
@@ -304,16 +358,31 @@ public class ChecklistFragment extends DialogFragment{
                     DatabaseSchema.CompanyTable.Cols.NOTE + ")"
             );
         }
-        //DatabaseHelper newDB = new DatabaseHelper(getContext());
-        //newDB.onCreate(new DatabaseHelper(MainActivity.mContext).getWritableDatabase());
-        //MainActivity.mDatabases.add(
-          //      new DatabaseHelper(MainActivity.mContext).getWritableDatabase());
-        //MainActivity.mDatabases.add(newDB.getWritableDatabase());
-        //MainActivity.mDatabases.get(MainActivity.currentUserList).
-        //      execSQL("delete from "+ DatabaseSchema.CompanyTable.NAME);
-        //Log.d("testtest", favoriteList.getHeight() + "");
-        //Log.d("testtest", favoriteList.getWidth() + "");
         updateUI();
+    }
+
+    public AlertDialog deleteUserListDialog(final Button b){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Are you sure you want to delete the list " + b.getText() + "?");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MainActivity.mDatabase.execSQL("DROP TABLE IF EXISTS " + b.getText());
+                userListButtons.remove(b);
+                MainActivity.userListNames.remove(b.getText());
+                if(MainActivity.currentUserList >= MainActivity.userListNames.size())
+                    MainActivity.currentUserList--;
+                updateUI();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        return builder.show();
     }
 
     public AlertDialog createNewListDialog(final Button b, final RelativeLayout l){
@@ -329,9 +398,9 @@ public class ChecklistFragment extends DialogFragment{
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String newListName = input.getText().toString();
+                String newListName = input.getText().toString().trim().toLowerCase();
                 if(newListName.trim().equals(""))
-                    newListName = "Untitled List";
+                    newListName = "untitledlist";
                 MainActivity.userListNames.add(newListName);
                 addUserListButton(newListName, b, l);
             }

@@ -26,9 +26,20 @@
         android:id="@+id/checklist_addCompany_main"
         layout="@layout/checklist_addcompany"/>
 
-
-    <include
-        android:id="@+id/list_button"
-        layout="@layout/lists_select"/>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/user_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="345dp"
+        android:paddingTop="5dp"
+        android:background="@drawable/list_select_shape"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true">
+        <include
+            android:id="@+id/list_button"
+            layout="@layout/lists_select"/>
+    </RelativeLayout>
 
 </RelativeLayout>

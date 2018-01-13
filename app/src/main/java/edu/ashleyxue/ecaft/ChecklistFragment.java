@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -79,10 +80,6 @@ public class ChecklistFragment extends DialogFragment{
 
 
     public ChecklistFragment() {
-        /*isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
-        companies = MainActivity.makeSavedList(MainActivity.currentUserList);
-        companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
-        */
         isVisitedList = MainActivity.makeUserListIsVisited();
         companies = MainActivity.makeUserListSavedList();
         companyLocations = MainActivity.makeUserListSavedList();
@@ -101,17 +98,24 @@ public class ChecklistFragment extends DialogFragment{
                              ViewGroup container, Bundle savedInstanceState) {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
-        //Log.d("testtest", "testing" + MainActivity.getTables().size());
-        //Log.d("testtest", "testing" + MainActivity.mDatabase.delete);
         MainActivity.currentUserList = 0;
         View v = inflater.inflate(R.layout.checklist_fragment, container, false);
-        final RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.list_button);
+        final RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.user_list);
+
+        final RelativeLayout userListLayout = (RelativeLayout)
+                v.findViewById(R.id.user_list_button_layout);
+
+        //final HorizontalScrollView layout = (HorizontalScrollView) v.findViewById(R.id.list_button);
+
         layout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v)
             {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
+                RelativeLayout.LayoutParams params =
+                        (RelativeLayout.LayoutParams) layout.getLayoutParams();
+                //LinearLayout.LayoutParams params =
+                //      (Linear.LayoutParams) layout.getLayoutParams();
                 if(listButtonClicked)
                     params.topMargin = 1000;
                 else{
@@ -123,16 +127,17 @@ public class ChecklistFragment extends DialogFragment{
 
         });
 
+
         addCompany = (ImageButton) v.findViewById(R.id.checklist_addCompany);
         addCompany.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v)
             {
-                createDialog().show();
+                createAddCompanyDialog().show();
             }
         });
-        //final RelativeLayout addListLayout = (RelativeLayout) v.findViewById(R.id.add_list_button);
+
         final Button favoriteList = (Button) v.findViewById((R.id.select_list));
         favoriteList.setOnClickListener(new View.OnClickListener() {
 
@@ -151,7 +156,8 @@ public class ChecklistFragment extends DialogFragment{
             @Override
             public void onClick(View v)
             {
-                createNewListDialog(favoriteList, layout);
+                //createNewListDialog(favoriteList, layout);
+                createNewListDialog(favoriteList);
             }
 
         });
@@ -162,7 +168,8 @@ public class ChecklistFragment extends DialogFragment{
                 if(!MainActivity.userListNames.contains(s))
                     MainActivity.userListNames.add(s);
                 final Button userList = createUserListButton(s, favoriteList);
-                layout.addView(userList);
+                //layout.addView(userList);
+                userListLayout.addView(userList);
                 userList.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -179,7 +186,6 @@ public class ChecklistFragment extends DialogFragment{
                         return true;
                     }
                 });
-                userListButtons.add(userList);
             }
         }
 
@@ -190,10 +196,8 @@ public class ChecklistFragment extends DialogFragment{
 
         emptyView = v.findViewById(R.id.list_fragment_empty_view);
 
-        getActivity().setTitle("Your Favorites");
+        getActivity().setTitle(MainActivity.userListNames.get(MainActivity.currentUserList));
 
-
-        //return inflater.inflate(R.layout.checklist_fragment, container, false);
         return v;
     }
 
@@ -217,14 +221,10 @@ public class ChecklistFragment extends DialogFragment{
     }
 
     private void updateVisitedList() {
-        //isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
         isVisitedList = MainActivity.makeUserListIsVisited();
     }
 
     private void updateSavedLists() {
-        //companies = MainActivity.makeSavedList(MainActivity.currentUserList);
-        //companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
-
         companies = MainActivity.makeUserListSavedList();
         companyLocations = MainActivity.makeUserListSavedList();
     }
@@ -242,13 +242,13 @@ public class ChecklistFragment extends DialogFragment{
         userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
                 (getContext().getResources().getColorStateList(R.color.green));
 
-        for(int i = 1; i < userListButtons.size(); i++){
-            final RelativeLayout layout = (RelativeLayout) getView().findViewById(R.id.list_button);
-            try {
-                layout.addView(userListButtons.get(i));
-            } catch (Exception e){}
+        if(MainActivity.currentUserList == 0)
+            getActivity().setTitle("Favorites");
+        else {
+            String s = MainActivity.userListNames.get(MainActivity.currentUserList);
+            s = s.substring(0,1).toUpperCase() + s.substring(1);
+            getActivity().setTitle(s);
         }
-
     }
 
     @Override
@@ -267,7 +267,7 @@ public class ChecklistFragment extends DialogFragment{
             b.setBackgroundTintList
                     (getContext().getResources().getColorStateList(R.color.green));
             userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
-                    (getContext().getResources().getColorStateList(R.color.colorPrimary));
+                    (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
 
             if (b.getText().equals("Favorites"))
                 MainActivity.currentUserList = 0;
@@ -296,28 +296,24 @@ public class ChecklistFragment extends DialogFragment{
         RelativeLayout.LayoutParams params1 =
                 (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
         int top = params1.topMargin;
-       // Log.d("testtest", listName + " " + top);
         int left = params1.leftMargin;
-        //Log.d("testtest", favoriteList.getHeight() + " height");
-        //Log.d("testtest", listName + " " + left);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                 (300, 300);
         params.topMargin = top;
-        params.leftMargin = ((MainActivity.userListNames.size() - 1) * 300) + left;
+        params.leftMargin = (MainActivity.userListNames.indexOf(listName) * 300) + left;
         newList.setLayoutParams(params);
-        //newList.setBackgroundResource(R.drawable.ic_list_unselected);
         newList.setBackgroundTintList
-                (getContext().getResources().getColorStateList(R.color.colorPrimary));
+                (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
         newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
-        //newList.setBackgroundResource(R.color.black);
-
+        userListButtons.add(newList);
 
         return newList;
     }
 
     @TargetApi(21)
-    public void addUserListButton(String listName, Button favoriteList, RelativeLayout layout){
-        Button newList = new Button(getContext());
+    public void addUserListButton(String listName, Button favoriteList){
+    //public void addUserListButton(String listName, Button favoriteList, HorizontalScrollView layout){
+        final Button newList = new Button(getContext());
         newList.setText(listName);
         RelativeLayout.LayoutParams params1 =
                 (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
@@ -325,18 +321,35 @@ public class ChecklistFragment extends DialogFragment{
         int left = params1.leftMargin;
         //Log.d("testtest", favoriteList.getWidth() + " width");
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                (favoriteList.getWidth(), favoriteList.getHeight());
+                (300, 300);
         params.topMargin = top;
-        params.leftMargin = ((MainActivity.userListNames.size() - 1) *
-                favoriteList.getWidth()) + left;
+        params.leftMargin = ((MainActivity.userListNames.size() - 1) * 300) + left;
         newList.setLayoutParams(params);
-        //newList.setBackgroundResource(R.drawable.ic_list_unselected);
         newList.setBackgroundTintList
                 (getContext().getResources().getColorStateList(R.color.green));
         newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
-        //newList.setBackgroundResource(R.color.black);
+        userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
+                (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
 
+        userListButtons.add(newList);
+        newList.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v)
+            {
+                userListClick(newList);
+            }
+
+        });
+        newList.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                deleteUserListDialog(newList);
+                return true;
+            }
+        });
+        final RelativeLayout layout = (RelativeLayout)
+                getView().findViewById(R.id.user_list_button_layout);
         layout.addView(newList);
         MainActivity.currentUserList = MainActivity.userListNames.size() - 1;
         try {
@@ -361,17 +374,38 @@ public class ChecklistFragment extends DialogFragment{
         updateUI();
     }
 
+    @TargetApi(21)
     public AlertDialog deleteUserListDialog(final Button b){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Are you sure you want to delete the list " + b.getText() + "?");
+        builder.setTitle("Are you sure you want to delete the list, " + "\"" + b.getText() + "\"" + "?");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity.mDatabase.execSQL("DROP TABLE IF EXISTS " + b.getText());
+                if(MainActivity.currentUserList >= MainActivity.userListNames.size() - 1)
+                    MainActivity.currentUserList--;
+
                 userListButtons.remove(b);
                 MainActivity.userListNames.remove(b.getText());
-                if(MainActivity.currentUserList >= MainActivity.userListNames.size())
-                    MainActivity.currentUserList--;
+
+                final RelativeLayout layout = (RelativeLayout)
+                        getView().findViewById(R.id.user_list_button_layout);
+                layout.removeView(b);
+                Button favoriteList = userListButtons.get(0);
+                for(Button b : userListButtons){
+                    if(!b.getText().equals("Favorites")){
+                        RelativeLayout.LayoutParams params1 =
+                                (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
+                        int top = params1.topMargin;
+                        int left = params1.leftMargin;
+                        //Log.d("testtest", favoriteList.getWidth() + " width");
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
+                                (favoriteList.getWidth(), favoriteList.getHeight());
+                        params.topMargin = top;
+                        params.leftMargin = (MainActivity.userListNames.indexOf(b.getText()) * 300) + left;
+                        b.setLayoutParams(params);
+                    }
+                }
                 updateUI();
             }
         });
@@ -385,24 +419,22 @@ public class ChecklistFragment extends DialogFragment{
         return builder.show();
     }
 
-    public AlertDialog createNewListDialog(final Button b, final RelativeLayout l){
+    public AlertDialog createNewListDialog(final Button b){
+    //public AlertDialog createNewListDialog(final Button b, final HorizontalScrollView l){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Create a New List");
-        // Set up the input
         final EditText input = new EditText(getContext());
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-// Set up the buttons
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String newListName = input.getText().toString().trim().toLowerCase();
+                String newListName = input.getText().toString().toLowerCase().replaceAll("\\s+","");
                 if(newListName.trim().equals(""))
                     newListName = "untitledlist";
                 MainActivity.userListNames.add(newListName);
-                addUserListButton(newListName, b, l);
+                addUserListButton(newListName, b);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -415,7 +447,7 @@ public class ChecklistFragment extends DialogFragment{
         return builder.show();
     }
 
-    public AlertDialog createDialog() {
+    public AlertDialog createAddCompanyDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add a Company");
         updateSavedLists();

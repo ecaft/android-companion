@@ -31,6 +31,7 @@ import android.content.DialogInterface;
 import android.widget.EditText;
 import android.text.InputType;
 import android.support.v4.app.FragmentManager;
+import android.graphics.drawable.GradientDrawable;
 
 
 import com.bumptech.glide.load.engine.Resource;
@@ -105,8 +106,6 @@ public class ChecklistFragment extends DialogFragment{
         final RelativeLayout userListLayout = (RelativeLayout)
                 v.findViewById(R.id.user_list_button_layout);
 
-        //final HorizontalScrollView layout = (HorizontalScrollView) v.findViewById(R.id.list_button);
-
         layout.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -114,8 +113,6 @@ public class ChecklistFragment extends DialogFragment{
             {
                 RelativeLayout.LayoutParams params =
                         (RelativeLayout.LayoutParams) layout.getLayoutParams();
-                //LinearLayout.LayoutParams params =
-                //      (Linear.LayoutParams) layout.getLayoutParams();
                 if(listButtonClicked)
                     params.topMargin = 1000;
                 else{
@@ -156,7 +153,6 @@ public class ChecklistFragment extends DialogFragment{
             @Override
             public void onClick(View v)
             {
-                //createNewListDialog(favoriteList, layout);
                 createNewListDialog(favoriteList);
             }
 
@@ -168,7 +164,6 @@ public class ChecklistFragment extends DialogFragment{
                 if(!MainActivity.userListNames.contains(s))
                     MainActivity.userListNames.add(s);
                 final Button userList = createUserListButton(s, favoriteList);
-                //layout.addView(userList);
                 userListLayout.addView(userList);
                 userList.setOnClickListener(new View.OnClickListener() {
 
@@ -239,8 +234,11 @@ public class ChecklistFragment extends DialogFragment{
         companyAdapter = new CompanyAdapter(companies, companyLocations);
         companyRecylerView.setAdapter(companyAdapter);
 
-        userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
-                (getContext().getResources().getColorStateList(R.color.green));
+        //userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
+          //      (getContext().getResources().getColorStateList(R.color.green));
+        GradientDrawable drawable = (GradientDrawable)
+                userListButtons.get(MainActivity.currentUserList).getBackground();
+        drawable.setStroke(20, getResources().getColor(R.color.green));
 
         if(MainActivity.currentUserList == 0)
             getActivity().setTitle("Favorites");
@@ -264,10 +262,16 @@ public class ChecklistFragment extends DialogFragment{
     @TargetApi(21)
     public void userListClick(Button b){
         if(!b.equals(userListButtons.get(MainActivity.currentUserList))) {
-            b.setBackgroundTintList
-                    (getContext().getResources().getColorStateList(R.color.green));
-            userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
-                    (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
+            //b.setBackgroundTintList
+              //      (getContext().getResources().getColorStateList(R.color.green));
+            GradientDrawable drawable = (GradientDrawable) b.getBackground();
+            drawable.setStroke(20, getResources().getColor(R.color.green));
+
+            GradientDrawable drawable1 = (GradientDrawable)
+                    userListButtons.get(MainActivity.currentUserList).getBackground();
+            drawable1.setStroke(20, getResources().getColor(R.color.slightly_dark_red));
+            //userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
+              //      (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
 
             if (b.getText().equals("Favorites"))
                 MainActivity.currentUserList = 0;
@@ -297,14 +301,20 @@ public class ChecklistFragment extends DialogFragment{
                 (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
         int top = params1.topMargin;
         int left = params1.leftMargin;
+        int right = params1.rightMargin;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                (300, 300);
+                (240, 300);
         params.topMargin = top;
-        params.leftMargin = (MainActivity.userListNames.indexOf(listName) * 300) + left;
+        params.leftMargin = (MainActivity.userListNames.indexOf(listName) * 280) + left;
+        params.rightMargin = right;
         newList.setLayoutParams(params);
-        newList.setBackgroundTintList
-                (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
-        newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
+        Log.d("testtest", params.leftMargin + "");
+        //newList.setBackgroundTintList
+          //      (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
+        //newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
+        newList.setBackgroundResource(R.drawable.userlist_button);
+        GradientDrawable drawable = (GradientDrawable)newList.getBackground();
+        drawable.setStroke(20, getResources().getColor(R.color.slightly_dark_red));
         userListButtons.add(newList);
 
         return newList;
@@ -312,24 +322,32 @@ public class ChecklistFragment extends DialogFragment{
 
     @TargetApi(21)
     public void addUserListButton(String listName, Button favoriteList){
-    //public void addUserListButton(String listName, Button favoriteList, HorizontalScrollView layout){
         final Button newList = new Button(getContext());
         newList.setText(listName);
         RelativeLayout.LayoutParams params1 =
                 (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
         int top = params1.topMargin;
         int left = params1.leftMargin;
-        //Log.d("testtest", favoriteList.getWidth() + " width");
+        int right = params1.rightMargin;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                (300, 300);
+                (240, 300);
+        Log.d("testtest", favoriteList.getWidth() + "");
         params.topMargin = top;
-        params.leftMargin = ((MainActivity.userListNames.size() - 1) * 300) + left;
+        params.leftMargin = ((MainActivity.userListNames.size() - 1) * 280) + left;
+        params.rightMargin = right;
         newList.setLayoutParams(params);
-        newList.setBackgroundTintList
-                (getContext().getResources().getColorStateList(R.color.green));
-        newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
-        userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
-                (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
+        //newList.setBackgroundTintList
+          //      (getContext().getResources().getColorStateList(R.color.green));
+        //newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
+        newList.setBackgroundResource(R.drawable.userlist_button);
+        //GradientDrawable drawable = (GradientDrawable)newList.getBackground();
+        //drawable.setStroke(20, getResources().getColor(R.color.red));
+
+        GradientDrawable drawable = (GradientDrawable)userListButtons.
+                get(MainActivity.currentUserList).getBackground();
+        drawable.setStroke(20, getResources().getColor(R.color.slightly_dark_red));
+        //userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
+          //      (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
 
         userListButtons.add(newList);
         newList.setOnClickListener(new View.OnClickListener() {
@@ -398,11 +416,12 @@ public class ChecklistFragment extends DialogFragment{
                                 (RelativeLayout.LayoutParams) favoriteList.getLayoutParams();
                         int top = params1.topMargin;
                         int left = params1.leftMargin;
-                        //Log.d("testtest", favoriteList.getWidth() + " width");
+                        int right = params1.rightMargin;
                         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                                 (favoriteList.getWidth(), favoriteList.getHeight());
                         params.topMargin = top;
-                        params.leftMargin = (MainActivity.userListNames.indexOf(b.getText()) * 300) + left;
+                        params.leftMargin = (MainActivity.userListNames.indexOf(b.getText()) * 280) + left;
+                        params.rightMargin = right;
                         b.setLayoutParams(params);
                     }
                 }
@@ -420,7 +439,6 @@ public class ChecklistFragment extends DialogFragment{
     }
 
     public AlertDialog createNewListDialog(final Button b){
-    //public AlertDialog createNewListDialog(final Button b, final HorizontalScrollView l){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Create a New List");
         final EditText input = new EditText(getContext());

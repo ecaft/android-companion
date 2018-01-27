@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
      */
     public static Context mContext;
     public static SQLiteDatabase mDatabase;
-    //public static List<SQLiteDatabase> mDatabases;
     public static int currentUserList = 0;
     public static List<String> userListNames = new ArrayList<String>(){{
         add("companies");
@@ -72,8 +71,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         //Log.d("testingtesting", FirebaseDatabase.getInstance().getApp().getName());
         mContext = getApplicationContext();
         mDatabase = new DatabaseHelper(mContext).getWritableDatabase();
-        //mDatabases = new ArrayList<SQLiteDatabase>();
-        //mDatabases.add(new DatabaseHelper(mContext).getWritableDatabase());
 
         homeFragment = new HomeFragment();
         mapFragment = new MapFragment();

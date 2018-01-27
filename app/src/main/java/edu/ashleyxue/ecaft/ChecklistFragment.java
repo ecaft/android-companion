@@ -90,8 +90,6 @@ public class ChecklistFragment extends DialogFragment{
         items = new CharSequence[1];
         allCompanies = new ArrayList<CharSequence>();
         unCheckedCompanies = new ArrayList<CharSequence>();
-
-        userListButtons = new ArrayList<Button>();
     }
 
     @Override
@@ -99,6 +97,8 @@ public class ChecklistFragment extends DialogFragment{
                              ViewGroup container, Bundle savedInstanceState) {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
+        userListButtons = new ArrayList<Button>();
+
         MainActivity.currentUserList = 0;
         View v = inflater.inflate(R.layout.checklist_fragment, container, false);
         final RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.user_list);
@@ -157,14 +157,13 @@ public class ChecklistFragment extends DialogFragment{
             }
 
         });
-
         userListButtons.add(favoriteList);
+
         for(String s : MainActivity.getTables()){
             if(!s.equals("companies")) {
                 if(!MainActivity.userListNames.contains(s))
                     MainActivity.userListNames.add(s);
                 final Button userList = createUserListButton(s, favoriteList);
-                userListLayout.addView(userList);
                 userList.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -181,6 +180,8 @@ public class ChecklistFragment extends DialogFragment{
                         return true;
                     }
                 });
+                userListButtons.add(userList);
+                userListLayout.addView(userList);
             }
         }
 
@@ -261,6 +262,8 @@ public class ChecklistFragment extends DialogFragment{
 
     @TargetApi(21)
     public void userListClick(Button b){
+        Log.d("testtest", userListButtons.indexOf(b) + " " + b.getText());
+        Log.d("testtest", userListButtons.get(2).getText() + "");
         if(!b.equals(userListButtons.get(MainActivity.currentUserList))) {
             //b.setBackgroundTintList
               //      (getContext().getResources().getColorStateList(R.color.green));
@@ -315,7 +318,6 @@ public class ChecklistFragment extends DialogFragment{
         newList.setBackgroundResource(R.drawable.userlist_button);
         GradientDrawable drawable = (GradientDrawable)newList.getBackground();
         drawable.setStroke(20, getResources().getColor(R.color.slightly_dark_red));
-        userListButtons.add(newList);
 
         return newList;
     }

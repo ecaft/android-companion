@@ -262,8 +262,8 @@ public class ChecklistFragment extends DialogFragment{
 
     @TargetApi(21)
     public void userListClick(Button b){
-        Log.d("testtest", userListButtons.indexOf(b) + " " + b.getText());
-        Log.d("testtest", userListButtons.get(2).getText() + "");
+       // Log.d("testtest", userListButtons.indexOf(b) + " " + b.getText());
+       // Log.d("testtest", userListButtons.get(2).getText() + "");
         if(!b.equals(userListButtons.get(MainActivity.currentUserList))) {
             //b.setBackgroundTintList
               //      (getContext().getResources().getColorStateList(R.color.green));
@@ -506,15 +506,15 @@ public class ChecklistFragment extends DialogFragment{
 
 
 
-    @Override
+/*    @Override
     public void onResume() {
         super.onResume();
         updateUI();
         //MainActivity.bottomNavigationView.setSelectedItemId(R.id.nav_checklist);
         MainActivity.navigationView.setCheckedItem(R.id.nav_checklist);
-    }
+    }*/
 
-    @Override
+/*    @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 
@@ -524,18 +524,18 @@ public class ChecklistFragment extends DialogFragment{
             companyRecylerView.getLayoutManager().onRestoreInstanceState
                     (savedRecyclerLayoutState);
         }
-    }
+    }*/
 
-    private void updateVisitedList() {
+ /*   private void updateVisitedList() {
         isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
-    }
+    }*/
 
-    private void updateSavedLists() {
+ /*   private void updateSavedLists() {
         companies = MainActivity.makeSavedList(MainActivity.currentUserList);
         companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
     }
-
-    public void updateUI() {
+*/
+ /*   public void updateUI() {
         updateVisitedList();
         updateSavedLists();
         unCheckedCompanies = filterLists(allCompanies,companies);
@@ -545,9 +545,9 @@ public class ChecklistFragment extends DialogFragment{
         companyRecylerView.setAdapter(companyAdapter);
 
 
-    }
+    }*/
 
-    @Override
+/*    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (companyRecylerView != null) {
@@ -555,7 +555,7 @@ public class ChecklistFragment extends DialogFragment{
             outState.putParcelable(STATE_KEY, savedState);
         }
         updateUI();
-    }
+    }*/
 
 
 

@@ -1,6 +1,8 @@
 package edu.ashleyxue.ecaft;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,7 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.content.Context;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,6 +79,9 @@ public class CompanyDetailsFragment extends Fragment {
     private boolean showText;
     private StorageReference storageRef = FirebaseApplication
             .getStorageRef();
+
+    private int checkedItem = -1;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -163,11 +169,11 @@ public class CompanyDetailsFragment extends Fragment {
                 transaction.commit();
             }
         });*/
-        companyNotes = new AppCompatEditText(inflater.getContext()){
+        companyNotes = new AppCompatEditText(inflater.getContext()) {
             @Override
             public boolean onKeyPreIme(int keyCode, KeyEvent event) {
                 Log.d("details", keyCode + "");
-                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK){
+                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
                     Log.d("details", "elaufhlsieuhfaelsuhgaeu");
                 }
                 return super.onKeyPreIme(keyCode, event);
@@ -221,8 +227,8 @@ public class CompanyDetailsFragment extends Fragment {
 
         add_to_list.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View V){
-
+            public void onClick(View V) {
+                createAddCompanyDialog().show();
             }
         });
 
@@ -343,4 +349,34 @@ public class CompanyDetailsFragment extends Fragment {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+    public AlertDialog createAddCompanyDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add To a List");
+        CharSequence[] items = MainActivity.getTables().toArray(new CharSequence[0]);
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+                checkedItem = which;
+            }
+        });
+
+        // add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked OK
+                Log.d("testest", checkedItem + "");
+                if(checkedItem != -1) {
+                    MainActivity.addUserListRowDetails(
+                            objectID, name, checkedItem);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        return builder.create();
+    }
+
 }

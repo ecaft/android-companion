@@ -370,6 +370,18 @@ public class MainActivity extends AppCompatActivity  implements SearchView
                 MainActivity.currentUserList), null, values);
     }
 
+    public static void addUserListRowDetails(String currentCompanyUUID, String
+            currentCompanyName, int i) {
+        ContentValues values = new ContentValues();
+        values.put(CompanyTable.Cols.ID, currentCompanyUUID);
+        values.put(CompanyTable.Cols.COMPANY_NAME, currentCompanyName);
+        values.put(CompanyTable.Cols.VISITED, 0);
+        values.put(CompanyTable.Cols.NOTE, "");
+        mDatabase.insert(MainActivity.userListNames.get(
+                i), null, values);
+    }
+
+
 
     public static List<Integer> makeUserListIsVisited() {
         List<Integer> compiledList = new ArrayList<>();

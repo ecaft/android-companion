@@ -3,8 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+
 
     defaultConfig {
         applicationId "edu.ashleyxue.ecaft"
@@ -26,8 +25,8 @@ android {
 }
 
 dependencies {
- //   compile fileTree(dir: 'libs', include: ['*.jar'])
- //   compile fileTree('libs')
+    //   compile fileTree(dir: 'libs', include: ['*.jar'])
+    //   compile fileTree('libs')
     testCompile 'junit:junit:4.12'
     //noinspection GradleCompatible
     compile 'com.android.support:appcompat-v7:25.4.0'
@@ -35,7 +34,7 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.android.support:recyclerview-v7:25.4.0'
     compile 'com.android.support:support-v4:25.4.0'
-//    compile "com.daimajia.swipelayout:library:1.2.0@aar"
+    //    compile "com.daimajia.swipelayout:library:1.2.0@aar"
     compile 'com.parse:parse-android:1.13.0'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'
     compile 'com.google.firebase:firebase-database:10.0.1'

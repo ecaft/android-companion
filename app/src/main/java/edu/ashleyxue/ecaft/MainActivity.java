@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     private RelativeLayout mDrawerListLayout;
     private boolean searching;
     private DrawerLayout drawer;
+    //public static NavigationView navigationView;
+    public static BottomNavigationView bottomNavigationView;
     public static NavigationView navigationView;
-    //public static BottomNavigationView navigationView;
     public static List<String> allCompanies = new ArrayList<String>();
     public static List<String> allCompanyIds = new ArrayList<String>();
     /**
@@ -95,10 +96,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-/*
-        navigationView = (BottomNavigationView) findViewById(R.id.nav_bar);
-        navigationView.setOnNavigationItemSelectedListener(this);
-*/
+
+        /*bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_bar);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);*/
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         //      mDrawerList.setSelection(0);
         getSupportFragmentManager().beginTransaction().replace(R.id
                 .content_frame, new HomeFragment()).commit();
-        //navigationView.setSelectedItemId(R.id.nav_home);
+        //bottomNavigationView.setSelectedItemId(R.id.nav_home);
         navigationView.setCheckedItem(R.id.nav_home);
     }
 
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
                 fragment).addToBackStack(null)
                 .commit();
 
-        //navigationView.setSelectedItemId(id);
+        //bottomNavigationView.setSelectedItemId(id);
         navigationView.setCheckedItem(id);
 
         drawer.closeDrawer(GravityCompat.START);

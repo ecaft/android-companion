@@ -55,6 +55,12 @@
                     android:textSize="14sp"
                     tools:text="Table XX"/>
 
+                <Button
+                    android:id="@+id/add_to_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/addToList"/>
+
                 <TextView
                     android:id="@+id/company_details_website"
                     android:layout_width="match_parent"

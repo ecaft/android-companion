@@ -24,10 +24,12 @@
     <!--
         Camera permissions
     -->
+<!--
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
                         android:maxSdkVersion="18"/>
+-->
 
     <!--
       IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below

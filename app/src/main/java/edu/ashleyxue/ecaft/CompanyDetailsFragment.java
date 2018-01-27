@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -45,7 +46,7 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyInfoHeader;
     private TextView companyWebsite;
     private TextView companyNotesHeader;
-    private static EditText companyNotes;
+    private static AppCompatEditText companyNotes;
     private TextView companySponsor;
     private TextView companyOptcpt;
     private TextView companySponsorHeader;
@@ -55,6 +56,7 @@ public class CompanyDetailsFragment extends Fragment {
     private ToggleButton notes_company_info;
 
     private Button camera_button;
+    private Button add_to_list;
     static final int REQUEST_IMAGE_CAPTURE = 1; //for picture taking
 
     private String companyTable;
@@ -141,8 +143,11 @@ public class CompanyDetailsFragment extends Fragment {
 
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
-        companyNotes = new EditText(inflater.getContext()){
-        Button notesButton = (Button) v.findViewById(R.id.notesButton);
+        camera_button = (Button) v.findViewById(R.id.camera_button);
+        add_to_list = (Button) v.findViewById(R.id.add_to_list);
+
+        companyNotes = new AppCompatEditText(inflater.getContext());
+ /*       Button notesButton = (Button) v.findViewById(R.id.notesButton);
 
         notesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -157,8 +162,8 @@ public class CompanyDetailsFragment extends Fragment {
                 Log.d("Notes Page", "CALLING NEW FRAGMENT");
                 transaction.commit();
             }
-        });
-        /*companyNotes = new EditText(inflater.getContext()){
+        });*/
+        companyNotes = new AppCompatEditText(inflater.getContext()){
             @Override
             public boolean onKeyPreIme(int keyCode, KeyEvent event) {
                 Log.d("details", keyCode + "");
@@ -168,7 +173,7 @@ public class CompanyDetailsFragment extends Fragment {
                 return super.onKeyPreIme(keyCode, event);
             }
         };
-        companyNotes = (EditText) v.findViewById(R.id
+        companyNotes = (AppCompatEditText) v.findViewById(R.id
                 .company_details_editText);
 
 
@@ -206,14 +211,22 @@ public class CompanyDetailsFragment extends Fragment {
             });
         }
 
-        /*camera_button.setOnClickListener(new View.OnClickListener() {
+        camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+                Intent intent = new Intent(getActivity(), CameraActivity.class);
+                getActivity().startActivity(intent);
             }
-        });*/
+        });
 
-/*
+        add_to_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View V){
+
+            }
+        });
+
+
         if(notes_company_info.isChecked()){
             companyNotes.setVisibility(View.VISIBLE);
             companyNotesHeader.setVisibility(View.VISIBLE);
@@ -228,7 +241,7 @@ public class CompanyDetailsFragment extends Fragment {
             //companySponsor.setVisibility(View.GONE);
             //companyOptcpt.setVisibility(View.GONE);
         }
-*/
+
 //
 //        companyNotes.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -278,7 +291,7 @@ public class CompanyDetailsFragment extends Fragment {
         else
             companyNotes.setHint("Add a note for this company");
 
-        */
+
         companyLogo = (ImageView) v.findViewById(R.id.company_details_logo);
 
         StorageReference path = storageRef.child("logos/" +

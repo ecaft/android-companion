@@ -21,7 +21,7 @@
             android:layout_margin="16dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/ic_checklist_plus_nocircle"
-            android:backgroundTint="@color/red"/>
+            android:backgroundTint="@color/slightly_dark_red"/>
 
         <TextView
             android:layout_width="fill_parent"

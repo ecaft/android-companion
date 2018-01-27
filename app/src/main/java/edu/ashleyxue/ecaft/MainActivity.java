@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -43,10 +44,9 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     private boolean searching;
     private DrawerLayout drawer;
     public static NavigationView navigationView;
-
+    //public static BottomNavigationView navigationView;
     public static List<String> allCompanies = new ArrayList<String>();
     public static List<String> allCompanyIds = new ArrayList<String>();
-
     /**
      * Database variables
      */
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     private HomeFragment homeFragment;
     private MapFragment mapFragment;
     private InfoFragment infoFragment;
+    private FilterFragment filterFragment;
     private ChecklistFragment checklistFragment;
 
     @Override
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         homeFragment = new HomeFragment();
         mapFragment = new MapFragment();
         infoFragment = new InfoFragment();
+        filterFragment = new FilterFragment();
         checklistFragment = new ChecklistFragment();
 
        // View drawer = findViewById(R.id.activity_main);
@@ -90,12 +92,45 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+/*
+        navigationView = (BottomNavigationView) findViewById(R.id.nav_bar);
+        navigationView.setOnNavigationItemSelectedListener(this);
+*/
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        //          getSupportActionBar().setHomeButtonEnabled(true);
+//
+//        mMenuOptions = getResources().getStringArray(R.array.menu_options);
+//
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mFrameLayout = (FrameLayout) findViewById(R.id.content_frame);
+//        mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
+//        mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
+//        //  mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
+//
+//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+//                R.layout.drawer_list_item, mMenuOptions));
+//        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView parent, View view, int position, long id) {
+//                selectItem(position);
+//            }
+//        });
+////
+//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+//                R.string.drawer_open, R.string.drawer_close);
+//        mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+
+        //      mDrawerList.setSelection(0);
         getSupportFragmentManager().beginTransaction().replace(R.id
                 .content_frame, new HomeFragment()).commit();
+        //navigationView.setSelectedItemId(R.id.nav_home);
         navigationView.setCheckedItem(R.id.nav_home);
     }
 
@@ -123,6 +158,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
                 fragment).addToBackStack(null)
                 .commit();
 
+        //navigationView.setSelectedItemId(id);
         navigationView.setCheckedItem(id);
 
         drawer.closeDrawer(GravityCompat.START);
@@ -280,12 +316,13 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mDatabase.execSQL(str);
     }
 
+    /*public static void saveNote(String id, String note) { */
     public static void saveNote(String id, String note) {
         String str = "update " + CompanyTable.NAME + " set " + CompanyTable
                 .Cols.NOTE + " = \"" + note + "\" where " + CompanyTable
                 .Cols.ID + " = \"" + id + "\"";
         mDatabase.execSQL(str);
-    }
+    } 
 
     public static String getNote(String id) {
         Cursor c = mDatabase.query(CompanyTable.NAME,

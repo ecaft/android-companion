@@ -21,9 +21,19 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-            <android.support.v7.widget.Toolbar
+<!--
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/nav_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                app:menu="@menu/navigation_layout" />
+-->
+
+           <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -37,7 +47,8 @@
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize">
+
+            android:layout_marginBottom="?attr/actionBarSize">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -45,7 +56,9 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/campus_photo_compressed"/>
 
+
         </FrameLayout>
+
 
     </android.support.design.widget.CoordinatorLayout>
 

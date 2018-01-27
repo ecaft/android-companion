@@ -13,7 +13,21 @@
       GET_ACCOUNTS is only required for GCM on devices running Android lower than
       4.0.4. You may leave out this permission if you are targetting 4.0.4+.
     -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera2.full" />
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+
+    <!--
+        Camera permissions
+    -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+                        android:maxSdkVersion="18"/>
 
     <!--
       IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
@@ -21,6 +35,7 @@
     -->
     <permission android:protectionLevel="signature"
                 android:name="edu.ashleyxue.ecaft.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="edu.cornell.ecaft.permission.C2D_MESSAGE" />
     <application
@@ -43,22 +58,18 @@
         </activity>
 
         <activity
+            android:name="edu.ashleyxue.ecaft.CameraActivity"
+            android:label="Camera"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name="edu.ashleyxue.ecaft.CompanyDetailsActivity"
             android:label="@string/details_ac"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity
-            android:name="edu.ashleyxue.ecaft.SearchActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTask">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable">
-            </meta-data>
-        </activity>
+
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"

@@ -505,6 +505,60 @@ public class ChecklistFragment extends DialogFragment{
     }
 
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+        //MainActivity.navigationView.setSelectedItemId(R.id.nav_checklist);
+        MainActivity.navigationView.setCheckedItem(R.id.nav_checklist);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            Parcelable savedRecyclerLayoutState = savedInstanceState
+                    .getParcelable(STATE_KEY);
+            companyRecylerView.getLayoutManager().onRestoreInstanceState
+                    (savedRecyclerLayoutState);
+        }
+    }
+
+    private void updateVisitedList() {
+        isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
+    }
+
+    private void updateSavedLists() {
+        companies = MainActivity.makeSavedList(MainActivity.currentUserList);
+        companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
+    }
+
+    public void updateUI() {
+        updateVisitedList();
+        updateSavedLists();
+        unCheckedCompanies = filterLists(allCompanies,companies);
+        items = unCheckedCompanies.toArray(new CharSequence[0]);
+
+        companyAdapter = new CompanyAdapter(companies, companyLocations);
+        companyRecylerView.setAdapter(companyAdapter);
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (companyRecylerView != null) {
+            savedState = companyRecylerView.getLayoutManager().onSaveInstanceState();
+            outState.putParcelable(STATE_KEY, savedState);
+        }
+        updateUI();
+    }
+
+
+
     /**
      * Private classes
      */

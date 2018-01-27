@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import edu.ashleyxue.ecaft.DatabaseSchema.CompanyTable;
 
+import android.database.Cursor;
+import android.util.Log;
+
+
 /**
  * Created by Ashley on 1/16/2016.
  */
@@ -20,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d("123456789", countTables() + ": num tables");
         db.execSQL("create table " + CompanyTable.NAME + "(" +
                         CompanyTable.Cols.ID + ", " +
                         CompanyTable.Cols.COMPANY_NAME + ", " +
@@ -32,5 +37,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public int countTables() {
+        int count = 0;
+        String SQL_GET_ALL_TABLES = "SELECT * FROM sqlite_master WHERE type='table'";
+        Cursor cursor = getReadableDatabase()
+                .rawQuery(SQL_GET_ALL_TABLES, null);
+        cursor.moveToFirst();
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+
+            count++;
+            getReadableDatabase().close();
+
+        }
+        cursor.close();
+        return count;
     }
 }

@@ -222,6 +222,9 @@ public class CompanyDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CameraActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("company", name);
+                intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
         });

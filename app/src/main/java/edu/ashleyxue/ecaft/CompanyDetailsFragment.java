@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -58,7 +59,7 @@ public class CompanyDetailsFragment extends Fragment {
 
     private ToggleButton notes_company_info;
 
-    private Button camera_button;
+    private ImageButton camera_button;
     private Button add_to_list;
     static final int REQUEST_IMAGE_CAPTURE = 1; //for picture taking
 
@@ -149,7 +150,7 @@ public class CompanyDetailsFragment extends Fragment {
 
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
-        camera_button = (Button) v.findViewById(R.id.camera_button);
+        camera_button = (ImageButton) v.findViewById(R.id.camera_button);
         add_to_list = (Button) v.findViewById(R.id.add_to_list);
 
         companyNotes = new AppCompatEditText(inflater.getContext());

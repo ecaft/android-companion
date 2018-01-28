@@ -222,6 +222,9 @@ public class CompanyDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CameraActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("company", name);
+                intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
         });
@@ -249,24 +252,6 @@ public class CompanyDetailsFragment extends Fragment {
             //companyOptcpt.setVisibility(View.GONE);
         }
 
-//
-//        companyNotes.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                companyNotes.setCursorVisible(true);
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                Log.d("details", s.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                Log.d("details", "done changing text: " + s.toString());
-//            }
-//        });
-//
         companyNotes.setOnEditorActionListener(new EditText
                 .OnEditorActionListener() {
             @Override

@@ -1,6 +1,7 @@
 package edu.ashleyxue.ecaft;
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -38,8 +39,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CameraActivity extends AppCompatActivity {
@@ -168,7 +171,18 @@ public class CameraActivity extends AppCompatActivity {
             // Orientation
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
-            final File file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
+
+            Intent intentData = getIntent();
+            Bundle companyData = intentData.getExtras();
+            String companyName = "";
+            if (!companyData.isEmpty()){
+                boolean hasString = companyData.containsKey("company");
+                companyName = companyData.getString("company", "");
+            }
+            Long tsLong = System.currentTimeMillis()/1000;
+            String ts = tsLong.toString();
+            String imgname =companyName + ts;
+            final File file = new File(Environment.getExternalStorageDirectory().getPath()+"/DCIM/Camera/" + imgname + ".jpg");
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
@@ -206,7 +220,7 @@ public class CameraActivity extends AppCompatActivity {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_LONG).show();
                     createCameraPreview();
                 }
             };

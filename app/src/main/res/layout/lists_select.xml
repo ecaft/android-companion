@@ -2,17 +2,12 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_marginTop="345dp"
-    android:paddingTop="10dp"
-    android:background="@drawable/list_select_shape"
-    android:orientation="horizontal"
-    android:clickable="true"
-    android:focusable="true">
+    android:layout_height="fill_parent">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/userList_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,39 +18,47 @@
             android:text="@string/checklist_lists"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:paddingLeft="30dp" />
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"/>
 
        <ImageButton
            android:id="@+id/add_list_button"
            android:layout_width="40dp"
            android:layout_height="40dp"
            android:background="@mipmap/ic_add_circle_outline_black_24dp"
-           android:backgroundTint="@color/red"
-           android:layout_marginLeft="220dp"
+           android:backgroundTint="@color/slightly_dark_red"
+           android:layout_marginLeft="240dp"
            android:layout_gravity="right"
            android:scaleType="fitEnd">
        </ImageButton>
 
     </LinearLayout>
-
-        <Button
-            android:id="@+id/select_list"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="40dp"
-            android:text="Favorites"
-            android:textSize="12dp"
-            android:background="@drawable/ic_userlist_unselected"
-            android:backgroundTint="@color/green" />
-
-        <ListView
-            android:id="@+id/lists_selector_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentTop="true"
-            android:layout_above="@id/select_list" />
-
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userList_linear_layout"
+        android:layout_marginTop="40dp">
+    <RelativeLayout
+        android:id="@+id/user_list_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/userlist_scrollable"
+        android:layout_marginBottom="10dp">
+            <Button
+                android:id="@+id/select_list"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:text="Favorites"
+                android:textSize="12dp"
+                android:background="@drawable/userlist_button"/>
+    </RelativeLayout>
+    </HorizontalScrollView>
 
 </RelativeLayout>
 
+<!-- android:background="@drawable/ic_userlist_unselected"
+ android:backgroundTint="@color/green"-->
 

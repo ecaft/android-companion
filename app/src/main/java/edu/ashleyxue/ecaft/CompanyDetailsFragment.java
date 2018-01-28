@@ -1,10 +1,13 @@
 package edu.ashleyxue.ecaft;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +30,7 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.content.Context;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +50,7 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyInfoHeader;
     private TextView companyWebsite;
     private TextView companyNotesHeader;
-    private static EditText companyNotes;
+    private static AppCompatEditText companyNotes;
     private TextView companySponsor;
     private TextView companyOptcpt;
     private TextView companySponsorHeader;
@@ -54,7 +59,8 @@ public class CompanyDetailsFragment extends Fragment {
 
     private ToggleButton notes_company_info;
 
-    private Button camera_button;
+    private ImageButton camera_button;
+    private Button add_to_list;
     static final int REQUEST_IMAGE_CAPTURE = 1; //for picture taking
 
     private String companyTable;
@@ -74,11 +80,14 @@ public class CompanyDetailsFragment extends Fragment {
     private boolean showText;
     private StorageReference storageRef = FirebaseApplication
             .getStorageRef();
+
+    private int checkedItem = -1;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        final View v = inflater.inflate(R.layout.company_details_fragment, container, false);
+        View v = inflater.inflate(R.layout.company_details_fragment, container, false);
         Bundle args = getArguments();
         objectID = args.getString(FirebaseApplication.COMPANY_ID);
         name = args.getString(FirebaseApplication.COMPANY_NAME);
@@ -141,28 +150,107 @@ public class CompanyDetailsFragment extends Fragment {
 
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
-        companyNotes = (EditText) v.findViewById(R.id.company_details_editText);
+        camera_button = (ImageButton) v.findViewById(R.id.camera_button);
+        add_to_list = (Button) v.findViewById(R.id.add_to_list);
 
-        //companyNotes = new android.support.v7.widget.AppCompatEditText(inflater.getContext()){
+        companyNotes = new AppCompatEditText(inflater.getContext());
+ /*       Button notesButton = (Button) v.findViewById(R.id.notesButton);
 
-        //    Button notesButton = (Button) v.findViewById(R.id.notesButton);
+        notesButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("Notes Page", "Button Being Clicked");
+                NotesFragment noteFrag = new NotesFragment();
+                Intent i = getActivity().getIntent();
+                Bundle x = i.getExtras();
+                noteFrag.setArguments(i.getExtras());
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(((ViewGroup)(getView().getParent())).getId(), noteFrag);
+                transaction.addToBackStack(null);
+                Log.d("Notes Page", "CALLING NEW FRAGMENT");
+                transaction.commit();
+            }
+        });*/
+        companyNotes = new AppCompatEditText(inflater.getContext()) {
+            @Override
+            public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+                Log.d("details", keyCode + "");
+                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+                    Log.d("details", "elaufhlsieuhfaelsuhgaeu");
+                }
+                return super.onKeyPreIme(keyCode, event);
+            }
+        };
+        companyNotes = (AppCompatEditText) v.findViewById(R.id
+                .company_details_editText);
 
-            /*notesButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Log.d("Notes Page", "Button Being Clicked");
-                        NotesFragment noteFrag = new NotesFragment();
-                        Intent i = getActivity().getIntent();
-                        Bundle x = i.getExtras();
-                        noteFrag.setArguments(i.getExtras());
-                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                        transaction.replace(((ViewGroup)(getView().getParent())).getId(), noteFrag);
-                        transaction.addToBackStack(null);
-                        Log.d("Notes Page", "CALLING NEW FRAGMENT");
-                        transaction.commit();
+
+        if (showText) {
+            notes_company_info.setVisibility(View.VISIBLE);
+            notes_company_info.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (companyNotes.getVisibility() == View.GONE) {
+                        companyNotes.setVisibility(View.VISIBLE);
+                        companyNotesHeader.setVisibility(View.VISIBLE);
+                        companyPhotosHeader.setVisibility(View.VISIBLE);
+                        companyMajorsHeader.setVisibility(View.GONE);
+                        companyMajors.setVisibility(View.GONE);
+                        companySponsorHeader.setVisibility(View.GONE);
+                        companyInfoHeader.setVisibility(View.GONE);
+                        companyInfo.setVisibility(View.GONE);
+                        companyOpeningsHeader.setVisibility(View.GONE);
+                        companyOpenings.setVisibility(View.GONE);
+                        companySponsorHardCode.setVisibility(View.GONE);
+                    } else {
+                        companyNotes.setVisibility(View.GONE);
+                        companyNotesHeader.setVisibility(View.GONE);
+                        companyPhotosHeader.setVisibility(View.GONE);
+                        companyMajorsHeader.setVisibility(View.VISIBLE);
+                        companyMajors.setVisibility(View.VISIBLE);
+                        companySponsorHeader.setVisibility(View.VISIBLE);
+                        companyInfoHeader.setVisibility(View.VISIBLE);
+                        companyInfo.setVisibility(View.VISIBLE);
+                        companyOpeningsHeader.setVisibility(View.VISIBLE);
+                        companyOpenings.setVisibility(View.VISIBLE);
+                        companySponsorHardCode.setVisibility(View.VISIBLE);
                     }
-                });*/
+                }
+            });
+        }
 
-        companyNotes.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        camera_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CameraActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+        add_to_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View V) {
+                createAddCompanyDialog().show();
+            }
+        });
+
+
+        if(notes_company_info.isChecked()){
+            companyNotes.setVisibility(View.VISIBLE);
+            companyNotesHeader.setVisibility(View.VISIBLE);
+            companyMajorsHeader.setVisibility(View.GONE);
+            companyMajors.setVisibility(View.GONE);
+            companySponsorHeader.setVisibility(View.GONE);
+            companyInfoHeader.setVisibility(View.GONE);
+            companyInfo.setVisibility(View.GONE);
+            companyOpeningsHeader.setVisibility(View.GONE);
+            companyOpenings.setVisibility(View.GONE);
+            companySponsorHardCode.setVisibility(View.GONE);
+            //companySponsor.setVisibility(View.GONE);
+            //companyOptcpt.setVisibility(View.GONE);
+        }
+
+        companyNotes.setOnEditorActionListener(new EditText
+                .OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent
                     event) {
@@ -244,4 +332,34 @@ public class CompanyDetailsFragment extends Fragment {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+    public AlertDialog createAddCompanyDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add To a List");
+        CharSequence[] items = MainActivity.getTables().toArray(new CharSequence[0]);
+        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+                checkedItem = which;
+            }
+        });
+
+        // add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked OK
+                Log.d("testest", checkedItem + "");
+                if(checkedItem != -1) {
+                    MainActivity.addUserListRowDetails(
+                            objectID, name, checkedItem);
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        return builder.create();
+    }
+
 }

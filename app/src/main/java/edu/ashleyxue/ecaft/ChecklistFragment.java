@@ -455,6 +455,8 @@ public class ChecklistFragment extends DialogFragment{
                     newListName = "untitledlist";
                 MainActivity.userListNames.add(newListName);
                 addUserListButton(newListName, b);
+                Toast.makeText(getActivity(), "To Delete a List, Hold Down on the Button",
+                        Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

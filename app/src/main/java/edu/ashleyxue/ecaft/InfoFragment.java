@@ -98,8 +98,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         backgroundImages.put("Amazon",R.drawable.amazon_background);
 
 
-        Log.d("final", "instantiation: filter size: " + companiesFilter.size
-                () + ", total size: " + companies.size());
+        //Log.d("final", "instantiation: filter size: " + companiesFilter.size
+          //      () + ", total size: " + companies.size());
     }
 
 

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -138,7 +140,9 @@ public class CompanyDetailsFragment extends Fragment {
 
         companyWebsite = (TextView) v.findViewById(R.id
                 .company_details_website);
-        companyWebsite.setText(website);
+        companyWebsite.setClickable(true);
+        companyWebsite.setMovementMethod(LinkMovementMethod.getInstance());
+        companyWebsite.setText(Html.fromHtml("<a href = '" + website + "'> Website </a>"));
 
         companyNotesHeader = (TextView) v.findViewById(R.id
                 .company_details_notes_header);

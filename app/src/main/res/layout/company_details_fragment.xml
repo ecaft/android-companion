@@ -67,12 +67,12 @@
                 <TextView
                     android:id="@+id/company_details_website"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autoLink="web"
+                    android:layout_height="wrap_content"/>
+                    <!--android:autoLink="all"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/company_details_company_website"
-                    android:paddingRight="15dp" />
+                    android:paddingRight="15dp" !-->
                     <!--android:paddingBottom="10dp"
                     android:paddingTop="10dp" />-->
 

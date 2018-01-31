@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo512x512"
+        android:icon="@mipmap/ic_app_launcher_icon"
         android:label="@string/ECaFT"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"

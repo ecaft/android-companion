@@ -11,8 +11,10 @@ public class FirebaseCompany {
     public String location;
     public String majors;
     public String name;
-    public boolean optcpt;
-    public boolean sponsor;
+    public String optcpt;
+    public String sponsor;
+    //public boolean optcpt;
+    //public boolean sponsor;
     public String website;
 
     public FirebaseCompany() {}
@@ -44,6 +46,7 @@ public class FirebaseCompany {
         this.location = location;
         this.majors = majors;
         this.name = name;
+
         if(Integer.parseInt(optcpt)==0)
             this.optcpt=false;
         else
@@ -113,7 +116,7 @@ public class FirebaseCompany {
     public void setName(String name) {
         this.name = name;
     }
-
+/*
     public boolean isOptcpt() {
         return optcpt;
     }
@@ -134,9 +137,11 @@ public class FirebaseCompany {
     }
 */
 
+
     public void setSponsor(String sponsor) {
         this.sponsor = sponsor.equals("0");
     }
+
 
 
     public String getWebsite() {

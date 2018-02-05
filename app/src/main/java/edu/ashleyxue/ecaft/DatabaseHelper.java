@@ -24,7 +24,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("123456789", countTables() + ": num tables");
         db.execSQL("create table " + CompanyTable.NAME + "(" +
                         CompanyTable.Cols.ID + ", " +
                         CompanyTable.Cols.COMPANY_NAME + ", " +

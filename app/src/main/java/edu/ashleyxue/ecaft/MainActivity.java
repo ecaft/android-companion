@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.database.DatabaseUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -246,6 +247,39 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.ID + " = ?", new String[]{id});
     }
 
+
+    public static void deleteUserListRow(String id, int i){
+        //mDatabase.execSQL("DELETE FROM "+ MainActivity.userListNames.get(i)
+          //      +" WHERE " + CompanyTable.Cols.COMPANY_NAME + " = "+name);
+        mDatabase.delete(MainActivity.userListNames.get(i),
+                CompanyTable.Cols.ID + " = ?",new String[]{id});
+    }
+
+    public static boolean isInUserList(String name, int i){
+        //String s = DatabaseUtils.stringForQuery(mDatabase,"SELECT * FROM " + MainActivity.userListNames.get(i) + " WHERE "
+         //   + CompanyTable.Cols.COMPANY_NAME + " = " + name,null);
+        Cursor c = mDatabase.query(MainActivity.userListNames.get(i), null,
+                null, null, null, null, null);
+        boolean inside = false;
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                if (name.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.COMPANY_NAME)))) {
+                    inside = true;
+                    break;
+                }
+                c.moveToNext();
+            }
+
+        } finally {
+            c.close();
+        }
+        return inside;
+    }
+
+
+
     public static boolean isInDatabase(String name) {
         Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
         boolean inside = false;
@@ -325,7 +359,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mDatabase.execSQL(str);
     }
 
-    /*public static void saveNote(String id, String note) { */
     public static void saveNote(String id, String note) {
         String str = "update " + CompanyTable.NAME + " set " + CompanyTable
                 .Cols.NOTE + " = \"" + note + "\" where " + CompanyTable
@@ -456,6 +489,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         return tables;
     }
 
+
     public static void addPicRow(String companyName, String fileName){
         ContentValues values = new ContentValues();
         int key = (int)(System.currentTimeMillis()/1000)%1000000000;
@@ -469,4 +503,5 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         picDatabase.delete(PicDatabaseSchema.CompanyTable.NAME,
                 PicDatabaseSchema.CompanyTable.PICFILES + " = ?", new String[]{file});
     }
+
 }

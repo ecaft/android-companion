@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -121,8 +122,11 @@ public class CompanyDetailsFragment extends Fragment {
                     "learn more and apply online.";
         if (majors.isEmpty())
             majors = "Check the company's career website to learn more.";
+
         if (info==null||info.isEmpty())
+
             info = "Check the company's career website to learn more.";
+        }
         if (sponsor)
             sponsorText = "This company can sponsor the candidate.";
         if (optcpt)
@@ -390,7 +394,44 @@ public class CompanyDetailsFragment extends Fragment {
     public AlertDialog createAddCompanyDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Add To a List");
-        CharSequence[] items = MainActivity.getTables().toArray(new CharSequence[0]);
+        List<String> tables = MainActivity.getTables();
+        tables.set(0,"Favorites");
+        CharSequence[] items = tables.toArray(new CharSequence[0]);
+        boolean[] checkedItems = new boolean[items.length];
+        for(int i = 0; i < items.length; i++){
+            if(MainActivity.isInUserList(name,i))
+                checkedItems[i] = true;
+            else{
+                checkedItems[i] = false;
+            }
+        }
+        builder.setMultiChoiceItems(items, checkedItems,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which,
+                                        boolean isChecked) {
+                        if (isChecked) {
+                            // If the user checked the item, add it to the selected items
+                            MainActivity.addUserListRowDetails(
+                                    objectID, name, which);
+                        } else {//if (MainActivity.isInUserList(name,which)) {
+                            // Else, if the item is already in the array, remove it
+                            MainActivity.deleteUserListRow(objectID,which);
+                        }
+                    }
+                })
+                // Set the action buttons
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK, so save the mSelectedItems results somewhere
+                        // or return them to the component that opened the dialog
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+
+
+        /*
         builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -413,6 +454,7 @@ public class CompanyDetailsFragment extends Fragment {
         });
         builder.setNegativeButton("Cancel", null);
 
+    */
         return builder.create();
     }
 

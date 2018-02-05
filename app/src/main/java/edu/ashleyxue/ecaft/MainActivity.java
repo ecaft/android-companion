@@ -501,6 +501,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         values.put(PicDatabaseSchema.CompanyTable.COMPANY_NAME, companyName);
         values.put(PicDatabaseSchema.CompanyTable.PICFILES, fileName);
         picDatabase.insert(PicDatabaseSchema.CompanyTable.NAME, null, values);
+        Log.d("picDatabase", ""+fileName+" added");
     }
 
     public static void deletePicRow(String file) {

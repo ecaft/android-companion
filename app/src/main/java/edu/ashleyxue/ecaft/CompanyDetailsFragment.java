@@ -124,7 +124,6 @@ public class CompanyDetailsFragment extends Fragment {
             majors = "Check the company's career website to learn more.";
 
         if (info==null||info.isEmpty()){
-
             info = "Check the company's career website to learn more.";
         }
         if (sponsor)
@@ -470,14 +469,14 @@ public class CompanyDetailsFragment extends Fragment {
                 if(MainActivity.pictures.get(i).contains(name))
                     picFileIndex.add(i);
 
-            }*/
-            String[] projection = {PicDatabaseSchema.CompanyTable.PICFILES};
+            }
+            String[] projection = {"*"};
             String selection = PicDatabaseSchema.CompanyTable.COMPANY_NAME + " = ?";
-            String[] args = {name};
+            String[] args = {name};*/
             String sortOrder = PicDatabaseSchema.CompanyTable.PICFILES + " DESC";
 
             Cursor cursor = MainActivity.picDatabase.query(PicDatabaseSchema.CompanyTable.NAME,
-                    projection,selection, args, null, null, sortOrder);
+                    null,null, null, null, null, sortOrder);
             cursor.moveToFirst();
             while(cursor.moveToNext()){
                 picFileIndex.add(cursor.getString(cursor.getColumnIndexOrThrow(PicDatabaseSchema.CompanyTable.PICFILES)));

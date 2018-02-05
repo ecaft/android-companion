@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,11 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.GridView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -33,6 +39,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
+import java.io.File;
+import android.graphics.drawable.Drawable;
+
 
 /**
  * Created by Ashley on 1/16/2016.
@@ -59,9 +69,15 @@ public class CompanyDetailsFragment extends Fragment {
 
     private ToggleButton notes_company_info;
 
-    private Button camera_button;
+    private ImageButton camera_button;
     private Button add_to_list;
     static final int REQUEST_IMAGE_CAPTURE = 1; //for picture taking
+
+    private GridView imageDisplay;
+    private ArrayList<String> picFileIndex;
+    private ImageView imageDisplayTest;
+    //public static HashMap<String, ArrayList<String>> pictureFiles;
+    //public static ArrayList<String> pictures;
 
     private String companyTable;
     private String objectID;
@@ -106,9 +122,9 @@ public class CompanyDetailsFragment extends Fragment {
                     "learn more and apply online.";
         if (majors.isEmpty())
             majors = "Check the company's career website to learn more.";
-        try{
-            info.isEmpty();
-        } catch (NullPointerException e) {
+
+        if (info==null||info.isEmpty())
+
             info = "Check the company's career website to learn more.";
         }
         if (sponsor)
@@ -153,8 +169,40 @@ public class CompanyDetailsFragment extends Fragment {
 
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
-        camera_button = (Button) v.findViewById(R.id.camera_button);
+        camera_button = (ImageButton) v.findViewById(R.id.camera_button);
         add_to_list = (Button) v.findViewById(R.id.add_to_list);
+
+        //pictureFiles = new HashMap<String, ArrayList<String>>();
+        //pictures = new ArrayList<String>();
+
+
+        imageDisplay = (GridView) v.findViewById(R.id.gridview);
+        imageDisplay.setAdapter(new ImageAdapter(getActivity()));
+
+        imageDisplay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(getActivity(), "" + position,
+                        Toast.LENGTH_SHORT).show();
+                /*Intent intent = new Intent(getActivity(), EnlargedImage.class);
+                Bundle bundle = new Bundle();
+                int index = picFileIndex.get(position);
+                bundle.putString("file", MainActivity.pictures.get(index));
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);*/
+            }
+        });
+
+        /*imageDisplayTest = (ImageView) v.findViewById(R.id.displayTest);
+        if(MainActivity.pictures.size()!=0){
+            Log.d("pictures size", "more than 0");
+            if(Drawable.createFromPath(MainActivity.pictures.get(0))==null)
+                Log.d("drawable", "file is null");
+            else imageDisplayTest.setImageDrawable(Drawable.createFromPath(MainActivity.pictures.get(0)));
+        }
+        else{
+            Log.d("pictures size", "still 0");
+        }*/
 
         companyNotes = new AppCompatEditText(inflater.getContext());
  /*       Button notesButton = (Button) v.findViewById(R.id.notesButton);
@@ -189,6 +237,7 @@ public class CompanyDetailsFragment extends Fragment {
 
         if (showText) {
             notes_company_info.setVisibility(View.VISIBLE);
+            camera_button.setVisibility(View.VISIBLE);
             notes_company_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -204,6 +253,7 @@ public class CompanyDetailsFragment extends Fragment {
                         companyOpeningsHeader.setVisibility(View.GONE);
                         companyOpenings.setVisibility(View.GONE);
                         companySponsorHardCode.setVisibility(View.GONE);
+                        imageDisplay.setVisibility(View.VISIBLE);
                     } else {
                         companyNotes.setVisibility(View.GONE);
                         companyNotesHeader.setVisibility(View.GONE);
@@ -216,6 +266,7 @@ public class CompanyDetailsFragment extends Fragment {
                         companyOpeningsHeader.setVisibility(View.VISIBLE);
                         companyOpenings.setVisibility(View.VISIBLE);
                         companySponsorHardCode.setVisibility(View.VISIBLE);
+                        imageDisplay.setVisibility(View.GONE);
                     }
                 }
             });
@@ -225,6 +276,9 @@ public class CompanyDetailsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CameraActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("company", name);
+                intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
         });
@@ -248,28 +302,11 @@ public class CompanyDetailsFragment extends Fragment {
             companyOpeningsHeader.setVisibility(View.GONE);
             companyOpenings.setVisibility(View.GONE);
             companySponsorHardCode.setVisibility(View.GONE);
+            imageDisplay.setVisibility(View.VISIBLE);
             //companySponsor.setVisibility(View.GONE);
             //companyOptcpt.setVisibility(View.GONE);
         }
 
-//
-//        companyNotes.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                companyNotes.setCursorVisible(true);
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                Log.d("details", s.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                Log.d("details", "done changing text: " + s.toString());
-//            }
-//        });
-//
         companyNotes.setOnEditorActionListener(new EditText
                 .OnEditorActionListener() {
             @Override
@@ -420,5 +457,65 @@ public class CompanyDetailsFragment extends Fragment {
     */
         return builder.create();
     }
+
+    private class ImageAdapter extends BaseAdapter {
+        private Context mContext;
+        //private String name;
+
+
+        public ImageAdapter(Context c) {
+            mContext = c;
+            picFileIndex = new ArrayList<String>();
+            /*for(int i=0; i<MainActivity.pictures.size(); i++){
+                if(MainActivity.pictures.get(i).contains(name))
+                    picFileIndex.add(i);
+
+            }*/
+            String[] projection = {PicDatabaseSchema.CompanyTable.PICFILES};
+            String selection = PicDatabaseSchema.CompanyTable.COMPANY_NAME + " = ?";
+            String[] args = {name};
+            String sortOrder = PicDatabaseSchema.CompanyTable.PICFILES + " DESC";
+
+            Cursor cursor = MainActivity.picDatabase.query(PicDatabaseSchema.CompanyTable.NAME,
+                    projection,selection, args, null, null, sortOrder);
+            cursor.moveToFirst();
+            while(cursor.moveToNext()){
+                picFileIndex.add(cursor.getString(cursor.getColumnIndexOrThrow(PicDatabaseSchema.CompanyTable.PICFILES)));
+            }
+            cursor.close();
+        }
+
+        public int getCount() {
+            //return CompanyDetailsFragment.pictureFiles.get(name).size();
+            return picFileIndex.size();
+        }
+
+        public Object getItem(int position) {
+            return picFileIndex.get(position);
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        // create a new ImageView for each item referenced by the Adapter
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageView;
+            if (convertView == null) {
+                // if it's not recycled, initialize some attributes
+                imageView = new ImageView(mContext);
+                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setPadding(8, 8, 8, 8);
+            } else {
+                imageView = (ImageView) convertView;
+            }
+            //int index = picFileIndex.get(position);
+            //imageView.setImageDrawable(Drawable.createFromPath(MainActivity.pictures.get(index)));
+            imageView.setImageDrawable(Drawable.createFromPath(picFileIndex.get(position)));
+            return imageView;
+        }
+    }
+
 
 }

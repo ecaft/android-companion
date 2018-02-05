@@ -698,6 +698,7 @@ public class ChecklistFragment extends DialogFragment{
 
                     fc = dataSnapshot.getValue(FirebaseCompany
                             .class);
+                    if(fc==null) return;
                     holder.currentCompany = fc;
                     holder.currentCompanyName = fc.name;
                     holder.mCompanyName.setText(fc.name);

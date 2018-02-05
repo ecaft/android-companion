@@ -31,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         CompanyTable.Cols.NOTE + ")"
         );
 
+
     }
 
     @Override

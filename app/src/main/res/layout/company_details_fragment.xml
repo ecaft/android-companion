@@ -58,8 +58,11 @@
                 <Button
                     android:id="@+id/add_to_list"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/addToList"/>
+                    android:layout_height="15dp"
+                    android:text="@string/addToList"
+                    android:textSize="12sp"
+                    android:gravity="left"
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     android:id="@+id/company_details_website"
@@ -68,10 +71,10 @@
                     android:autoLink="web"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:paddingBottom="10dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:text="@string/company_details_company_website"/>
+                    android:text="@string/company_details_company_website"
+                    android:paddingRight="15dp" />
+                    <!--android:paddingBottom="10dp"
+                    android:paddingTop="10dp" />-->
 
             </LinearLayout>
         </RelativeLayout>
@@ -80,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingBottom="5dp"
             android:layout_gravity="center_horizontal">
 
             <ToggleButton
@@ -93,11 +97,16 @@
                 android:background="@color/colorPrimary"
                 android:textColor="@color/white"
                 android:visibility="gone"/>
-            <Button
+            <ImageButton
                 android:id="@+id/camera_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/camera_button"/>
+                android:layout_width="39dp"
+                android:layout_height="29dp"
+                android:layout_marginRight="20dp"
+                android:paddingLeft="10dp"
+                android:scaleType="fitCenter"
+                android:src = "@drawable/camera_icon_33"
+                android:background="@color/white"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -267,6 +276,22 @@
             android:textColor="@color/black"
             android:textSize="15sp"
             android:visibility="gone"/>
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="88dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="17dp"
+            android:horizontalSpacing="17dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            android:visibility="gone"/>
+        <!--<ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/displayTest"
+            android:visibility="gone"/>-->
     </LinearLayout>
 
 </ScrollView>

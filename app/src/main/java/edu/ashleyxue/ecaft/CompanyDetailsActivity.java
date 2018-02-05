@@ -64,13 +64,14 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_company_details, menu);
-        if (MainActivity.isInDatabase(currentCompanyName))
+       /* if (MainActivity.isInDatabase(currentCompanyName))
             menu.getItem(0).setIcon(R.drawable.ic_unfavorite);
         else
-            menu.getItem(0).setIcon(R.drawable.ic_star_border_white_36dp);
+            menu.getItem(0).setIcon(R.drawable.ic_star_border_white_36dp);*/
         return true;
     }
 
@@ -80,7 +81,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.save_company:
+            /*case R.id.save_company:
                 if (MainActivity.isInDatabase(currentCompanyName)) { //Then you want to remove on click
                     Toast.makeText(this, R.string.unstar, Toast.LENGTH_SHORT).show();
                     item.setIcon(R.drawable.ic_star_border_white_36dp);
@@ -90,10 +91,11 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     item.setIcon(R.drawable.ic_unfavorite);
                     MainActivity.addRow(currentCompanyUUID,
                             currentCompanyName);
-                }
+                }*/
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -119,6 +121,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         currentCompanyName = x.getString(FirebaseApplication.COMPANY_NAME);
         currentCompanyUUID = x.getString(FirebaseApplication
                 .COMPANY_ID);
+
 
 
         fragment.setArguments(i.getExtras());

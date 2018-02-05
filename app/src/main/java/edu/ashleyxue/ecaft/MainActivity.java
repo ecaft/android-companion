@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     private RelativeLayout mDrawerListLayout;
     private boolean searching;
     private DrawerLayout drawer;
+
+    public static ArrayList<String> pictures;
+
     //public static NavigationView navigationView;
     public static BottomNavigationView bottomNavigationView;
     public static NavigationView navigationView;
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     public static List<String> userListNames = new ArrayList<String>(){{
         add("companies");
     }};
+
+    public static SQLiteDatabase picDatabase;
     /**
      * Fragments
      */
@@ -74,6 +79,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mContext = getApplicationContext();
         mDatabase = new DatabaseHelper(mContext).getWritableDatabase();
 
+        PicDatabaseHelper helper = new PicDatabaseHelper(mContext);
+        picDatabase = helper.getWritableDatabase();
+        Log.d("picDatabase", picDatabase.toString());
+
         homeFragment = new HomeFragment();
         mapFragment = new MapFragment();
         infoFragment = new InfoFragment();
@@ -85,7 +94,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        pictures = new ArrayList<String>();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -236,7 +245,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     public static void deleteRow(String id) {
         mDatabase.delete(CompanyTable.NAME, CompanyTable.Cols.ID + " = ?", new String[]{id});
     }
-
 
     public static boolean isInDatabase(String name) {
         Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
@@ -448,4 +456,17 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         return tables;
     }
 
+    public static void addPicRow(String companyName, String fileName){
+        ContentValues values = new ContentValues();
+        int key = (int)(System.currentTimeMillis()/1000)%1000000000;
+        values.put(PicDatabaseSchema.CompanyTable._ID, key);
+        values.put(PicDatabaseSchema.CompanyTable.COMPANY_NAME, companyName);
+        values.put(PicDatabaseSchema.CompanyTable.PICFILES, fileName);
+        picDatabase.insert(PicDatabaseSchema.CompanyTable.NAME, null, values);
+    }
+
+    public static void deletePicRow(String file) {
+        picDatabase.delete(PicDatabaseSchema.CompanyTable.NAME,
+                PicDatabaseSchema.CompanyTable.PICFILES + " = ?", new String[]{file});
+    }
 }

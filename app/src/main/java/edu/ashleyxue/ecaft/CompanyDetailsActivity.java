@@ -123,6 +123,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 .COMPANY_ID);
 
 
+
         fragment.setArguments(i.getExtras());
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.content_frame, fragment).commit();

@@ -182,7 +182,12 @@ public class CameraActivity extends AppCompatActivity {
             Long tsLong = System.currentTimeMillis()/1000;
             String ts = tsLong.toString();
             String imgname =companyName + ts;
+            final String company = companyName;
             final File file = new File(Environment.getExternalStorageDirectory().getPath()+"/DCIM/Camera/" + imgname + ".jpg");
+            //CompanyDetailsFragment.pictureFiles.get(companyName).add(file.getPath());
+            /*CompanyDetailsFragment.pictures.add(file.getAbsolutePath());
+            Log.d("file", file.getAbsolutePath());*/
+
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
@@ -193,6 +198,10 @@ public class CameraActivity extends AppCompatActivity {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
+                        //MainActivity.pictures.add(file.getAbsolutePath());
+                        MainActivity.addPicRow(company,file.getAbsolutePath());
+                        Log.d("file", file.getAbsolutePath());
+                        //Log.d("picture files:", ""+MainActivity.pictures);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -240,6 +249,8 @@ public class CameraActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+
+
     }
     protected void createCameraPreview() {
         try {

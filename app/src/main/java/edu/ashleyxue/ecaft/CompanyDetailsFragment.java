@@ -106,8 +106,11 @@ public class CompanyDetailsFragment extends Fragment {
                     "learn more and apply online.";
         if (majors.isEmpty())
             majors = "Check the company's career website to learn more.";
-        if (info.isEmpty())
+        try{
+            info.isEmpty();
+        } catch (NullPointerException e) {
             info = "Check the company's career website to learn more.";
+        }
         if (sponsor)
             sponsorText = "This company can sponsor the candidate.";
         if (optcpt)

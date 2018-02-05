@@ -610,10 +610,16 @@ public class ChecklistFragment extends DialogFragment{
                             currentCompany.information);
                     myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
                             currentCompany.website);
-                    myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
+                    /*myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
                             currentCompany.optcpt);
                     myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
                             currentCompany.sponsor);
+                    */
+                    myBundle.putString(FirebaseApplication.COMPANY_OPTCPT,
+                            currentCompany.optcpt);
+                    myBundle.putString(FirebaseApplication.COMPANY_SPONSOR,
+                            currentCompany.sponsor);
+
                     myBundle.putBoolean(FirebaseApplication.SHOW_NOTES, true);
 
                     Intent i = new Intent(getActivity(),

@@ -46,15 +46,16 @@ public class FirebaseCompany {
         this.location = location;
         this.majors = majors;
         this.name = name;
-
-        if(Integer.parseInt(optcpt)==0)
+        this.optcpt = optcpt;
+        this.sponsor = sponsor;
+        /*if(Integer.parseInt(optcpt)==0)
             this.optcpt=false;
         else
             this.optcpt=true;
         if(Integer.parseInt(sponsor)==0)
             this.sponsor=false;
         else
-            this.sponsor=true;
+            this.sponsor=true;*/
         /*this.optcpt = !optcpt.equals("0");
         this.sponsor = !sponsor.equals("0");*/
         this.website = website;
@@ -116,19 +117,19 @@ public class FirebaseCompany {
     public void setName(String name) {
         this.name = name;
     }
-/*
+
     public boolean isOptcpt() {
-        return optcpt;
+        return !(optcpt.equals("0"));
     }
 
     /*public void setOptcpt1(boolean optcpt) { this.optcpt = optcpt; }
 */
     public void setOptcpt(String optcpt) {
-        this.optcpt = optcpt.equals("0");
+        this.optcpt = optcpt;
     }
 
     public boolean isSponsor() {
-        return sponsor;
+        return !(sponsor.equals("0"));
     }
 
 /*
@@ -139,7 +140,7 @@ public class FirebaseCompany {
 
 
     public void setSponsor(String sponsor) {
-        this.sponsor = sponsor.equals("0");
+        this.sponsor = sponsor;
     }
 
 

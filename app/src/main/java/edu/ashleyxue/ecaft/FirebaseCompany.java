@@ -11,10 +11,10 @@ public class FirebaseCompany {
     public String location;
     public String majors;
     public String name;
-    public String optcpt;
-    public String sponsor;
-    //public boolean optcpt;
-    //public boolean sponsor;
+    //public String optcpt;
+    //public String sponsor;
+    public boolean optcpt;
+    public boolean sponsor;
     public String website;
 
     public FirebaseCompany() {}

@@ -476,6 +476,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
     public static List<String> getTables(){
+        for(String s : userListNames) {
+            mDatabase.delete(MainActivity.userListNames.get(0),
+                    CompanyTable.Cols.ID + " = ?", new String[]{s});
+        }
         List<String> tables = new ArrayList<String>();
          Cursor c = mDatabase.rawQuery("SELECT name FROM sqlite_master WHERE type='table' " +
                  "AND name!='android_metadata' ",null);

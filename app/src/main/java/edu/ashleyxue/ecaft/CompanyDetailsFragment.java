@@ -123,7 +123,7 @@ public class CompanyDetailsFragment extends Fragment {
         if (majors.isEmpty())
             majors = "Check the company's career website to learn more.";
 
-        if (info==null||info.isEmpty())
+        if (info==null||info.isEmpty()){
 
             info = "Check the company's career website to learn more.";
         }

@@ -284,6 +284,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
                             currentCompany.sponsor);
                     */
+
                     myBundle.putString(FirebaseApplication.COMPANY_OPTCPT,
                             currentCompany.optcpt);
                     myBundle.putString(FirebaseApplication.COMPANY_SPONSOR,

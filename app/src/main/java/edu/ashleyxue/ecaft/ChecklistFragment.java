@@ -610,11 +610,11 @@ public class ChecklistFragment extends DialogFragment{
                             currentCompany.information);
                     myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
                             currentCompany.website);
-                    /*myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
+                    /*
+                    myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
                             currentCompany.optcpt);
                     myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
-                            currentCompany.sponsor);
-                    */
+                            currentCompany.sponsor);*/
                     myBundle.putString(FirebaseApplication.COMPANY_OPTCPT,
                             currentCompany.optcpt);
                     myBundle.putString(FirebaseApplication.COMPANY_SPONSOR,
@@ -679,15 +679,15 @@ public class ChecklistFragment extends DialogFragment{
         }
 
         @Override
-        public void onBindViewHolder(final CompanyHolder holder, int position) {
+        public void onBindViewHolder(final CompanyHolder holder, final int position) {
 
             String id = companies.get(position);
 
             Log.d("checklist", id);
+            //Log.d("123456", "" + companies.get(6));
 
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                     .child("companies").child(id);
-
             Log.d("checklsit", databaseReference.toString());
 
             databaseReference.addValueEventListener(new ValueEventListener
@@ -695,15 +695,31 @@ public class ChecklistFragment extends DialogFragment{
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
+                    try {
+                        fc = dataSnapshot.getValue(FirebaseCompany
+                                .class);
+                        //if(fc==null) return;
+                        holder.currentCompany = fc;
+                        holder.currentCompanyName = fc.name;
+                        holder.mCompanyName.setText(fc.name);
+                        //holder.currentPosition = fc.location
+                        holder.mCompanyLocation.setText(fc.location);
+                    } catch(NullPointerException e){
+                        //holder.currentCompanyName = companies.get(position);
+                        //holder.mCompanyName.setText(companies.get(position));
+                        for(FirebaseCompany f : FirebaseApplication.getCompanies()){
+                            if(f.getId().equals(companies.get(position))){
+                                holder.currentCompany = f;
+                                holder.currentCompanyName = f.name;
+                                holder.mCompanyName.setText(f.name);
+                                holder.mCompanyLocation.setText(f.location);
+                                return;
+                            }
 
-                    fc = dataSnapshot.getValue(FirebaseCompany
-                            .class);
-                    if(fc==null) return;
-                    holder.currentCompany = fc;
-                    holder.currentCompanyName = fc.name;
-                    holder.mCompanyName.setText(fc.name);
-                    //holder.currentPosition = fc.location
-                    holder.mCompanyLocation.setText(fc.location);
+                        }
+                        //holder.currentCompany = FirebaseApplication.getCompanies().get(position);
+                        //holder.mCompanyLocation.setText(holder.currentCompany.location);
+                    }
 
                 }
                 @Override

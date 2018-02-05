@@ -48,7 +48,8 @@ public class FirebaseCompany {
         this.name = name;
         this.optcpt = optcpt;
         this.sponsor = sponsor;
-        /*if(Integer.parseInt(optcpt)==0)
+        /*
+        if(Integer.parseInt(optcpt)==0)
             this.optcpt=false;
         else
             this.optcpt=true;
@@ -58,6 +59,8 @@ public class FirebaseCompany {
             this.sponsor=true;*/
         /*this.optcpt = !optcpt.equals("0");
         this.sponsor = !sponsor.equals("0");*/
+        this.optcpt = optcpt;
+        this.sponsor = sponsor;
         this.website = website;
     }
 
@@ -124,6 +127,7 @@ public class FirebaseCompany {
 
     /*public void setOptcpt1(boolean optcpt) { this.optcpt = optcpt; }
 */
+/*
     public void setOptcpt(String optcpt) {
         this.optcpt = optcpt;
     }
@@ -131,17 +135,18 @@ public class FirebaseCompany {
     public boolean isSponsor() {
         return !(sponsor.equals("0"));
     }
-
+*/
 /*
     public void setSponsor1(boolean sponsor) {
         this.sponsor = sponsor;
     }
 */
 
-
+/*
     public void setSponsor(String sponsor) {
         this.sponsor = sponsor;
     }
+    */
 
 
 

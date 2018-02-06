@@ -46,6 +46,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+        <activity
+            android:name="edu.ashleyxue.ecaft.EnlargedImage"
+            android:label="Enlarged Image"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <activity
             android:name="edu.lauralin.ecaft.CompanyDetailsActivity"
             android:label="@string/details_ac"

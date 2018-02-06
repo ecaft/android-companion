@@ -127,7 +127,7 @@ public class FirebaseCompany {
 
     /*public void setOptcpt1(boolean optcpt) { this.optcpt = optcpt; }
 */
-/*
+
     public void setOptcpt(String optcpt) {
         this.optcpt = optcpt;
     }
@@ -135,18 +135,18 @@ public class FirebaseCompany {
     public boolean isSponsor() {
         return !(sponsor.equals("0"));
     }
-*/
+
 /*
     public void setSponsor1(boolean sponsor) {
         this.sponsor = sponsor;
     }
 */
 
-/*
+
     public void setSponsor(String sponsor) {
         this.sponsor = sponsor;
     }
-    */
+
 
 
 

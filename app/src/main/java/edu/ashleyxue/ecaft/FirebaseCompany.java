@@ -11,13 +11,15 @@ public class FirebaseCompany {
     public String location;
     public String majors;
     public String name;
-    public boolean optcpt;
-    public boolean sponsor;
+    public String optcpt;
+    public String sponsor;
+    //public boolean optcpt;
+    //public boolean sponsor;
     public String website;
 
     public FirebaseCompany() {}
 
-    public FirebaseCompany(String id, String information, String jobtitles,
+    /*public FirebaseCompany(String id, String information, String jobtitles,
                            String jobtypes, String location, String majors,
                            String name, boolean optcpt, boolean sponsor, String
                            website) {
@@ -31,7 +33,37 @@ public class FirebaseCompany {
         this.optcpt = optcpt;
         this.sponsor = sponsor;
         this.website = website;
+    }*/
+
+    public FirebaseCompany(String id, String information, String jobtitles,
+                           String jobtypes, String location, String majors,
+                           String name, String optcpt, String sponsor, String
+                                   website) {
+        this.id = id;
+        this.information = information;
+        this.jobtitles = jobtitles;
+        this.jobtypes = jobtypes;
+        this.location = location;
+        this.majors = majors;
+        this.name = name;
+        this.optcpt = optcpt;
+        this.sponsor = sponsor;
+        /*
+        if(Integer.parseInt(optcpt)==0)
+            this.optcpt=false;
+        else
+            this.optcpt=true;
+        if(Integer.parseInt(sponsor)==0)
+            this.sponsor=false;
+        else
+            this.sponsor=true;*/
+        /*this.optcpt = !optcpt.equals("0");
+        this.sponsor = !sponsor.equals("0");*/
+        this.optcpt = optcpt;
+        this.sponsor = sponsor;
+        this.website = website;
     }
+
 
     public String getId() {
         return id;
@@ -45,7 +77,7 @@ public class FirebaseCompany {
         return information;
     }
 
-    public void setInformation(String information) {
+    public void setInformation1(String information) {
         this.information = information;
     }
 
@@ -90,20 +122,33 @@ public class FirebaseCompany {
     }
 
     public boolean isOptcpt() {
-        return optcpt;
+        return !(optcpt.equals("0"));
     }
 
-    public void setOptcpt(boolean optcpt) {
+    /*public void setOptcpt1(boolean optcpt) { this.optcpt = optcpt; }
+*/
+/*
+    public void setOptcpt(String optcpt) {
         this.optcpt = optcpt;
     }
 
     public boolean isSponsor() {
-        return sponsor;
+        return !(sponsor.equals("0"));
     }
-
-    public void setSponsor(boolean sponsor) {
+*/
+/*
+    public void setSponsor1(boolean sponsor) {
         this.sponsor = sponsor;
     }
+*/
+
+/*
+    public void setSponsor(String sponsor) {
+        this.sponsor = sponsor;
+    }
+    */
+
+
 
     public String getWebsite() {
         return website;
@@ -112,4 +157,6 @@ public class FirebaseCompany {
     public void setWebsite(String website) {
         this.website = website;
     }
+
+
 }

@@ -98,8 +98,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         backgroundImages.put("Amazon",R.drawable.amazon_background);
 
 
-        Log.d("final", "instantiation: filter size: " + companiesFilter.size
-                () + ", total size: " + companies.size());
+        //Log.d("final", "instantiation: filter size: " + companiesFilter.size
+          //      () + ", total size: " + companies.size());
     }
 
 
@@ -251,6 +251,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         public ImageButton mCompanySave;
         public FirebaseCompany currentCompany;
 
+        public ImageView mCompanyBackground;
+
 
         public CompanyHolder(View itemView) {
             super(itemView);
@@ -276,10 +278,18 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                             currentCompany.information);
                     myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
                             currentCompany.website);
+                    /*
                     myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
                             currentCompany.optcpt);
                     myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
                             currentCompany.sponsor);
+                    */
+
+                    myBundle.putString(FirebaseApplication.COMPANY_OPTCPT,
+                            currentCompany.optcpt);
+                    myBundle.putString(FirebaseApplication.COMPANY_SPONSOR,
+                            currentCompany.sponsor);
+
                     myBundle.putBoolean(FirebaseApplication.SHOW_NOTES, false);
 
                     Intent i = new Intent(getActivity(), CompanyDetailsActivity.class);
@@ -294,6 +304,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     .company_table);
 
             mCompanyLogo = (ImageView) itemView.findViewById(R.id.company_logo);
+
+            mCompanyBackground = (ImageView) itemView.findViewById(R.id.company_background);
 
             mCompanySave = (ImageButton) itemView.findViewById(R.id.save_company);
             mCompanySave.setOnClickListener(new View.OnClickListener() {
@@ -344,10 +356,18 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             StorageReference path = storageRef.child("logos/" +
                     currentCompany.getId() + ".png");
 
+            StorageReference background_image_path = storageRef.child("logos/" +
+                    currentCompany.getId() + "Background.png");
+
             Glide.with(getContext())
                     .using(new FirebaseImageLoader())
                     .load(path)
                     .into(holder.mCompanyLogo);
+
+            Glide.with(getContext())
+                    .using(new FirebaseImageLoader())
+                    .load(background_image_path)
+                    .into(holder.mCompanyBackground);
 
             if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
                 holder.mCompanySave.setImageResource(R.drawable.ic_favorite);
@@ -355,12 +375,13 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 holder.mCompanySave.setImageResource(R.drawable.ic_unfavorite);
             }
 
-           try{
-               holder.mCompanyRL.setBackgroundResource(backgroundImages.get(holder.currentCompany.getName()));
-           }
-           catch(NullPointerException e){
-               holder.mCompanyRL.setBackgroundResource(R.drawable.black);
-           }
+           //try{
+           //    holder.mCompanyRL.setBackgroundResource(backgroundImages.get(holder.currentCompany.getName()));
+           //}
+           //catch(NullPointerException e){
+           //    holder.mCompanyRL.setBackgroundResource(R.drawable.black);
+           //}
+            //holder.mCompanyRL.setBackgroundResource(holder.mCompanyBackground.);
 
 
             holder.mCompanyRL.getBackground().setAlpha(170);

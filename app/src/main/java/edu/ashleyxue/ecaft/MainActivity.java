@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.database.DatabaseUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     private RelativeLayout mDrawerListLayout;
     private boolean searching;
     private DrawerLayout drawer;
+
+    public static ArrayList<String> pictures;
+
     //public static NavigationView navigationView;
     public static BottomNavigationView bottomNavigationView;
     public static NavigationView navigationView;
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     public static List<String> userListNames = new ArrayList<String>(){{
         add("companies");
     }};
+
+    public static SQLiteDatabase picDatabase;
     /**
      * Fragments
      */
@@ -74,6 +80,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mContext = getApplicationContext();
         mDatabase = new DatabaseHelper(mContext).getWritableDatabase();
 
+        PicDatabaseHelper helper = new PicDatabaseHelper(mContext);
+        picDatabase = helper.getWritableDatabase();
+        Log.d("picDatabase", picDatabase.toString());
+
         homeFragment = new HomeFragment();
         mapFragment = new MapFragment();
         infoFragment = new InfoFragment();
@@ -85,7 +95,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        pictures = new ArrayList<String>();
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -238,6 +248,38 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
 
+    public static void deleteUserListRow(String id, int i){
+        //mDatabase.execSQL("DELETE FROM "+ MainActivity.userListNames.get(i)
+          //      +" WHERE " + CompanyTable.Cols.COMPANY_NAME + " = "+name);
+        mDatabase.delete(MainActivity.userListNames.get(i),
+                CompanyTable.Cols.ID + " = ?",new String[]{id});
+    }
+
+    public static boolean isInUserList(String name, int i){
+        //String s = DatabaseUtils.stringForQuery(mDatabase,"SELECT * FROM " + MainActivity.userListNames.get(i) + " WHERE "
+         //   + CompanyTable.Cols.COMPANY_NAME + " = " + name,null);
+        Cursor c = mDatabase.query(MainActivity.userListNames.get(i), null,
+                null, null, null, null, null);
+        boolean inside = false;
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                if (name.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.COMPANY_NAME)))) {
+                    inside = true;
+                    break;
+                }
+                c.moveToNext();
+            }
+
+        } finally {
+            c.close();
+        }
+        return inside;
+    }
+
+
+
     public static boolean isInDatabase(String name) {
         Cursor c = mDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
         boolean inside = false;
@@ -317,7 +359,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         mDatabase.execSQL(str);
     }
 
-    /*public static void saveNote(String id, String note) { */
     public static void saveNote(String id, String note) {
         String str = "update " + CompanyTable.NAME + " set " + CompanyTable
                 .Cols.NOTE + " = \"" + note + "\" where " + CompanyTable
@@ -435,6 +476,10 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
     public static List<String> getTables(){
+        for(String s : userListNames) {
+            mDatabase.delete(MainActivity.userListNames.get(0),
+                    CompanyTable.Cols.ID + " = ?", new String[]{s});
+        }
         List<String> tables = new ArrayList<String>();
          Cursor c = mDatabase.rawQuery("SELECT name FROM sqlite_master WHERE type='table' " +
                  "AND name!='android_metadata' ",null);
@@ -446,6 +491,22 @@ public class MainActivity extends AppCompatActivity  implements SearchView
             }
         }
         return tables;
+    }
+
+
+    public static void addPicRow(String companyName, String fileName){
+        ContentValues values = new ContentValues();
+        int key = (int)(System.currentTimeMillis()/1000)%1000000000;
+        values.put(PicDatabaseSchema.CompanyTable._ID, key);
+        values.put(PicDatabaseSchema.CompanyTable.COMPANY_NAME, companyName);
+        values.put(PicDatabaseSchema.CompanyTable.PICFILES, fileName);
+        picDatabase.insert(PicDatabaseSchema.CompanyTable.NAME, null, values);
+        Log.d("picDatabase", ""+fileName+" added");
+    }
+
+    public static void deletePicRow(String file) {
+        picDatabase.delete(PicDatabaseSchema.CompanyTable.NAME,
+                PicDatabaseSchema.CompanyTable.PICFILES + " = ?", new String[]{file});
     }
 
 }

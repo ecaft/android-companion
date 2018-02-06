@@ -91,8 +91,8 @@ public class CompanyDetailsFragment extends Fragment {
             "candidate.";
     private String optcptText = "This company does not accept opt/cpt.";
     private String notesText = "";
-    private boolean optcpt;
-    private boolean sponsor;
+    private String optcpt;
+    private String sponsor;
     private boolean showText;
     private StorageReference storageRef = FirebaseApplication
             .getStorageRef();
@@ -113,8 +113,8 @@ public class CompanyDetailsFragment extends Fragment {
         info = args.getString(FirebaseApplication.COMPANY_INFO);
         jobtypes = args.getString(FirebaseApplication.COMPANY_JOBTYPES);
         website = args.getString(FirebaseApplication.COMPANY_WEBSITE);
-        optcpt = args.getBoolean(FirebaseApplication.COMPANY_OPTCPT);
-        sponsor = args.getBoolean(FirebaseApplication.COMPANY_SPONSOR);
+        optcpt = args.getString(FirebaseApplication.COMPANY_OPTCPT);
+        sponsor = args.getString(FirebaseApplication.COMPANY_SPONSOR);
         showText = args.getBoolean(FirebaseApplication.SHOW_NOTES);
 
         if (jobtitles.isEmpty())
@@ -126,9 +126,9 @@ public class CompanyDetailsFragment extends Fragment {
         if (info==null||info.isEmpty()){
             info = "Check the company's career website to learn more.";
         }
-        if (sponsor)
+        if (!(sponsor.equals("0")))
             sponsorText = "This company can sponsor the candidate.";
-        if (optcpt)
+        if (!(optcpt.equals("0")))
             optcptText = "This company accepts opt/cpt.";
 
 
@@ -163,6 +163,7 @@ public class CompanyDetailsFragment extends Fragment {
 
         companySponsorHeader = (TextView) v.findViewById(R.id.company_details_sponsor_header);
         companySponsorHardCode = (TextView) v.findViewById(R.id.company_details_sponsor_info);
+        companySponsorHardCode.setText(sponsorText + "\n" + optcptText);
 
         companyPhotosHeader = (TextView) v.findViewById(R.id.company_details_photos_header);
 
@@ -183,12 +184,11 @@ public class CompanyDetailsFragment extends Fragment {
                                     int position, long id) {
                 Toast.makeText(getActivity(), "" + position,
                         Toast.LENGTH_SHORT).show();
-                /*Intent intent = new Intent(getActivity(), EnlargedImage.class);
+                Intent intent = new Intent(getActivity(), EnlargedImage.class);
                 Bundle bundle = new Bundle();
-                int index = picFileIndex.get(position);
-                bundle.putString("file", MainActivity.pictures.get(index));
+                bundle.putString("file", picFileIndex.get(position));
                 intent.putExtras(bundle);
-                getActivity().startActivity(intent);*/
+                getActivity().startActivity(intent);
             }
         });
 
@@ -354,6 +354,12 @@ public class CompanyDetailsFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        imageDisplay.setAdapter(new ImageAdapter(getActivity()));
+    }
+
     public static  void clearFocus() {
         companyNotes.clearFocus();
     }
@@ -471,12 +477,12 @@ public class CompanyDetailsFragment extends Fragment {
 
             }
             String[] projection = {"*"};
-            String selection = PicDatabaseSchema.CompanyTable.COMPANY_NAME + " = ?";
-            String[] args = {name};*/
+            String selection = PicDatabaseSchema.CompanyTable.COMPANY_NAME + " = ?";*/
+            String[] selectionArgs = {name};
             String sortOrder = PicDatabaseSchema.CompanyTable.PICFILES + " DESC";
 
             Cursor cursor = MainActivity.picDatabase.query(PicDatabaseSchema.CompanyTable.NAME,
-                    null,null, null, null, null, sortOrder);
+                    null,PicDatabaseSchema.CompanyTable.COMPANY_NAME+" = ?", selectionArgs , null, null, sortOrder);
             cursor.moveToFirst();
             while(cursor.moveToNext()){
                 picFileIndex.add(cursor.getString(cursor.getColumnIndexOrThrow(PicDatabaseSchema.CompanyTable.PICFILES)));

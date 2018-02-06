@@ -252,6 +252,7 @@
             android:textColor="@color/black"
             android:textSize="15sp"/>
 
+
         <TextView
             android:id="@+id/company_details_sponsor_info"
             android:layout_width="match_parent"
@@ -261,8 +262,9 @@
             android:paddingRight="15dp"
             android:paddingTop="10dp"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            android:text="@string/company_details_sponsorship"/>
+            android:textSize="12sp"/>
+
+
 
         <TextView
             android:id="@+id/company_details_photos_header"
@@ -278,8 +280,8 @@
             android:visibility="gone"/>
         <GridView
             android:id="@+id/gridview"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
             android:columnWidth="88dp"
             android:numColumns="auto_fit"
             android:verticalSpacing="17dp"
@@ -287,11 +289,7 @@
             android:stretchMode="columnWidth"
             android:gravity="center"
             android:visibility="gone"/>
-        <!--<ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/displayTest"
-            android:visibility="gone"/>-->
+
     </LinearLayout>
 
 </ScrollView>

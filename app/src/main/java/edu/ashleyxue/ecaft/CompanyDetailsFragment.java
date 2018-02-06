@@ -234,42 +234,43 @@ public class CompanyDetailsFragment extends Fragment {
                 .company_details_editText);
 
 
-        if (showText) {
-            notes_company_info.setVisibility(View.VISIBLE);
-            camera_button.setVisibility(View.VISIBLE);
-            notes_company_info.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (companyNotes.getVisibility() == View.GONE) {
-                        companyNotes.setVisibility(View.VISIBLE);
-                        companyNotesHeader.setVisibility(View.VISIBLE);
-                        companyPhotosHeader.setVisibility(View.VISIBLE);
-                        companyMajorsHeader.setVisibility(View.GONE);
-                        companyMajors.setVisibility(View.GONE);
-                        companySponsorHeader.setVisibility(View.GONE);
-                        companyInfoHeader.setVisibility(View.GONE);
-                        companyInfo.setVisibility(View.GONE);
-                        companyOpeningsHeader.setVisibility(View.GONE);
-                        companyOpenings.setVisibility(View.GONE);
-                        companySponsorHardCode.setVisibility(View.GONE);
-                        imageDisplay.setVisibility(View.VISIBLE);
-                    } else {
-                        companyNotes.setVisibility(View.GONE);
-                        companyNotesHeader.setVisibility(View.GONE);
-                        companyPhotosHeader.setVisibility(View.GONE);
-                        companyMajorsHeader.setVisibility(View.VISIBLE);
-                        companyMajors.setVisibility(View.VISIBLE);
-                        companySponsorHeader.setVisibility(View.VISIBLE);
-                        companyInfoHeader.setVisibility(View.VISIBLE);
-                        companyInfo.setVisibility(View.VISIBLE);
-                        companyOpeningsHeader.setVisibility(View.VISIBLE);
-                        companyOpenings.setVisibility(View.VISIBLE);
-                        companySponsorHardCode.setVisibility(View.VISIBLE);
-                        imageDisplay.setVisibility(View.GONE);
-                    }
+        //if (showText) {
+        //if(MainActivity.isInDatabase(name)){
+        /*notes_company_info.setVisibility(View.VISIBLE);
+        camera_button.setVisibility(View.VISIBLE);*/
+        notes_company_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (companyNotes.getVisibility() == View.GONE) {
+                    companyNotes.setVisibility(View.VISIBLE);
+                    companyNotesHeader.setVisibility(View.VISIBLE);
+                    companyPhotosHeader.setVisibility(View.VISIBLE);
+                    companyMajorsHeader.setVisibility(View.GONE);
+                    companyMajors.setVisibility(View.GONE);
+                    companySponsorHeader.setVisibility(View.GONE);
+                    companyInfoHeader.setVisibility(View.GONE);
+                    companyInfo.setVisibility(View.GONE);
+                    companyOpeningsHeader.setVisibility(View.GONE);
+                    companyOpenings.setVisibility(View.GONE);
+                    companySponsorHardCode.setVisibility(View.GONE);
+                    imageDisplay.setVisibility(View.VISIBLE);
+                } else {
+                    companyNotes.setVisibility(View.GONE);
+                    companyNotesHeader.setVisibility(View.GONE);
+                    companyPhotosHeader.setVisibility(View.GONE);
+                    companyMajorsHeader.setVisibility(View.VISIBLE);
+                    companyMajors.setVisibility(View.VISIBLE);
+                    companySponsorHeader.setVisibility(View.VISIBLE);
+                    companyInfoHeader.setVisibility(View.VISIBLE);
+                    companyInfo.setVisibility(View.VISIBLE);
+                    companyOpeningsHeader.setVisibility(View.VISIBLE);
+                    companyOpenings.setVisibility(View.VISIBLE);
+                    companySponsorHardCode.setVisibility(View.VISIBLE);
+                    imageDisplay.setVisibility(View.GONE);
                 }
-            });
-        }
+            }
+        });
+
 
         camera_button.setOnClickListener(new View.OnClickListener() {
             @Override

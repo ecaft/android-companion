@@ -61,8 +61,9 @@
                     android:layout_height="15dp"
                     android:text="@string/addToList"
                     android:textSize="12sp"
+                    android:textColor="@color/white"
                     android:gravity="left"
-                    android:background="@android:color/transparent"/>
+                    android:background="@android:color/darker_gray"/>
 
                 <TextView
                     android:id="@+id/company_details_website"
@@ -96,7 +97,7 @@
                 android:textSize="13dp"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/white"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
             <ImageButton
                 android:id="@+id/camera_button"
                 android:layout_width="39dp"
@@ -106,7 +107,7 @@
                 android:scaleType="fitCenter"
                 android:src = "@drawable/camera_icon_33"
                 android:background="@color/white"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
         </LinearLayout>
 

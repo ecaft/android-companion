@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="edu.ashleyxue.ecaft.MainActivity">
+        tools:context="edu.lauralin.ecaft.MainActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.ashleyxue.ecaft" >
+    package="edu.lauralin.ecaft" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <permission android:protectionLevel="signature"
-                android:name="edu.ashleyxue.ecaft.permission.C2D_MESSAGE" />
+                android:name="edu.lauralin.ecaft.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
@@ -27,10 +27,10 @@
         android:label="@string/ECaFT"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="edu.ashleyxue.ecaft.FirebaseApplication"
+        android:name="edu.lauralin.ecaft.FirebaseApplication"
         >
         <activity
-            android:name="edu.ashleyxue.ecaft.MainActivity"
+            android:name="edu.lauralin.ecaft.MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -41,13 +41,13 @@
         </activity>
 
         <activity
-            android:name="edu.ashleyxue.ecaft.CameraActivity"
+            android:name="edu.lauralin.ecaft.CameraActivity"
             android:label="Camera"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name="edu.ashleyxue.ecaft.CompanyDetailsActivity"
+            android:name="edu.lauralin.ecaft.CompanyDetailsActivity"
             android:label="@string/details_ac"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

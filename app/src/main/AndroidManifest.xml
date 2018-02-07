@@ -50,7 +50,7 @@
         </activity>
 
         <activity
-            android:name="edu.ashleyxue.ecaft.EnlargedImage"
+            android:name="edu.lauralin.ecaft.EnlargedImage"
             android:label="Enlarged Image"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -89,7 +89,7 @@
                 <!--
                   IMPORTANT: Change "com.parse.starter" to match your app's package name.
                 -->
-                <category android:name="edu.cornell.ecaft" />
+                <category android:name="edu.lauralin.ecaft" />
             </intent-filter>
         </receiver>
         <meta-data android:name="com.parse.push.notification_icon"

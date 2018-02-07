@@ -29,7 +29,7 @@ public class MapFragment extends Fragment {
         SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)
                 v.findViewById(R.id.imageView);
         imageView.setImage(ImageSource.resource(R.drawable
-                .final_map_draft_11));
+                .career_fair_map_2_10));
 
 
         getActivity().setTitle("Map");

@@ -41,7 +41,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <!--android:configChanges="orientation|keyboardHidden"-->
         <activity
             android:name="edu.lauralin.ecaft.CameraActivity"
             android:label="Camera"

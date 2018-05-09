@@ -1,11 +1,16 @@
 package edu.lauralin.ecaft;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.view.MotionEvent;
+import android.content.res.Configuration;
+import android.widget.Toast;
+import android.util.Log;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -26,7 +31,7 @@ public class MapFragment extends Fragment {
                 R.layout.map_fragment, container, false);
         Bundle args = getArguments();
 
-        SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)
+        final SubsamplingScaleImageView imageView = (SubsamplingScaleImageView)
                 v.findViewById(R.id.imageView);
         imageView.setImage(ImageSource.resource(R.drawable
                 .career_fair_map_2_10));
@@ -34,6 +39,31 @@ public class MapFragment extends Fragment {
 
         getActivity().setTitle("Map");
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("bbb", view.getTop() + ", " + view.getBottom());
+            }
+        });
+
+/*
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
+                    Log.d("dddddd","Touch coordinates : " +
+                            String.valueOf(event.getX()) + ", " + String.valueOf(event.getY()));
+                }
+                //Log.d("dddddd", imageView.getMatrix().toString());
+                //Intent i = new Intent(getActivity(), MainActivity.class);
+                //i.putExtras(myBundle);
+                //startActivity(i);
+
+                return true;
+            }
+
+        });
+*/
         return v;
     }
 
@@ -43,4 +73,33 @@ public class MapFragment extends Fragment {
         //MainActivity.bottomNavigationView.setSelectedItemId(R.id.nav_map);
         MainActivity.navigationView.setCheckedItem(R.id.nav_map);
     }
+/*
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //Toast.makeText(getContext(), "landscape", Toast.LENGTH_SHORT).show();
+            getView().findViewById(R.id.imageView).setRotation(0);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            getView().findViewById(R.id.imageView).setRotation(0);
+        }
+    }
+    */
+
+    /*@Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            final float x = event.getX();
+                    //+ this.getLeft();
+            final float y = event.getY();
+                    //+ this.getTop();
+            // check if (x,y) is on chair and do other staff
+        }
+        return super.onTouchEvent(event);
+    }
+*/
+
+
 }

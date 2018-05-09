@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.io.File;
 import android.graphics.drawable.Drawable;
 
+import android.support.v4.app.FragmentManager;
+
 
 /**
  * Created by Ashley on 1/16/2016.
@@ -72,6 +74,8 @@ public class CompanyDetailsFragment extends Fragment {
     private ImageButton camera_button;
     private Button add_to_list;
     static final int REQUEST_IMAGE_CAPTURE = 1; //for picture taking
+
+    private Button find_on_map;
 
     private GridView imageDisplay;
     private ArrayList<String> picFileIndex;
@@ -171,6 +175,8 @@ public class CompanyDetailsFragment extends Fragment {
 
         camera_button = (ImageButton) v.findViewById(R.id.camera_button);
         add_to_list = (Button) v.findViewById(R.id.add_to_list);
+
+        find_on_map = (Button) v.findViewById(R.id.find_on_map);
 
         //pictureFiles = new HashMap<String, ArrayList<String>>();
         //pictures = new ArrayList<String>();
@@ -287,6 +293,23 @@ public class CompanyDetailsFragment extends Fragment {
             @Override
             public void onClick(View V) {
                 createAddCompanyDialog().show();
+            }
+        });
+
+        find_on_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View V) {
+                //MapFragment mapFragment = new MapFragment();
+                //MainActivity.selectItem(1);
+                //Intent i = new Intent(getActivity(), MapFragment.class);
+                //i.putExtras(myBundle);
+                //startActivity(i);
+                Fragment fragment = new MapFragment();
+
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.imageView, fragment);
+                transaction.commit();
             }
         });
 

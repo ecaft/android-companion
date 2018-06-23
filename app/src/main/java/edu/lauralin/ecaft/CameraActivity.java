@@ -183,7 +183,9 @@ public class CameraActivity extends AppCompatActivity {
             String ts = tsLong.toString();
             String imgname =companyName + ts;
             final String company = companyName;
-            final File file = new File(Environment.getExternalStorageDirectory().getPath()+"/DCIM/Camera/" + imgname + ".jpg");
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            final File file = File.createTempFile(imgname, ".jpg", storageDir);
+            //final File file = new File(Environment.getExternalStorageDirectory().getPath()+"/DCIM/Camera/" + imgname + ".jpg");
             //CompanyDetailsFragment.pictureFiles.get(companyName).add(file.getPath());
             /*CompanyDetailsFragment.pictures.add(file.getAbsolutePath());
             Log.d("file", file.getAbsolutePath());*/
@@ -201,6 +203,8 @@ public class CameraActivity extends AppCompatActivity {
                         //MainActivity.pictures.add(file.getAbsolutePath());
                         MainActivity.addPicRow(company,file.getAbsolutePath());
                         Log.d("file", file.getAbsolutePath());
+                        Log.d("company name", company);
+                        Log.d("isInPicDatabase", "" + MainActivity.isInDatabase(company));
                         //Log.d("picture files:", ""+MainActivity.pictures);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -247,6 +251,8 @@ public class CameraActivity extends AppCompatActivity {
                 }
             }, mBackgroundHandler);
         } catch (CameraAccessException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

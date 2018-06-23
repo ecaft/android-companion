@@ -75,7 +75,7 @@ public class CompanyDetailsFragment extends Fragment {
     private Button add_to_list;
     static final int REQUEST_IMAGE_CAPTURE = 1; //for picture taking
 
-    private Button find_on_map;
+//    private Button find_on_map;
 
     private GridView imageDisplay;
     private ArrayList<String> picFileIndex;
@@ -176,7 +176,7 @@ public class CompanyDetailsFragment extends Fragment {
         camera_button = (ImageButton) v.findViewById(R.id.camera_button);
         add_to_list = (Button) v.findViewById(R.id.add_to_list);
 
-        find_on_map = (Button) v.findViewById(R.id.find_on_map);
+//        find_on_map = (Button) v.findViewById(R.id.find_on_map);
 
         //pictureFiles = new HashMap<String, ArrayList<String>>();
         //pictures = new ArrayList<String>();
@@ -283,7 +283,7 @@ public class CompanyDetailsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CameraActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("company", name);
+                bundle.putString("company", objectID);
                 intent.putExtras(bundle);
                 getActivity().startActivity(intent);
             }
@@ -296,22 +296,22 @@ public class CompanyDetailsFragment extends Fragment {
             }
         });
 
-        find_on_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View V) {
-                //MapFragment mapFragment = new MapFragment();
-                //MainActivity.selectItem(1);
-                //Intent i = new Intent(getActivity(), MapFragment.class);
-                //i.putExtras(myBundle);
-                //startActivity(i);
-                Fragment fragment = new MapFragment();
-
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.imageView, fragment);
-                transaction.commit();
-            }
-        });
+//        find_on_map.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View V) {
+//                //MapFragment mapFragment = new MapFragment();
+//                //MainActivity.selectItem(1);
+//                //Intent i = new Intent(getActivity(), MapFragment.class);
+//                //i.putExtras(myBundle);
+//                //startActivity(i);
+//                Fragment fragment = new MapFragment();
+//
+//                FragmentManager fm = getFragmentManager();
+//                FragmentTransaction transaction = fm.beginTransaction();
+//                transaction.replace(R.id.imageView, fragment);
+//                transaction.commit();
+//            }
+//        });
 
 
         if(notes_company_info.isChecked()){
@@ -502,7 +502,7 @@ public class CompanyDetailsFragment extends Fragment {
             }
             String[] projection = {"*"};
             String selection = PicDatabaseSchema.CompanyTable.COMPANY_NAME + " = ?";*/
-            String[] selectionArgs = {name};
+            String[] selectionArgs = {objectID};
             String sortOrder = PicDatabaseSchema.CompanyTable.PICFILES + " DESC";
 
             Cursor cursor = MainActivity.picDatabase.query(PicDatabaseSchema.CompanyTable.NAME,

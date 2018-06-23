@@ -509,4 +509,28 @@ public class MainActivity extends AppCompatActivity  implements SearchView
                 PicDatabaseSchema.CompanyTable.PICFILES + " = ?", new String[]{file});
     }
 
+    public static boolean isInPicDatabase(String name) {
+        Cursor c = picDatabase.query(CompanyTable.NAME, null, null, null, null, null, null);
+        boolean inside = false;
+        try {
+            c.moveToFirst();
+
+            while (!c.isAfterLast()) {
+                if (name.equals(c.getString(c.getColumnIndex(CompanyTable.Cols.COMPANY_NAME)))) {
+                    inside = true;
+                    break;
+                }
+                c.moveToNext();
+            }
+
+        } finally {
+            c.close();
+        }
+        return inside;
+    }
+
+    public static void deletePicDatabase() {
+        picDatabase.execSQL("DROP TABLE " + PicDatabaseSchema.CompanyTable.NAME);
+    }
+
 }

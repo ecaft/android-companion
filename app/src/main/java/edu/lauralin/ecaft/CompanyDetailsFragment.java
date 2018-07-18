@@ -22,6 +22,8 @@ import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -67,7 +69,9 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyOptcpt;
     private TextView companySponsorHeader;
     private TextView companySponsorHardCode;
-    private TextView companyPhotosHeader;
+//    private TextView companyPhotosHeader;
+    private RelativeLayout companyPhotosHeader;
+
 
     private ToggleButton notes_company_info;
 
@@ -169,7 +173,8 @@ public class CompanyDetailsFragment extends Fragment {
         companySponsorHardCode = (TextView) v.findViewById(R.id.company_details_sponsor_info);
         companySponsorHardCode.setText(sponsorText + "\n" + optcptText);
 
-        companyPhotosHeader = (TextView) v.findViewById(R.id.company_details_photos_header);
+//        companyPhotosHeader = (TextView) v.findViewById(R.id.company_details_photos_header);
+        companyPhotosHeader = (RelativeLayout) v.findViewById(R.id.company_details_photos_header);
 
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
@@ -508,8 +513,9 @@ public class CompanyDetailsFragment extends Fragment {
             Cursor cursor = MainActivity.picDatabase.query(PicDatabaseSchema.CompanyTable.NAME,
                     null,PicDatabaseSchema.CompanyTable.COMPANY_NAME+" = ?", selectionArgs , null, null, sortOrder);
             cursor.moveToFirst();
-            while(cursor.moveToNext()){
+            while(!cursor.isAfterLast()){
                 picFileIndex.add(cursor.getString(cursor.getColumnIndexOrThrow(PicDatabaseSchema.CompanyTable.PICFILES)));
+                cursor.moveToNext();
             }
             cursor.close();
         }

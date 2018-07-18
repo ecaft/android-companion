@@ -266,19 +266,38 @@
             android:textSize="12sp"/>
 
 
-
-        <TextView
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
             android:id="@+id/company_details_photos_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/company_info_background_gray"
-            android:paddingBottom="2dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="2dp"
-            android:text="@string/company_details_photos"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:visibility="gone"/>
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@color/company_info_background_gray"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:text="@string/company_details_photos"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
+                <!--android:visibility="gone"/>-->
+            <TextView
+                android:id="@+id/company_details_photos_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/company_info_background_gray"
+                android:paddingBottom="2dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:text="@string/company_details_photos_edit"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
+                <!--android:visibility="gone"/>-->
+        </RelativeLayout>
         <GridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"

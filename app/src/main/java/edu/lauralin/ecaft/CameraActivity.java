@@ -205,6 +205,8 @@ public class CameraActivity extends AppCompatActivity {
                         Log.d("file", file.getAbsolutePath());
                         Log.d("company name", company);
                         Log.d("isInPicDatabase", "" + MainActivity.isInDatabase(company));
+                        Log.d("PicDatabaseSize", "" + MainActivity.isInDatabase(company));
+
                         //Log.d("picture files:", ""+MainActivity.pictures);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();

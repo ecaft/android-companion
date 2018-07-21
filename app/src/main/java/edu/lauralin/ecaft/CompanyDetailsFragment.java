@@ -203,6 +203,20 @@ public class CompanyDetailsFragment extends Fragment {
             }
         });
 
+        imageDisplay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the GridView selected/clicked item text
+                Log.d("1234567", parent.getItemAtPosition(position).toString());
+                MainActivity.deletePicRow(parent.getItemAtPosition(position).toString());
+                imageDisplay.setAdapter(new ImageAdapter(getActivity()));
+
+                // Display the selected/clicked item text and position on TextView
+//                tv.setText("GridView item clicked : " +selectedItem
+//                        + "\nAt index position : " + position);
+            }
+        });
+
         /*imageDisplayTest = (ImageView) v.findViewById(R.id.displayTest);
         if(MainActivity.pictures.size()!=0){
             Log.d("pictures size", "more than 0");

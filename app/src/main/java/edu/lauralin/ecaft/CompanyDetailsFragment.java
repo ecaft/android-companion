@@ -69,8 +69,13 @@ public class CompanyDetailsFragment extends Fragment {
     private TextView companyOptcpt;
     private TextView companySponsorHeader;
     private TextView companySponsorHardCode;
-//    private TextView companyPhotosHeader;
+
+
     private RelativeLayout companyPhotosHeader;
+    private TextView companyPhotosText;
+    private TextView companyPhotosEdit;
+    private boolean photosEditMode = false;
+    private List<Integer> photosToDelete;
 
 
     private ToggleButton notes_company_info;
@@ -173,13 +178,19 @@ public class CompanyDetailsFragment extends Fragment {
         companySponsorHardCode = (TextView) v.findViewById(R.id.company_details_sponsor_info);
         companySponsorHardCode.setText(sponsorText + "\n" + optcptText);
 
+
 //        companyPhotosHeader = (TextView) v.findViewById(R.id.company_details_photos_header);
         companyPhotosHeader = (RelativeLayout) v.findViewById(R.id.company_details_photos_header);
+        companyPhotosText = (TextView) v.findViewById(R.id.company_details_photos);
+        companyPhotosEdit = (TextView) v.findViewById(R.id.company_details_photos_edit);
+        photosToDelete = new ArrayList<Integer>();
 
         notes_company_info = (ToggleButton) v.findViewById(R.id.notes_or_info);
 
         camera_button = (ImageButton) v.findViewById(R.id.camera_button);
         add_to_list = (Button) v.findViewById(R.id.add_to_list);
+
+
 
 //        find_on_map = (Button) v.findViewById(R.id.find_on_map);
 
@@ -203,19 +214,21 @@ public class CompanyDetailsFragment extends Fragment {
             }
         });
 
-        imageDisplay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get the GridView selected/clicked item text
-                Log.d("1234567", parent.getItemAtPosition(position).toString());
-                MainActivity.deletePicRow(parent.getItemAtPosition(position).toString());
-                imageDisplay.setAdapter(new ImageAdapter(getActivity()));
 
-                // Display the selected/clicked item text and position on TextView
-//                tv.setText("GridView item clicked : " +selectedItem
-//                        + "\nAt index position : " + position);
-            }
-        });
+
+//        imageDisplay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                // Get the GridView selected/clicked item text
+//                Log.d("1234567", parent.getItemAtPosition(position).toString());
+//                MainActivity.deletePicRow(parent.getItemAtPosition(position).toString());
+//                imageDisplay.setAdapter(new ImageAdapter(getActivity()));
+//
+//                // Display the selected/clicked item text and position on TextView
+////                tv.setText("GridView item clicked : " +selectedItem
+////                        + "\nAt index position : " + position);
+//            }
+//        });
 
         /*imageDisplayTest = (ImageView) v.findViewById(R.id.displayTest);
         if(MainActivity.pictures.size()!=0){
@@ -297,6 +310,8 @@ public class CompanyDetailsFragment extends Fragment {
         });
 
 
+
+
         camera_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -372,6 +387,61 @@ public class CompanyDetailsFragment extends Fragment {
         companyNotes.setHorizontallyScrolling(false);
         companyNotes.setMaxLines(8);
 
+
+
+        /* set up click listeners for deleting pictures */
+
+        companyPhotosText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(photosEditMode) {
+                    for(int i : photosToDelete) {
+                        imageDisplay.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.transparent));
+                    }
+                    photosToDelete.clear();
+                    photosEditMode = false;
+                    companyPhotosEdit.setText(getString(R.string.company_details_photos_edit));
+                    companyPhotosText.setText(getString(R.string.company_details_photos));
+                }
+            }
+        });
+
+        companyPhotosEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(photosEditMode) {
+                    for(int i : photosToDelete) {
+                        MainActivity.deletePicRow(imageDisplay.getItemAtPosition(i).toString());
+                    }
+                    photosToDelete.clear();
+                    imageDisplay.setAdapter(new ImageAdapter(getActivity()));
+                    photosEditMode = false;
+                    companyPhotosEdit.setText(getString(R.string.company_details_photos_edit));
+                    companyPhotosText.setText(getString(R.string.company_details_photos));
+                } else {
+                    photosEditMode = true;
+                    companyPhotosEdit.setText(getString(R.string.company_details_photos_delete));
+                    companyPhotosText.setText(getString(R.string.company_details_photos_cancel));
+                }
+            }
+        });
+
+        imageDisplay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(photosEditMode) {
+                    if(photosToDelete.contains(position)) {
+                        // Get the GridView selected/clicked item text
+                        photosToDelete.remove(photosToDelete.indexOf(position));
+                        view.setBackgroundColor(getResources().getColor(R.color.transparent));
+                    } else {
+                        photosToDelete.add(position);
+                        view.setBackgroundColor(getResources().getColor(R.color.com_parse_ui_twitter_login_button));
+                    }
+                }
+            }
+        });
+//        photosToDelete = new ArrayList<Integer>();
 
         Log.d("details", "id of the company for notes: " + objectID);
         notesText = MainActivity.getNote(objectID);

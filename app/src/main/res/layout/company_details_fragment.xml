@@ -271,12 +271,13 @@
             android:layout_height="fill_parent"
             android:orientation="horizontal"
             android:id="@+id/company_details_photos_header"
+            android:background="@color/company_info_background_gray"
             android:visibility="gone">
             <TextView
+                android:id="@+id/company_details_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:background="@color/company_info_background_gray"
                 android:paddingBottom="2dp"
                 android:paddingLeft="10dp"
                 android:paddingTop="2dp"
@@ -289,7 +290,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@color/company_info_background_gray"
                 android:paddingBottom="2dp"
                 android:paddingRight="10dp"
                 android:paddingTop="2dp"
@@ -309,6 +309,17 @@
             android:stretchMode="columnWidth"
             android:gravity="center"
             android:visibility="gone"/>
+
+        <!--<TextView-->
+            <!--android:id="@+id/delete_images"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layoutDirection="rtl"-->
+            <!--android:text="Delete"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="15sp"-->
+            <!--android:background="@color/company_info_background_gray"-->
+            <!--android:visibility="gone"/>-->
 
     </LinearLayout>
 

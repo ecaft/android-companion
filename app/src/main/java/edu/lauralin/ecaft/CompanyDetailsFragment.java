@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.EditText;
@@ -200,35 +201,6 @@ public class CompanyDetailsFragment extends Fragment {
 
         imageDisplay = (GridView) v.findViewById(R.id.gridview);
         imageDisplay.setAdapter(new ImageAdapter(getActivity()));
-
-        imageDisplay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Toast.makeText(getActivity(), "" + position,
-                        Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), EnlargedImage.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("file", picFileIndex.get(position));
-                intent.putExtras(bundle);
-                getActivity().startActivity(intent);
-            }
-        });
-
-
-
-//        imageDisplay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                // Get the GridView selected/clicked item text
-//                Log.d("1234567", parent.getItemAtPosition(position).toString());
-//                MainActivity.deletePicRow(parent.getItemAtPosition(position).toString());
-//                imageDisplay.setAdapter(new ImageAdapter(getActivity()));
-//
-//                // Display the selected/clicked item text and position on TextView
-////                tv.setText("GridView item clicked : " +selectedItem
-////                        + "\nAt index position : " + position);
-//            }
-//        });
 
         /*imageDisplayTest = (ImageView) v.findViewById(R.id.displayTest);
         if(MainActivity.pictures.size()!=0){
@@ -427,7 +399,6 @@ public class CompanyDetailsFragment extends Fragment {
         });
 
         imageDisplay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(photosEditMode) {
                     if(photosToDelete.contains(position)) {
@@ -438,6 +409,14 @@ public class CompanyDetailsFragment extends Fragment {
                         photosToDelete.add(position);
                         view.setBackgroundColor(getResources().getColor(R.color.com_parse_ui_twitter_login_button));
                     }
+                } else {
+                    Toast.makeText(getActivity(), "" + position,
+                            Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), EnlargedImage.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("file", picFileIndex.get(position));
+                    intent.putExtras(bundle);
+                    getActivity().startActivity(intent);
                 }
             }
         });

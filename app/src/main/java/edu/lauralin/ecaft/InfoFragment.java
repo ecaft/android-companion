@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.util.LruCache;
+
 
 /**
  * Created by Ashley on 11/8/2015.
@@ -56,6 +58,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     private ListView lv;
     static HashMap<Integer, List<String>> userChoices = new HashMap<Integer, List<String>>();
     static HashMap<Integer, boolean []> prevFilterOptions = new HashMap<Integer, boolean[]>();
+
+    private LruCache<String, ImageView> cache;
 
     String[] majorOptions = {
             "Aerospace Engineering",
@@ -88,6 +92,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         companiesFilter.addAll(companies);
 
         companyAdapter = new CompanyAdapter(companiesFilter);
+
+        cache = new LruCache<>(200);
 
         //Log.d("final", "instantiation: filter size: " + companiesFilter.size
           //      () + ", total size: " + companies.size());
@@ -354,11 +360,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     .using(new FirebaseImageLoader())
                     .load(path)
                     .into(holder.mCompanyLogo);
-
-            Glide.with(getContext())
-                    .using(new FirebaseImageLoader())
-                    .load(background_image_path)
-                    .into(holder.mCompanyBackground);
+            if(cache.get(holder.mCompanyName.toString()) == null) {
+                Glide.with(getContext())
+                        .using(new FirebaseImageLoader())
+                        .load(background_image_path)
+                        .into(holder.mCompanyBackground);
+                cache.put(holder.mCompanyName.toString(), holder.mCompanyBackground);
+            } else {
+                holder.mCompanyBackground = cache.get(holder.mCompanyName.toString());
+            }
 
             if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
                 holder.mCompanySave.setImageResource(R.drawable.ic_favorite);

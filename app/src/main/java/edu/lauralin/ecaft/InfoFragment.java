@@ -93,6 +93,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         companyAdapter = new CompanyAdapter(companiesFilter);
 
+//        200 should be updated with number of companies at the career fair
         cache = new LruCache<>(200);
 
         //Log.d("final", "instantiation: filter size: " + companiesFilter.size

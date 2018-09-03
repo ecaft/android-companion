@@ -44,6 +44,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.res.Configuration;
+
 /**
  * Created by Ashley on 11/8/2015.
  */
@@ -118,6 +120,18 @@ public class ChecklistFragment extends DialogFragment{
                 else{
                     params.topMargin = 1400;
                 }
+
+//                if ((getResources().getConfiguration().screenLayout &
+//                        Configuration.SCREENLAYOUT_SIZE_MASK) ==
+//                        Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+//                    // on a large screen device ...
+//                    if(listButtonClicked)
+//                        params.topMargin = 1100;
+//                    else{
+//                        params.topMargin = 1400;
+//                    }
+//
+//                }
                 listButtonClicked = !listButtonClicked;
                 layout.setLayoutParams(params);
             }

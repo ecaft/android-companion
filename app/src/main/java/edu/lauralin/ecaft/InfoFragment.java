@@ -371,6 +371,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 holder.mCompanyBackground = cache.get(holder.mCompanyName.toString());
             }
 
+
+
             if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
                 holder.mCompanySave.setImageResource(R.drawable.ic_favorite);
             } else {

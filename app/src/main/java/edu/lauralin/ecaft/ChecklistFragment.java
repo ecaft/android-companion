@@ -120,18 +120,6 @@ public class ChecklistFragment extends DialogFragment{
                 else{
                     params.topMargin = 1400;
                 }
-
-//                if ((getResources().getConfiguration().screenLayout &
-//                        Configuration.SCREENLAYOUT_SIZE_MASK) ==
-//                        Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-//                    // on a large screen device ...
-//                    if(listButtonClicked)
-//                        params.topMargin = 1100;
-//                    else{
-//                        params.topMargin = 1400;
-//                    }
-//
-//                }
                 listButtonClicked = !listButtonClicked;
                 layout.setLayoutParams(params);
             }
@@ -319,13 +307,14 @@ public class ChecklistFragment extends DialogFragment{
         int top = params1.topMargin;
         int left = params1.leftMargin;
         int right = params1.rightMargin;
+        int width = params1.width;
+        int height = params1.height;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                (240, 300);
+                (width, height);
         params.topMargin = top;
         params.leftMargin = (MainActivity.userListNames.indexOf(listName) * 280) + left;
         params.rightMargin = right;
         newList.setLayoutParams(params);
-        Log.d("testtest", params.leftMargin + "");
         //newList.setBackgroundTintList
           //      (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
         //newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
@@ -355,8 +344,10 @@ public class ChecklistFragment extends DialogFragment{
             int top = params1.topMargin;
             int left = params1.leftMargin;
             int right = params1.rightMargin;
+            int width = params1.width;
+            int height = params1.height;
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
-                    (240, 300);
+                    (width, height);
            // Log.d("testtest", favoriteList.getWidth() + "");
             params.topMargin = top;
             params.leftMargin = ((MainActivity.userListNames.size() - 1) * 280) + left;

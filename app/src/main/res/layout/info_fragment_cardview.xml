@@ -5,24 +5,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:background="@drawable/list_item_selector"
-                android:orientation="horizontal"
-                android:paddingLeft="15dp">
-<!--
+                android:orientation="horizontal">
+
     <ImageView
-        android:id="@+id/company_logo"
-        android:layout_width="71dp"
-        android:layout_height="71dp"
-        android:adjustViewBounds="true"
-        android:padding="12dp"
-        android:scaleType="fitCenter"/>
--->
+        android:id="@+id/company_background"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:adjustViewBounds="true" />
+
 
     <RelativeLayout
         android:id="@+id/info_icons"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:paddingRight="2dp">
+        android:paddingRight="2dp"
+        android:paddingLeft="15dp">
 
         <ImageView
             android:id="@+id/company_logo"
@@ -54,7 +52,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/info_icons">
+        android:layout_toLeftOf="@id/info_icons"
+        android:paddingLeft="15dp">
         <!--android:layout_toRightOf="@id/company_logo"-->
 
 

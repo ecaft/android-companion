@@ -5,13 +5,13 @@
     tools:context=".DDIYActivity"
     >
 
-    <item
+   <!-- <item
         android:id="@+id/save_company"
         android:icon="@mipmap/ic_add_circle_outline_white_24dp"
         android:orderInCategory="100"
         android:title="Save Company"
         app:showAsAction="always"
-        />
+        />-->
     <!--   <item android:id="@+id/action_settings" android:title="@string/action_settings"
            android:orderInCategory="100" app:showAsAction="never" /> -->
 </menu>

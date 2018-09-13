@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.ashleyxue.ecaft" >
+    package="edu.lauralin.ecaft" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,30 +9,31 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <!--
-      GET_ACCOUNTS is only required for GCM on devices running Android lower than
-      4.0.4. You may leave out this permission if you are targetting 4.0.4+.
-    -->
+
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required = "false"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<!--
+    <uses-feature android:name="android.hardware.camera2.full" />
+-->
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-    <!--
-      IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
-      to match your app's package name + ".permission.C2D_MESSAGE".
-    -->
     <permission android:protectionLevel="signature"
-                android:name="edu.ashleyxue.ecaft.permission.C2D_MESSAGE" />
-    <uses-permission
-        android:name="edu.cornell.ecaft.permission.C2D_MESSAGE" />
+                android:name="edu.lauralin.ecaft.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo512x512"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/ECaFT"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="edu.ashleyxue.ecaft.FirebaseApplication"
+        android:name="edu.lauralin.ecaft.FirebaseApplication"
         >
         <activity
-            android:name="edu.ashleyxue.ecaft.MainActivity"
+            android:name="edu.lauralin.ecaft.MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -41,24 +42,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--android:configChanges="orientation|keyboardHidden"-->
+        <activity
+            android:name="edu.lauralin.ecaft.CameraActivity"
+            android:label="Camera"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <activity
-            android:name="edu.ashleyxue.ecaft.CompanyDetailsActivity"
+            android:name="edu.lauralin.ecaft.EnlargedImage"
+            android:label="Enlarged Image"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name="edu.lauralin.ecaft.CompanyDetailsActivity"
             android:label="@string/details_ac"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity
-            android:name="edu.ashleyxue.ecaft.SearchActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTask">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable">
-            </meta-data>
-        </activity>
+
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
@@ -85,7 +90,7 @@
                 <!--
                   IMPORTANT: Change "com.parse.starter" to match your app's package name.
                 -->
-                <category android:name="edu.cornell.ecaft" />
+                <category android:name="edu.lauralin.ecaft" />
             </intent-filter>
         </receiver>
         <meta-data android:name="com.parse.push.notification_icon"

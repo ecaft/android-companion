@@ -36,6 +36,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542459454913:android:03435310841c3f12",
+        "android_client_info": {
+          "package_name": "edu.lauralin.ecaft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542459454913-l49i0eu6ibnsehvdme411u77vdec8pv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqIF5kic3ICco6B9wnXFo8Nz05a8fD46k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

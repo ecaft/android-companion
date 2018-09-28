@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
     public static ArrayList<String> pictures;
 
-    //public static NavigationView navigationView;
     public static BottomNavigationView bottomNavigationView;
     public static NavigationView navigationView;
     public static List<String> allCompanies = new ArrayList<String>();
@@ -76,13 +74,11 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Log.d("testingtesting", FirebaseDatabase.getInstance().getApp().getName());
         mContext = getApplicationContext();
         mDatabase = new DatabaseHelper(mContext).getWritableDatabase();
 
         PicDatabaseHelper helper = new PicDatabaseHelper(mContext);
         picDatabase = helper.getWritableDatabase();
-        Log.d("picDatabase", picDatabase.toString());
 
         homeFragment = new HomeFragment();
         mapFragment = new MapFragment();
@@ -90,7 +86,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         filterFragment = new FilterFragment();
         checklistFragment = new ChecklistFragment();
 
-       // View drawer = findViewById(R.id.activity_main);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,45 +98,11 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
-        /*bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_bar);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);*/
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        //          getSupportActionBar().setHomeButtonEnabled(true);
-//
-//        mMenuOptions = getResources().getStringArray(R.array.menu_options);
-//
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mFrameLayout = (FrameLayout) findViewById(R.id.content_frame);
-//        mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
-//        mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
-//        //  mDrawerListLayout = (RelativeLayout) findViewById(R.id.left_drawer);
-//
-//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-//                R.layout.drawer_list_item, mMenuOptions));
-//        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView parent, View view, int position, long id) {
-//                selectItem(position);
-//            }
-//        });
-////
-//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-//                R.string.drawer_open, R.string.drawer_close);
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-
-        //      mDrawerList.setSelection(0);
         getSupportFragmentManager().beginTransaction().replace(R.id
                 .content_frame, new HomeFragment()).commit();
-        //bottomNavigationView.setSelectedItemId(R.id.nav_home);
         navigationView.setCheckedItem(R.id.nav_home);
     }
 
@@ -160,8 +121,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
             fragment = infoFragment;
         } else if (id == R.id.nav_checklist) {
             fragment = checklistFragment;
-        } else {
-            Log.d("ECaFT", "Cannot select existing menu option.");
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -169,7 +128,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
                 fragment).addToBackStack(null)
                 .commit();
 
-        //bottomNavigationView.setSelectedItemId(id);
         navigationView.setCheckedItem(id);
 
         drawer.closeDrawer(GravityCompat.START);
@@ -179,7 +137,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-       // mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -220,7 +177,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-     //   mDrawerToggle.syncState();
     }
 
     @Override
@@ -249,15 +205,11 @@ public class MainActivity extends AppCompatActivity  implements SearchView
 
 
     public static void deleteUserListRow(String id, int i){
-        //mDatabase.execSQL("DELETE FROM "+ MainActivity.userListNames.get(i)
-          //      +" WHERE " + CompanyTable.Cols.COMPANY_NAME + " = "+name);
         mDatabase.delete(MainActivity.userListNames.get(i),
                 CompanyTable.Cols.ID + " = ?",new String[]{id});
     }
 
     public static boolean isInUserList(String name, int i){
-        //String s = DatabaseUtils.stringForQuery(mDatabase,"SELECT * FROM " + MainActivity.userListNames.get(i) + " WHERE "
-         //   + CompanyTable.Cols.COMPANY_NAME + " = " + name,null);
         Cursor c = mDatabase.query(MainActivity.userListNames.get(i), null,
                 null, null, null, null, null);
         boolean inside = false;
@@ -501,7 +453,6 @@ public class MainActivity extends AppCompatActivity  implements SearchView
         values.put(PicDatabaseSchema.CompanyTable.COMPANY_NAME, companyName);
         values.put(PicDatabaseSchema.CompanyTable.PICFILES, fileName);
         picDatabase.insert(PicDatabaseSchema.CompanyTable.NAME, null, values);
-        Log.d("picDatabase", ""+fileName+" added");
     }
 
     public static void deletePicRow(String file) {

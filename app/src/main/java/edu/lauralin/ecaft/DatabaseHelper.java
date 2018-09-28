@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import edu.lauralin.ecaft.DatabaseSchema.CompanyTable;
 
 import android.database.Cursor;
-import android.util.Log;
 
 
 /**

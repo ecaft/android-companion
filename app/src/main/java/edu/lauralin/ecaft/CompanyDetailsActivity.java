@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,10 +67,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_company_details, menu);
-       /* if (MainActivity.isInDatabase(currentCompanyName))
-            menu.getItem(0).setIcon(R.drawable.ic_unfavorite);
-        else
-            menu.getItem(0).setIcon(R.drawable.ic_star_border_white_36dp);*/
         return true;
     }
 
@@ -81,17 +76,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            /*case R.id.save_company:
-                if (MainActivity.isInDatabase(currentCompanyName)) { //Then you want to remove on click
-                    Toast.makeText(this, R.string.unstar, Toast.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_star_border_white_36dp);
-                    MainActivity.deleteRow(currentCompanyUUID);
-                } else { //Not in database yet so add it to db
-                    Toast.makeText(this, R.string.star, Toast.LENGTH_SHORT).show();
-                    item.setIcon(R.drawable.ic_unfavorite);
-                    MainActivity.addRow(currentCompanyUUID,
-                            currentCompanyName);
-                }*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -106,7 +90,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         savedInstanceState.putString(FirebaseApplication.COMPANY_NAME,
                 currentCompanyName);
         savedInstanceState.putString(FirebaseApplication.COMPANY_ID, currentCompanyUUID);
-        // etc.
     }
 
     @Override
@@ -132,9 +115,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            Log.d(this.getClass().getName(), "back button pressed");
-        }
         return super.onKeyDown(keyCode, event);
     }
 }

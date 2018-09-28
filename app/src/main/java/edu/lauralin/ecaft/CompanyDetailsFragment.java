@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatEditText;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,13 +84,10 @@ public class CompanyDetailsFragment extends Fragment {
     private Button add_to_list;
     static final int REQUEST_IMAGE_CAPTURE = 1; //for picture taking
 
-//    private Button find_on_map;
 
     private GridView imageDisplay;
     private ArrayList<String> picFileIndex;
     private ImageView imageDisplayTest;
-    //public static HashMap<String, ArrayList<String>> pictureFiles;
-    //public static ArrayList<String> pictures;
 
     private String companyTable;
     private String objectID;
@@ -179,8 +175,6 @@ public class CompanyDetailsFragment extends Fragment {
         companySponsorHardCode = (TextView) v.findViewById(R.id.company_details_sponsor_info);
         companySponsorHardCode.setText(sponsorText + "\n" + optcptText);
 
-
-//        companyPhotosHeader = (TextView) v.findViewById(R.id.company_details_photos_header);
         companyPhotosHeader = (RelativeLayout) v.findViewById(R.id.company_details_photos_header);
         companyPhotosText = (TextView) v.findViewById(R.id.company_details_photos);
         companyPhotosEdit = (TextView) v.findViewById(R.id.company_details_photos_edit);
@@ -191,63 +185,19 @@ public class CompanyDetailsFragment extends Fragment {
         camera_button = (ImageButton) v.findViewById(R.id.camera_button);
         add_to_list = (Button) v.findViewById(R.id.add_to_list);
 
-
-
-//        find_on_map = (Button) v.findViewById(R.id.find_on_map);
-
-        //pictureFiles = new HashMap<String, ArrayList<String>>();
-        //pictures = new ArrayList<String>();
-
-
         imageDisplay = (GridView) v.findViewById(R.id.gridview);
         imageDisplay.setAdapter(new ImageAdapter(getActivity()));
 
-        /*imageDisplayTest = (ImageView) v.findViewById(R.id.displayTest);
-        if(MainActivity.pictures.size()!=0){
-            Log.d("pictures size", "more than 0");
-            if(Drawable.createFromPath(MainActivity.pictures.get(0))==null)
-                Log.d("drawable", "file is null");
-            else imageDisplayTest.setImageDrawable(Drawable.createFromPath(MainActivity.pictures.get(0)));
-        }
-        else{
-            Log.d("pictures size", "still 0");
-        }*/
-
         companyNotes = new AppCompatEditText(inflater.getContext());
- /*       Button notesButton = (Button) v.findViewById(R.id.notesButton);
-
-        notesButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("Notes Page", "Button Being Clicked");
-                NotesFragment noteFrag = new NotesFragment();
-                Intent i = getActivity().getIntent();
-                Bundle x = i.getExtras();
-                noteFrag.setArguments(i.getExtras());
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(((ViewGroup)(getView().getParent())).getId(), noteFrag);
-                transaction.addToBackStack(null);
-                Log.d("Notes Page", "CALLING NEW FRAGMENT");
-                transaction.commit();
-            }
-        });*/
         companyNotes = new AppCompatEditText(inflater.getContext()) {
             @Override
             public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-                Log.d("details", keyCode + "");
-                if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-                    Log.d("details", "elaufhlsieuhfaelsuhgaeu");
-                }
                 return super.onKeyPreIme(keyCode, event);
             }
         };
         companyNotes = (AppCompatEditText) v.findViewById(R.id
                 .company_details_editText);
 
-
-        //if (showText) {
-        //if(MainActivity.isInDatabase(name)){
-        /*notes_company_info.setVisibility(View.VISIBLE);
-        camera_button.setVisibility(View.VISIBLE);*/
         notes_company_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,24 +252,6 @@ public class CompanyDetailsFragment extends Fragment {
             }
         });
 
-//        find_on_map.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View V) {
-//                //MapFragment mapFragment = new MapFragment();
-//                //MainActivity.selectItem(1);
-//                //Intent i = new Intent(getActivity(), MapFragment.class);
-//                //i.putExtras(myBundle);
-//                //startActivity(i);
-//                Fragment fragment = new MapFragment();
-//
-//                FragmentManager fm = getFragmentManager();
-//                FragmentTransaction transaction = fm.beginTransaction();
-//                transaction.replace(R.id.imageView, fragment);
-//                transaction.commit();
-//            }
-//        });
-
-
         if(notes_company_info.isChecked()){
             companyNotes.setVisibility(View.VISIBLE);
             companyNotesHeader.setVisibility(View.VISIBLE);
@@ -332,8 +264,6 @@ public class CompanyDetailsFragment extends Fragment {
             companyOpenings.setVisibility(View.GONE);
             companySponsorHardCode.setVisibility(View.GONE);
             imageDisplay.setVisibility(View.VISIBLE);
-            //companySponsor.setVisibility(View.GONE);
-            //companyOptcpt.setVisibility(View.GONE);
         }
 
         companyNotes.setOnEditorActionListener(new EditText
@@ -341,12 +271,10 @@ public class CompanyDetailsFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent
                     event) {
-                Log.d("details", "action: " + actionId + " event: " + event);
                 if (actionId == EditorInfo.IME_ACTION_DONE || event.getAction
                         () == KeyEvent.ACTION_DOWN || event.getKeyCode() ==
                         KeyEvent.KEYCODE_BACK ||
                         event.getAction() == KeyEvent.ACTION_UP) {
-                    Log.d("details", "save button pressed");
                     companyNotes.clearFocus();
                     InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(companyNotes.getWindowToken(), 0);
@@ -359,10 +287,7 @@ public class CompanyDetailsFragment extends Fragment {
         companyNotes.setHorizontallyScrolling(false);
         companyNotes.setMaxLines(8);
 
-
-
         /* set up click listeners for deleting pictures */
-
         companyPhotosText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -420,9 +345,7 @@ public class CompanyDetailsFragment extends Fragment {
                 }
             }
         });
-//        photosToDelete = new ArrayList<Integer>();
 
-        Log.d("details", "id of the company for notes: " + objectID);
         notesText = MainActivity.getNote(objectID);
         if (!notesText.isEmpty())
             companyNotes.setText(notesText);
@@ -526,32 +449,6 @@ public class CompanyDetailsFragment extends Fragment {
                     }
                 })
                 .setNegativeButton("Cancel", null);
-
-
-        /*
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // user checked an item
-                checkedItem = which;
-            }
-        });
-
-        // add OK and Cancel buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // user clicked OK
-                Log.d("testest", checkedItem + "");
-                if(checkedItem != -1) {
-                    MainActivity.addUserListRowDetails(
-                            objectID, name, checkedItem);
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-
-    */
         return builder.create();
     }
 
@@ -563,13 +460,6 @@ public class CompanyDetailsFragment extends Fragment {
         public ImageAdapter(Context c) {
             mContext = c;
             picFileIndex = new ArrayList<String>();
-            /*for(int i=0; i<MainActivity.pictures.size(); i++){
-                if(MainActivity.pictures.get(i).contains(name))
-                    picFileIndex.add(i);
-
-            }
-            String[] projection = {"*"};
-            String selection = PicDatabaseSchema.CompanyTable.COMPANY_NAME + " = ?";*/
             String[] selectionArgs = {objectID};
             String sortOrder = PicDatabaseSchema.CompanyTable.PICFILES + " DESC";
 
@@ -584,7 +474,6 @@ public class CompanyDetailsFragment extends Fragment {
         }
 
         public int getCount() {
-            //return CompanyDetailsFragment.pictureFiles.get(name).size();
             return picFileIndex.size();
         }
 
@@ -608,8 +497,6 @@ public class CompanyDetailsFragment extends Fragment {
             } else {
                 imageView = (ImageView) convertView;
             }
-            //int index = picFileIndex.get(position);
-            //imageView.setImageDrawable(Drawable.createFromPath(MainActivity.pictures.get(index)));
             imageView.setImageDrawable(Drawable.createFromPath(picFileIndex.get(position)));
             return imageView;
         }

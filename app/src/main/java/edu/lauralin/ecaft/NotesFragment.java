@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,20 +72,8 @@ public class NotesFragment extends Fragment{
         Button notesButton = (Button) v.findViewById(R.id.notesButton);
         Button cameraButton = (Button) v.findViewById(R.id.cameraButton);
 
-       /* notesButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("Notes Page", "Button Being Clicked");
-                NotesFragment noteFrag = new NotesFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(((ViewGroup)(getView().getParent())).getId(), noteFrag);
-                transaction.addToBackStack(null);
-                Log.d("Notes Page", "CALLING NEW FRAGMENT");
-                transaction.commit();
-            }
-        }); */
         cameraButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("Notes Page", "CAMERA Button Being Clicked");
                 Intent myIntent = new Intent(getActivity(), CameraActivity.class);
                 getActivity().startActivity(myIntent);
             }

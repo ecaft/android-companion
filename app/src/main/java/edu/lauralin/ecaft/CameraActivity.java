@@ -25,7 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -106,7 +105,6 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onOpened(CameraDevice camera) {
             //This is called when the camera is open
-            Log.e(TAG, "onOpened");
             cameraDevice = camera;
             createCameraPreview();
         }
@@ -145,7 +143,6 @@ public class CameraActivity extends AppCompatActivity {
     }
     protected void takePicture() {
         if(null == cameraDevice) {
-            Log.e(TAG, "cameraDevice is null");
             return;
         }
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
@@ -185,11 +182,6 @@ public class CameraActivity extends AppCompatActivity {
             final String company = companyName;
             File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             final File file = File.createTempFile(imgname, ".jpg", storageDir);
-            //final File file = new File(Environment.getExternalStorageDirectory().getPath()+"/DCIM/Camera/" + imgname + ".jpg");
-            //CompanyDetailsFragment.pictureFiles.get(companyName).add(file.getPath());
-            /*CompanyDetailsFragment.pictures.add(file.getAbsolutePath());
-            Log.d("file", file.getAbsolutePath());*/
-
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
@@ -200,14 +192,8 @@ public class CameraActivity extends AppCompatActivity {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
-                        //MainActivity.pictures.add(file.getAbsolutePath());
                         MainActivity.addPicRow(company,file.getAbsolutePath());
-                        Log.d("file", file.getAbsolutePath());
-                        Log.d("company name", company);
-                        Log.d("isInPicDatabase", "" + MainActivity.isInDatabase(company));
-                        Log.d("PicDatabaseSize", "" + MainActivity.isInDatabase(company));
 
-                        //Log.d("picture files:", ""+MainActivity.pictures);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -290,7 +276,6 @@ public class CameraActivity extends AppCompatActivity {
     }
     private void openCamera() {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-        Log.e(TAG, "is camera open");
         try {
             cameraId = manager.getCameraIdList()[0];
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
@@ -306,12 +291,8 @@ public class CameraActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "openCamera X");
     }
     protected void updatePreview() {
-        if(null == cameraDevice) {
-            Log.e(TAG, "updatePreview error, return");
-        }
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
         try {
             cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
@@ -342,7 +323,6 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(TAG, "onResume");
         startBackgroundThread();
         if (textureView.isAvailable()) {
             openCamera();
@@ -352,7 +332,6 @@ public class CameraActivity extends AppCompatActivity {
     }
     @Override
     protected void onPause() {
-        Log.e(TAG, "onPause");
         //closeCamera();
         stopBackgroundThread();
         super.onPause();

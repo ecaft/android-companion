@@ -3,7 +3,6 @@ package edu.lauralin.ecaft;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by pdarb on 1/31/2018.
@@ -18,7 +17,6 @@ public class PicDatabaseHelper extends SQLiteOpenHelper {
 
     public PicDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
-        //Log.d("SQL create statement", CREATE_TABLE);
     }
 
     @Override
@@ -28,10 +26,6 @@ public class PicDatabaseHelper extends SQLiteOpenHelper {
                 PicDatabaseSchema.CompanyTable.COMPANY_NAME + " TEXT," +
                 PicDatabaseSchema.CompanyTable.PICFILES + " TEXT)"
         );
-        Log.d("SQL create statement", "CREATE TABLE " + PicDatabaseSchema.CompanyTable.NAME + " (" +
-                PicDatabaseSchema.CompanyTable._ID + " INTEGER PRIMARY KEY," +
-                PicDatabaseSchema.CompanyTable.COMPANY_NAME + " TEXT," +
-                PicDatabaseSchema.CompanyTable.PICFILES + " TEXT)");
     }
 
     @Override

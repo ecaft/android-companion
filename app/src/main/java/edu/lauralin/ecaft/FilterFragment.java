@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -137,8 +136,6 @@ public class FilterFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                Log.i("CHILD", "clicking on child");
-
                 CheckBox cb = (CheckBox) v.findViewById(R.id.item_check_box);
 
                 if( cb != null )
@@ -163,13 +160,9 @@ public class FilterFragment extends Fragment {
         filterButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 filterOptions = new HashMap<Integer, List<String>>();
-                Log.d("CHECK LOG COUNT", Integer.toString(listAdapter.getGroupCount()));
                 for(int mGroupPosition =0; mGroupPosition < listAdapter.getGroupCount(); mGroupPosition++)
                 {
                     List<String> mGroupOptions = listAdapter.getCheckedItemsInGroup(mGroupPosition);
-                    for (String member : mGroupOptions){
-                        Log.i("CHECKED OFF FILTER: ", member);
-                    } //TODO JUST TESTING THE BUTTON
                     filterOptions.put(mGroupPosition, mGroupOptions);
                 }
                 getFragmentManager().popBackStack();

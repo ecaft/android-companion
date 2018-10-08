@@ -1,7 +1,6 @@
 package edu.lauralin.ecaft;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +43,6 @@ public class FirebaseApplication extends Application {
 
     public void onCreate() {
         super.onCreate();
-        Log.d("final", "firebase application oncreate");
         // Get database/storage reference and initialize everything
         companies = new ArrayList<>();
         databaseReference = FirebaseDatabase.getInstance().getReference()
@@ -66,13 +64,10 @@ public class FirebaseApplication extends Application {
                     }
 
                 }
-
-                Log.d("final", "firebaseapp size: " + companies.size());
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("test", "oncancel");
             }
         });
 
@@ -82,8 +77,6 @@ public class FirebaseApplication extends Application {
     }
 
     public static ArrayList<FirebaseCompany> getCompanies() {
-        Log.d("final", "firebase app, return companies size: " + companies.size
-                ());
         return companies;
     }
 

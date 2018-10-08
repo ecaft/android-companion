@@ -4,23 +4,18 @@ import java.util.Arrays;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,11 +25,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.EditText;
 import android.text.InputType;
-import android.support.v4.app.FragmentManager;
 import android.graphics.drawable.GradientDrawable;
 
 
-import com.bumptech.glide.load.engine.Resource;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -237,8 +230,6 @@ public class ChecklistFragment extends DialogFragment{
         companyAdapter = new CompanyAdapter(companies, companyLocations);
         companyRecylerView.setAdapter(companyAdapter);
 
-        //userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
-          //      (getContext().getResources().getColorStateList(R.color.green));
         GradientDrawable drawable = (GradientDrawable)
                 userListButtons.get(MainActivity.currentUserList).getBackground();
         drawable.setStroke(20, getResources().getColor(R.color.green));
@@ -264,19 +255,14 @@ public class ChecklistFragment extends DialogFragment{
 
     @TargetApi(21)
     public void userListClick(Button b){
-       // Log.d("testtest", userListButtons.indexOf(b) + " " + b.getText());
-       // Log.d("testtest", userListButtons.get(2).getText() + "");
         if(!b.equals(userListButtons.get(MainActivity.currentUserList))) {
-            //b.setBackgroundTintList
-              //      (getContext().getResources().getColorStateList(R.color.green));
+
             GradientDrawable drawable = (GradientDrawable) b.getBackground();
             drawable.setStroke(20, getResources().getColor(R.color.green));
 
             GradientDrawable drawable1 = (GradientDrawable)
                     userListButtons.get(MainActivity.currentUserList).getBackground();
             drawable1.setStroke(20, getResources().getColor(R.color.slightly_dark_red));
-            //userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
-              //      (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
 
             if (b.getText().equals("Favorites"))
                 MainActivity.currentUserList = 0;
@@ -315,9 +301,7 @@ public class ChecklistFragment extends DialogFragment{
         params.leftMargin = (MainActivity.userListNames.indexOf(listName) * 280) + left;
         params.rightMargin = right;
         newList.setLayoutParams(params);
-        //newList.setBackgroundTintList
-          //      (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
-        //newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
+
         newList.setBackgroundResource(R.drawable.userlist_button);
         GradientDrawable drawable = (GradientDrawable)newList.getBackground();
         drawable.setStroke(20, getResources().getColor(R.color.slightly_dark_red));
@@ -348,23 +332,14 @@ public class ChecklistFragment extends DialogFragment{
             int height = params1.height;
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                     (width, height);
-           // Log.d("testtest", favoriteList.getWidth() + "");
             params.topMargin = top;
             params.leftMargin = ((MainActivity.userListNames.size() - 1) * 280) + left;
             params.rightMargin = right;
             newList.setLayoutParams(params);
-            //newList.setBackgroundTintList
-            //      (getContext().getResources().getColorStateList(R.color.green));
-            //newList.setBackgroundResource(R.drawable.ic_userlist_unselected);
             newList.setBackgroundResource(R.drawable.userlist_button);
-            //GradientDrawable drawable = (GradientDrawable)newList.getBackground();
-            //drawable.setStroke(20, getResources().getColor(R.color.red));
-
             GradientDrawable drawable = (GradientDrawable)userListButtons.
                     get(prevList).getBackground();
             drawable.setStroke(20, getResources().getColor(R.color.slightly_dark_red));
-            //userListButtons.get(MainActivity.currentUserList).setBackgroundTintList
-            //      (getContext().getResources().getColorStateList(R.color.slightly_dark_red));
 
             userListButtons.add(newList);
             newList.setOnClickListener(new View.OnClickListener() {
@@ -393,23 +368,7 @@ public class ChecklistFragment extends DialogFragment{
                     "Make Duplicate Lists", Toast.LENGTH_SHORT).show();
             MainActivity.userListNames.remove(listName);
             MainActivity.currentUserList = prevList;
-           // userListButtons.remove(newList);
-            //MainActivity.userListNames.remove(newList.getText());
-            //layout.removeView(newList);
-            //MainActivity.currentUserList--;
             createNewListDialog(favoriteList);
-
-            /*
-            MainActivity.mDatabase.execSQL("DROP TABLE IF EXISTS '" + MainActivity.userListNames.get(
-                    MainActivity.currentUserList) + "'");
-            MainActivity.mDatabase.execSQL("create table " + MainActivity.userListNames.get(
-                    MainActivity.currentUserList).trim() + "(" +
-                    DatabaseSchema.CompanyTable.Cols.ID + ", " +
-                    DatabaseSchema.CompanyTable.Cols.COMPANY_NAME + ", " +
-                    DatabaseSchema.CompanyTable.Cols.VISITED + "," +
-                    DatabaseSchema.CompanyTable.Cols.NOTE + ")"
-            );
-            */
         }
         updateUI();
     }
@@ -524,61 +483,6 @@ public class ChecklistFragment extends DialogFragment{
         return builder.create();
     }
 
-
-
-/*    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
-        //MainActivity.bottomNavigationView.setSelectedItemId(R.id.nav_checklist);
-        MainActivity.navigationView.setCheckedItem(R.id.nav_checklist);
-    }*/
-
-/*    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            Parcelable savedRecyclerLayoutState = savedInstanceState
-                    .getParcelable(STATE_KEY);
-            companyRecylerView.getLayoutManager().onRestoreInstanceState
-                    (savedRecyclerLayoutState);
-        }
-    }*/
-
- /*   private void updateVisitedList() {
-        isVisitedList = MainActivity.makeIsVisited(MainActivity.currentUserList);
-    }*/
-
- /*   private void updateSavedLists() {
-        companies = MainActivity.makeSavedList(MainActivity.currentUserList);
-        companyLocations = MainActivity.makeSavedList(MainActivity.currentUserList);
-    }
-*/
- /*   public void updateUI() {
-        updateVisitedList();
-        updateSavedLists();
-        unCheckedCompanies = filterLists(allCompanies,companies);
-        items = unCheckedCompanies.toArray(new CharSequence[0]);
-
-        companyAdapter = new CompanyAdapter(companies, companyLocations);
-        companyRecylerView.setAdapter(companyAdapter);
-
-
-    }*/
-
-/*    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (companyRecylerView != null) {
-            savedState = companyRecylerView.getLayoutManager().onSaveInstanceState();
-            outState.putParcelable(STATE_KEY, savedState);
-        }
-        updateUI();
-    }*/
-
-
-
     /**
      * Private classes
      */
@@ -615,11 +519,6 @@ public class ChecklistFragment extends DialogFragment{
                             currentCompany.information);
                     myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
                             currentCompany.website);
-                    /*
-                    myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
-                            currentCompany.optcpt);
-                    myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
-                            currentCompany.sponsor);*/
                     myBundle.putString(FirebaseApplication.COMPANY_OPTCPT,
                             currentCompany.optcpt);
                     myBundle.putString(FirebaseApplication.COMPANY_SPONSOR,
@@ -649,10 +548,8 @@ public class ChecklistFragment extends DialogFragment{
                             if (mCompanyVisited.isChecked()) {
                                 Toast.makeText(getContext(), R.string.visited,
                                         Toast.LENGTH_SHORT).show();
-                                //MainActivity.setVisitStatus(currentCompany, 1);
                                 MainActivity.setUserListVisitStatus(currentCompany, 1);
                             } else {
-                                //MainActivity.setVisitStatus(currentCompany, 0);
                                 MainActivity.setUserListVisitStatus(currentCompany, 0);
                                 isVisitedList.set(currentPosition, 0);
 
@@ -673,8 +570,6 @@ public class ChecklistFragment extends DialogFragment{
             this.companyLocations = companyLocations;
         }
 
-
-
         @Override
         public CompanyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
@@ -688,13 +583,8 @@ public class ChecklistFragment extends DialogFragment{
 
             String id = companies.get(position);
 
-            Log.d("checklist", id);
-            //Log.d("123456", "" + companies.get(6));
-
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                     .child("companies").child(id);
-            Log.d("checklsit", databaseReference.toString());
-
             databaseReference.addValueEventListener(new ValueEventListener
                     () {
                 @Override
@@ -703,15 +593,11 @@ public class ChecklistFragment extends DialogFragment{
                     try {
                         fc = dataSnapshot.getValue(FirebaseCompany
                                 .class);
-                        //if(fc==null) return;
                         holder.currentCompany = fc;
                         holder.currentCompanyName = fc.name;
                         holder.mCompanyName.setText(fc.name);
-                        //holder.currentPosition = fc.location
                         holder.mCompanyLocation.setText(fc.location);
                     } catch(NullPointerException e){
-                        //holder.currentCompanyName = companies.get(position);
-                        //holder.mCompanyName.setText(companies.get(position));
                         for(FirebaseCompany f : FirebaseApplication.getCompanies()){
                             if(f.getId().equals(companies.get(position))){
                                 holder.currentCompany = f;
@@ -722,21 +608,15 @@ public class ChecklistFragment extends DialogFragment{
                             }
 
                         }
-                        //holder.currentCompany = FirebaseApplication.getCompanies().get(position);
-                        //holder.mCompanyLocation.setText(holder.currentCompany.location);
                     }
-
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Log.d("test", "oncancel");
                 }
             });
 
             holder.currentPosition = position;
             holder.mCompanyVisited.setChecked(isVisitedList.get(position) == 1);
-
-            Log.d(TAG, "Recycler made for position " + position);
         }
 
 

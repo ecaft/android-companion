@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -95,9 +94,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
 //        200 should be updated with number of companies at the career fair
         cache = new LruCache<>(200);
-
-        //Log.d("final", "instantiation: filter size: " + companiesFilter.size
-          //      () + ", total size: " + companies.size());
     }
 
 
@@ -107,9 +103,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         // The last two arguments ensure LayoutParams are inflated
         // properly.
         View v = inflater.inflate(R.layout.info_fragment, container, false);
-
-        Log.d("final", "info fragment oncreateview");
-
 
         companyRecylerView = (RecyclerView) v.findViewById(R.id
                 .info_recycler_view);
@@ -133,7 +126,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             inflater.inflate(R.menu.menu_filter, menu);
 
             MenuItem filterItem= menu.findItem(R.id.filterButton);
-            Log.d("Filter Page", "Creating this fragment");
             filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
                 @Override
@@ -142,7 +134,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(((ViewGroup)(getView().getParent())).getId(), frag);
                     transaction.addToBackStack(null);
-                    Log.d("Filter Page", "CALLING NEW FRAGMENT");
                     transaction.commit();
 
                     return true;
@@ -173,7 +164,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.search:
-                //companyAdapter.doSearch();
                 return true;
             case R.id.filterButton:
                 return true;
@@ -186,11 +176,8 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         super.onResume();
         userChoices = new HashMap<Integer, List<String>> (FilterFragment.filterOptions);
         prevFilterOptions = FilterFragment.mChildCheckStates;
-        Log.d("FILTER PREP", userChoices.toString());
         companyAdapter.filter(userChoices);
-        Log.d("final", "info fragment onresume");
         updateUI();
-        //MainActivity.bottomNavigationView.setSelectedItemId(R.id.nav_companies);
         MainActivity.navigationView.setCheckedItem(R.id.nav_companies);
     }
 
@@ -216,7 +203,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
     }
 
     private void updateUI() {
-        Log.d("final", "info fragment updateUI");
         if (companies.size() == 0) {
             // companies list size should be 110 total
             companies = new ArrayList<>(FirebaseApplication.getCompanies());
@@ -225,16 +211,10 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
         }
 
         companyAdapter.notifyDataSetChanged();
-
-        //Log.d("zxcv", companies.toString());
-        Log.d("final", "filter size: " + companiesFilter.size() + ", total " +
-                "size:" + companies.size());
     }
 
     @Override
     public boolean onClose() {
-        Log.d("final", "info fragment onclose");
-
         return true;
     }
 
@@ -276,12 +256,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                             currentCompany.information);
                     myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
                             currentCompany.website);
-                    /*
-                    myBundle.putBoolean(FirebaseApplication.COMPANY_OPTCPT,
-                            currentCompany.optcpt);
-                    myBundle.putBoolean(FirebaseApplication.COMPANY_SPONSOR,
-                            currentCompany.sponsor);
-                    */
 
                     myBundle.putString(FirebaseApplication.COMPANY_OPTCPT,
                             currentCompany.optcpt);
@@ -310,9 +284,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                 @Override
                 public void onClick(View v) {
                     if (!MainActivity.isInDatabase(currentCompany.name)) { //Change to remove icon
-                        // TODO: Snackbar instead of toast?
                         Toast.makeText(getContext(), R.string.star, Toast.LENGTH_SHORT).show();
-                        // TODO: lol ic unfav and fav are swapped names
                         mCompanySave.setImageResource(R.drawable.ic_unfavorite);
                         MainActivity.addRow(currentCompany.id,
                                 currentCompany.name);
@@ -381,7 +353,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
 
             holder.mCompanyRL.getBackground().setAlpha(170);
-            Log.d(TAG, "Recycler made for position " + position);
         }
 
         @Override
@@ -399,9 +370,6 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             } else {
                 companiesFilter.addAll(companies);
             }
-            Log.d("final", "SEARCH CALL: filter size: " + companiesFilter.size
-                    () + ", total " +
-                    "size:" + companies.size());
             notifyDataSetChanged();
         }
         public void filter(HashMap<Integer, List<String>> filterChoices){
@@ -454,36 +422,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                         jobFilters.addAll(companies);
                     }
                 }
-                /*if (i.compareTo(new Integer(1)) == 0) {
-                    List<String> jobTypes = filterChoices.get(i);
-                    if (jobTypes.size() != 0) {
-                        for (FirebaseCompany comp : companies) {
-                            for (String type : jobTypes) {
-                                if (comp.getJobtypes().contains(type) && !sponsorshipFilters.contains(comp)) {
-                                    sponsorshipFilters.add(comp);
-                                }
-                            }
-                            if (comp.getJobtypes() == "") {
-                                sponsorshipFilters.add(comp);
-                            }
-                        }
-                    } else {
-                        sponsorshipFilters.addAll(companies);
-                    }
-                } */
-
             }
             if (majorFilters.size() > 0){
                 defaultAll.retainAll(majorFilters) ;
-                Log.d("MAJOR FILTERS SIZE", Integer.toString(majorFilters.size()));
             }
             if (jobFilters.size() > 0 ){
                 defaultAll.retainAll(jobFilters);
-                Log.d("jobFilters SIZE", Integer.toString(jobFilters.size()));
             }
             if (sponsorshipFilters.size()> 0){
                 defaultAll.retainAll(sponsorshipFilters);
-                Log.d("sponsorshipFilters SIZE", Integer.toString(sponsorshipFilters.size()));
             }
             companiesFilter = defaultAll;
             notifyDataSetChanged();

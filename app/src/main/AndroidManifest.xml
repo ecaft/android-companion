@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.lauralin.ecaft" >
+    package="edu.ecaft">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <permission android:protectionLevel="signature"
-                android:name="edu.lauralin.ecaft.permission.C2D_MESSAGE" />
+                android:name="edu.ecaft.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
@@ -25,10 +25,10 @@
         android:label="@string/ECaFT"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="edu.lauralin.ecaft.FirebaseApplication"
+        android:name="edu.ecaft.FirebaseApplication"
         >
         <activity
-            android:name="edu.lauralin.ecaft.MainActivity"
+            android:name="edu.ecaft.MainActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -38,21 +38,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.lauralin.ecaft.CameraActivity"
+            android:name="edu.ecaft.CameraActivity"
             android:label="Camera"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name="edu.lauralin.ecaft.EnlargedImage"
+            android:name="edu.ecaft.EnlargedImage"
             android:label="Enlarged Image"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name="edu.lauralin.ecaft.CompanyDetailsActivity"
+            android:name="edu.ecaft.CompanyDetailsActivity"
             android:label="@string/details_ac"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -84,7 +84,7 @@
                 <!--
                   IMPORTANT: Change "com.parse.starter" to match your app's package name.
                 -->
-                <category android:name="edu.lauralin.ecaft" />
+                <category android:name="edu.ecaft" />
             </intent-filter>
         </receiver>
         <meta-data android:name="com.parse.push.notification_icon"

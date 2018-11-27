@@ -9,9 +9,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ecaft_logo_2018"
-        android:background="@color/white"
-        android:padding="5dp"
+        android:src="@drawable/ecaft_logo_white"
+        android:background="@color/black"
+        android:padding="64dp"
         android:scaleType="fitCenter"/>
 
 </LinearLayout>

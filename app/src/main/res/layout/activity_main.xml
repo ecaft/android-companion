@@ -24,6 +24,15 @@
             android:layout_gravity="start"
             android:theme="@style/AppTheme.AppBarOverlay">
 
+
+ <!--           <android.support.design.widget.BottomNavigationView
+                android:id="@+id/nav_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                app:menu="@menu/navigation_layout" />
+-->
+
            <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -31,6 +40,10 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:layout_gravity="start"/>
+
+            <!--
+                            android:elevation="17dp"
+            -->
 
         </android.support.design.widget.AppBarLayout>
 

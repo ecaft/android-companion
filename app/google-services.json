@@ -8,9 +8,91 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:542459454913:android:e4289d9438f6b81e",
+        "android_client_info": {
+          "package_name": "com.example.lauralindy.ecaft_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542459454913-dm5cmgqotevfe76ek479er1bc1sgh9ri.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lauralindy.ecaft_android",
+            "certificate_hash": "f0ef7eb043f62094d8d14e05cb2d5c067c80d754"
+          }
+        },
+        {
+          "client_id": "542459454913-l49i0eu6ibnsehvdme411u77vdec8pv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqIF5kic3ICco6B9wnXFo8Nz05a8fD46k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542459454913-l49i0eu6ibnsehvdme411u77vdec8pv0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "542459454913-srl9169ud4mr6n9bo3pjmrm61qba2tkq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ECAFT.project-showcase-ios"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:542459454913:android:9cfd1212801947dc",
         "android_client_info": {
           "package_name": "edu.ashleyxue.ecaft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542459454913-l49i0eu6ibnsehvdme411u77vdec8pv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqIF5kic3ICco6B9wnXFo8Nz05a8fD46k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542459454913:android:de805961db9db530",
+        "android_client_info": {
+          "package_name": "edu.ecaft"
         }
       },
       "oauth_client": [

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/checklist_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:ignore="ExtraText">
 
     <android.support.v7.widget.RecyclerView
@@ -29,9 +29,9 @@
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/user_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="345dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:paddingTop="5dp"
         android:background="@drawable/list_select_shape"
         android:orientation="horizontal"
@@ -40,6 +40,23 @@
         <include
             android:id="@+id/list_button"
             layout="@layout/lists_select"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/user_list_clicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="5dp"
+        android:background="@drawable/list_select_shape"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="invisible">
+        <include
+            android:id="@+id/list_button_clicked"
+            layout="@layout/lists_select_clicked"/>
     </RelativeLayout>
 
 </RelativeLayout>

@@ -11,7 +11,8 @@
         android:id="@+id/company_background"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
 
 
     <RelativeLayout
@@ -48,7 +49,7 @@
 
     <LinearLayout
         android:id="@+id/company_name_holder"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"

@@ -97,6 +97,7 @@ public class ChecklistFragment extends DialogFragment{
         MainActivity.currentUserList = 0;
         View v = inflater.inflate(R.layout.checklist_fragment, container, false);
         final RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.user_list);
+        final RelativeLayout layout_clicked = (RelativeLayout) v.findViewById(R.id.user_list_clicked);
 
         final RelativeLayout userListLayout = (RelativeLayout)
                 v.findViewById(R.id.user_list_button_layout);
@@ -106,17 +107,17 @@ public class ChecklistFragment extends DialogFragment{
             @Override
             public void onClick(View v)
             {
-                RelativeLayout.LayoutParams params =
-                        (RelativeLayout.LayoutParams) layout.getLayoutParams();
-                if(listButtonClicked)
-                    params.topMargin = 1000;
-                else{
-                    params.topMargin = 1400;
-                }
-                listButtonClicked = !listButtonClicked;
-                layout.setLayoutParams(params);
+                layout.setVisibility(View.INVISIBLE);
+                layout_clicked.setVisibility(View.VISIBLE);
             }
 
+        });
+        layout_clicked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layout.setVisibility(View.VISIBLE);
+                layout_clicked.setVisibility(View.INVISIBLE);
+            }
         });
 
 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="180dp">
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/userList_linear_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/lists_text"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/checklist_lists"
             android:textColor="@color/black"
@@ -38,7 +38,7 @@
     </RelativeLayout>
     <HorizontalScrollView
         android:id="@+id/horizontal_scroll_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/userList_linear_layout"
         android:layout_marginTop="40dp">
@@ -62,6 +62,4 @@
 
 </RelativeLayout>
 
-<!-- android:background="@drawable/ic_userlist_unselected"
- android:backgroundTint="@color/green"-->
 

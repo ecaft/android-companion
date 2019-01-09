@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:id="@+id/lists_select_clicked">
+        <TextView
+            android:id="@+id/lists_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/checklist_lists"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"/>
+
+        <ImageButton
+            android:id="@+id/add_list_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/ic_add_circle_outline_black_24dp"
+            android:backgroundTint="@color/slightly_dark_red"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="right"
+            android:scaleType="fitEnd">
+        </ImageButton>
+</RelativeLayout>

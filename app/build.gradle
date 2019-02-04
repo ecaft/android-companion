@@ -6,8 +6,8 @@ android {
         applicationId "edu.ecaft"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 9
-        versionName "1.6.5"
+        versionCode 12
+        versionName "2.0.3"
         multiDexEnabled true
     }
     buildTypes {

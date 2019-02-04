@@ -32,8 +32,6 @@
            android:layout_gravity="right"
            android:scaleType="fitEnd">
        </ImageButton>
-        <!--android:layout_marginLeft="240dp"-->
-
 
     </RelativeLayout>
     <HorizontalScrollView

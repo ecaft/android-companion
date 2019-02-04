@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity  implements SearchView
     }
 
     public static boolean isInUserList(String name, int i){
-        Cursor c = mDatabase.query(MainActivity.userListNames.get(i), null,
+        Cursor c = mDatabase.query(MainActivity.getTables().get(i), null,
                 null, null, null, null, null);
         boolean inside = false;
         try {

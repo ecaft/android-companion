@@ -113,7 +113,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
         updateUI();
 
-        getActivity().setTitle("List Of Companies");
+        getActivity().setTitle("List Of Employers");
         setHasOptionsMenu(true);
         return v;
     }

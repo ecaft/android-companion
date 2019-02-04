@@ -55,8 +55,6 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/info_icons"
         android:paddingLeft="15dp">
-        <!--android:layout_toRightOf="@id/company_logo"-->
-
 
         <TextView
             android:id="@+id/company_name"

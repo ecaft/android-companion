@@ -62,7 +62,7 @@
                     android:text="@string/addToList"
                     android:textSize="12sp"
                     android:textColor="@color/white"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:background="@android:color/darker_gray"/>
 
                 <TextView
@@ -98,24 +98,8 @@
                 android:background="@color/colorPrimary"
                 android:textColor="@color/white"
                 android:visibility="visible"/>
-            <ImageButton
-                android:id="@+id/camera_button"
-                android:layout_width="39dp"
-                android:layout_height="29dp"
-                android:layout_marginRight="20dp"
-                android:paddingLeft="10dp"
-                android:scaleType="fitCenter"
-                android:src = "@drawable/camera_icon_33"
-                android:background="@color/white"
-                android:visibility="visible"/>
 
         </LinearLayout>
-
-       <!--  <Button
-            android:id= "@+id/notesButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text = "NOTES"/> -->
         <TextView
             android:id="@+id/company_details_notes_header"
             android:layout_width="match_parent"
@@ -166,33 +150,6 @@
             android:textSize="12sp"
             tools:text="Company Information"/>
 
-
- <!--       <TextView
-            android:id="@+id/company_details_website_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_gray"
-            android:paddingBottom="2dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="2dp"
-            android:text="@string/company_details_company_website"
-            android:textColor="@color/tint"
-            android:textSize="14sp"/>
-
-
-        <TextView
-            android:id="@+id/company_details_website"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autoLink="web"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="10dp"
-            android:text="@string/company_details_company_website"/>
--->
         <TextView
             android:id="@+id/company_positions_text"
             android:layout_width="match_parent"
@@ -284,7 +241,6 @@
                 android:text="@string/company_details_photos"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
-                <!--android:visibility="gone"/>-->
             <TextView
                 android:id="@+id/company_details_photos_edit"
                 android:layout_width="wrap_content"
@@ -296,7 +252,6 @@
                 android:text="@string/company_details_photos_edit"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
-                <!--android:visibility="gone"/>-->
         </RelativeLayout>
         <GridView
             android:id="@+id/gridview"
@@ -309,17 +264,6 @@
             android:stretchMode="columnWidth"
             android:gravity="center"
             android:visibility="gone"/>
-
-        <!--<TextView-->
-            <!--android:id="@+id/delete_images"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layoutDirection="rtl"-->
-            <!--android:text="Delete"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="15sp"-->
-            <!--android:background="@color/company_info_background_gray"-->
-            <!--android:visibility="gone"/>-->
 
     </LinearLayout>
 

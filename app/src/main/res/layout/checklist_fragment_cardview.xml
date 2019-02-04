@@ -8,35 +8,6 @@
     android:layout_marginBottom="1dp"
     android:orientation="vertical">
 
-    <!-- <com.daimajia.swipe.SwipeLayout
-         android:id="@+id/swipe"
-         xmlns:swipe="http://schemas.android.com/apk/res-auto"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         swipe:leftEdgeSwipeOffset="0dp"
-         swipe:rightEdgeSwipeOffset="0dp">
-
-
-         <LinearLayout
-             android:id="@+id/trash"
-             android:layout_width="wrap_content"
-             android:layout_height="match_parent"
-             android:gravity="center"
-             android:background="@drawable/trash_selector"
-             android:paddingLeft="16dp"
-             android:paddingRight="16dp"
-             android:orientation="horizontal"
-             android:tag="Bottom3">
-
-             <TextView
-                 android:id="@+id/trash_button"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textColor="@color/white"
-                 android:text="@string/remove" />
-
-         </LinearLayout>
- -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -88,5 +59,4 @@
             android:background="@color/divider"/>
 
     </RelativeLayout>
-    <!--  </com.daimajia.swipe.SwipeLayout> -->
 </LinearLayout>

@@ -517,7 +517,7 @@ public class ChecklistFragment extends DialogFragment{
                     myBundle.putString(FirebaseApplication.COMPANY_JOBTYPES,
                             currentCompany.jobtypes);
                     myBundle.putString(FirebaseApplication.COMPANY_INFO,
-                            currentCompany.information);
+                            currentCompany.description);
                     myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
                             currentCompany.website);
                     myBundle.putString(FirebaseApplication.COMPANY_OPTCPT,

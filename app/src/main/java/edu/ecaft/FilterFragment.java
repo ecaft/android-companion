@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -85,15 +86,20 @@ public class FilterFragment extends Fragment {
         ArrayList<String> jobOptions = new ArrayList<>(Arrays.asList(
                 "All Types", "Co-op", "Full-time", "Internship", "Other"));
 
+        ArrayList<String> freshman =  new ArrayList<>(Arrays.asList(
+                "Accept Freshmen"));
+
         ArrayList<String> other =  new ArrayList<>(Arrays.asList(
                 "Sponsorship Required"));
         options = new HashMap<String, List<String>>();
         options.put("Majors", majors);
         options.put("Open Positions", jobOptions);
+        options.put("Grades", freshman);
         options.put("Other", other);
 
+
         labels =  new ArrayList<>(Arrays.asList(
-                "Majors", "Open Positions", "Other"));
+                "Majors", "Open Positions", "Grades", "Other"));
 
     }
 
@@ -253,6 +259,9 @@ public class FilterFragment extends Fragment {
             else if (mGroupPosition == 1)
                 return new ArrayList<>(Arrays.asList(
                         "All Types", "Co-op", "Full-time", "Internship", "Other"));
+            else if (mGroupPosition == 2)
+                return new ArrayList<>(Arrays.asList(
+                        "Accept Freshmen"));
             return new ArrayList<>(Arrays.asList(
                     "Sponsorship Required"));
         }
@@ -335,7 +344,10 @@ public class FilterFragment extends Fragment {
             if (mChildCheckStates.containsKey(mGroupPosition)) {
                 boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
                 childViewHolder.mCheckBox.setChecked(getChecked[mChildPosition]);
-            } else {
+            }
+            else if(childText.contains("Freshmen"))
+                childViewHolder.mCheckBox.setChecked(InfoFragment.acceptFreshman);
+            else {
                 boolean getChecked[] = new boolean[getChildrenCount(mGroupPosition)];
                 mChildCheckStates.put(mGroupPosition, getChecked);
                 childViewHolder.mCheckBox.setChecked(false);
@@ -343,22 +355,25 @@ public class FilterFragment extends Fragment {
             childViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
-                    getChecked[mChildPosition] = isChecked;
-                    if (childText.contains("Sponsorship")){
-                        mChildCheckStates.put(mGroupPosition, getChecked);
+                    if (childText.contains("Freshmen")){
+                        InfoFragment.acceptFreshman = !InfoFragment.acceptFreshman;
                     }
-                    else if (isChecked && (!childText.contains("All Types"))){
-                        getChecked[0] = false;
-                        mChildCheckStates.put(mGroupPosition, getChecked);
-                        notifyDataSetChanged();
+                    else {
+                        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+                        getChecked[mChildPosition] = isChecked;
+                        if (childText.contains("Sponsorship")) {
+                            mChildCheckStates.put(mGroupPosition, getChecked);
+                        } else if (isChecked && (!childText.contains("All Types"))) {
+                            getChecked[0] = false;
+                            mChildCheckStates.put(mGroupPosition, getChecked);
+                            notifyDataSetChanged();
 
-                    }
-                    else if (isChecked && (!childText.contains("All Majors"))){
-                        getChecked[0] = false;
-                        mChildCheckStates.put(mGroupPosition, getChecked);
-                        notifyDataSetChanged();
+                        } else if (isChecked && (!childText.contains("All Majors"))) {
+                            getChecked[0] = false;
+                            mChildCheckStates.put(mGroupPosition, getChecked);
+                            notifyDataSetChanged();
 
+                        }
                     }
 
                 }

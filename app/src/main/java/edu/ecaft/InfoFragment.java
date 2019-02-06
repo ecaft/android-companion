@@ -81,6 +81,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
 
     String [] jobOptions = { "Co-op", "Full-time", "Internship", "Other"};
     boolean sponsorship = false;
+    static boolean acceptFreshman = false;
 
     boolean[] checkedStatus = new boolean[majorOptions.length];
     ArrayList<String> companiesChecked = new ArrayList<>();
@@ -253,7 +254,7 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
                     myBundle.putString(FirebaseApplication.COMPANY_JOBTYPES,
                             currentCompany.jobtypes);
                     myBundle.putString(FirebaseApplication.COMPANY_INFO,
-                            currentCompany.information);
+                            currentCompany.description);
                     myBundle.putString(FirebaseApplication.COMPANY_WEBSITE,
                             currentCompany.website);
 
@@ -432,7 +433,15 @@ public class InfoFragment extends Fragment implements SearchView.OnCloseListener
             if (sponsorshipFilters.size()> 0){
                 defaultAll.retainAll(sponsorshipFilters);
             }
-            companiesFilter = defaultAll;
+            if(acceptFreshman){
+                for(FirebaseCompany c: defaultAll){
+                    if(c.freshmen.equals("1")){
+                        companiesFilter.add(c);
+                    }
+                }
+            }
+            else
+                companiesFilter = defaultAll;
             notifyDataSetChanged();
         }
 

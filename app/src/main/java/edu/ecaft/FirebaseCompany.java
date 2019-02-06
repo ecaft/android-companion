@@ -5,7 +5,7 @@ package edu.ecaft;
  */
 public class FirebaseCompany {
     public String id;
-    public String information;
+    public String description;
     public String jobtitles;
     public String jobtypes;
     public String location;
@@ -14,15 +14,16 @@ public class FirebaseCompany {
     public String optcpt;
     public String sponsor;
     public String website;
+    public String freshmen;
 
     public FirebaseCompany() {}
 
-    public FirebaseCompany(String id, String information, String jobtitles,
-                           String jobtypes, String location, String majors,
-                           String name, String optcpt, String sponsor, String
-                                   website) {
+    public FirebaseCompany(String id, String description, String freshmen,
+                           String jobtitles, String jobtypes, String location,
+                           String majors, String name, String optcpt,
+                           String sponsor, String website) {
         this.id = id;
-        this.information = information;
+        this.description = description;
         this.jobtitles = jobtitles;
         this.jobtypes = jobtypes;
         this.location = location;
@@ -33,6 +34,7 @@ public class FirebaseCompany {
         this.optcpt = optcpt;
         this.sponsor = sponsor;
         this.website = website;
+        this.freshmen = freshmen;
     }
 
 
@@ -44,12 +46,12 @@ public class FirebaseCompany {
         this.id = id;
     }
 
-    public String getInformation() {
-        return information;
+    public String getDescription() {
+        return description;
     }
 
-    public void setInformation1(String information) {
-        this.information = information;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getJobtitles() {
@@ -114,5 +116,13 @@ public class FirebaseCompany {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getFreshmen() {
+        return freshmen;
+    }
+
+    public void setFreshmen(String freshmen) {
+        this.freshmen = freshmen;
     }
 }
